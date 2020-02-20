@@ -17,15 +17,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PleAutomiX.Translation", "P
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{459DB3BE-265E-4ABB-A889-93A6A6EB5763}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PleAutomiX.Bots.Actions", "PleAutomiX.Bots.Actions\PleAutomiX.Bots.Actions.csproj", "{DFCE06B5-2DC9-4CE3-B80F-44575741D3B1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PleAutomiX.Bots.Steps", "PleAutomiX.Bots.Steps\PleAutomiX.Bots.Steps.csproj", "{DFCE06B5-2DC9-4CE3-B80F-44575741D3B1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PleAutomiX.Bots.Core", "PleAutomiX.Bots.Core\PleAutomiX.Bots.Core.csproj", "{772BE4AE-05B2-4F91-BBD7-ECBA7C258089}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PleAutomiX.Bots.Core", "PleAutomiX.Bots.Core\PleAutomiX.Bots.Core.csproj", "{772BE4AE-05B2-4F91-BBD7-ECBA7C258089}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PleAutomix.DestopApp", "PleAutomix.DestopApp\PleAutomix.DestopApp.csproj", "{5C4AFA5B-3678-4942-B24E-43148D882942}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Apps", "Apps", "{095629AC-7069-471F-AB55-D6A215EF86F6}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{CCB03476-3EE9-400C-A159-CAF94E438E22}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PleAutomiX.Bots.Composites", "PleAutomiX.Bots.Composites\PleAutomiX.Bots.Composites.csproj", "{5809073A-5E24-4CE4-8D27-536DFD7D8507}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -65,6 +67,10 @@ Global
 		{5C4AFA5B-3678-4942-B24E-43148D882942}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5C4AFA5B-3678-4942-B24E-43148D882942}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5C4AFA5B-3678-4942-B24E-43148D882942}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5809073A-5E24-4CE4-8D27-536DFD7D8507}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5809073A-5E24-4CE4-8D27-536DFD7D8507}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5809073A-5E24-4CE4-8D27-536DFD7D8507}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5809073A-5E24-4CE4-8D27-536DFD7D8507}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -80,6 +86,7 @@ Global
 		{772BE4AE-05B2-4F91-BBD7-ECBA7C258089} = {459DB3BE-265E-4ABB-A889-93A6A6EB5763}
 		{5C4AFA5B-3678-4942-B24E-43148D882942} = {095629AC-7069-471F-AB55-D6A215EF86F6}
 		{CCB03476-3EE9-400C-A159-CAF94E438E22} = {095629AC-7069-471F-AB55-D6A215EF86F6}
+		{5809073A-5E24-4CE4-8D27-536DFD7D8507} = {459DB3BE-265E-4ABB-A889-93A6A6EB5763}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0B7743E8-5968-4667-8E8D-6B7D905818D7}

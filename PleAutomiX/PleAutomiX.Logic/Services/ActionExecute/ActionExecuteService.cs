@@ -5,11 +5,11 @@ namespace PleAutomiX.Logic.Services.ActionExecute
 {
     public class ActionExecuteService : IActionExecuteService
     {
-        private readonly IPlemionaWebDriver _plemiona;
+        private readonly IWebDriverProvider _plemiona;
         private readonly IReflectionService _reflectionService;
 
         public ActionExecuteService(
-            IPlemionaWebDriver plemiona,
+            IWebDriverProvider plemiona,
             IReflectionService reflectionService)
         {
             _plemiona = plemiona;

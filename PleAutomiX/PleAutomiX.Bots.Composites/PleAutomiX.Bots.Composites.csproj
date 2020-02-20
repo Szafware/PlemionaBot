@@ -1,14 +1,12 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Selenium.WebDriver" Version="3.141.0" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <ProjectReference Include="..\PleAutomiX.Bots.Core\PleAutomiX.Bots.Core.csproj" />
+    <ProjectReference Include="..\PleAutomiX.Bots.Steps\PleAutomiX.Bots.Steps.csproj" />
     <ProjectReference Include="..\PleAutomiX.Translation\PleAutomiX.Translation.csproj" />
   </ItemGroup>
 

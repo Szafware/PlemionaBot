@@ -105,9 +105,9 @@ namespace PleAutomiX.ConsoleApp
         {
             _container.BindToSelfAsSingleton<AppSettings>();
 
-            _container.Bind<IPlemionaWebDriver, SeleniumWebDriverPlemiona>();
+            _container.Bind<IWebDriverProvider, SeleniumWebDriverProvider>();
             _container.Bind<IActionExecuteService, ActionExecuteService>();
-            _container.Bind<IReflectionService, ReflectionService<IPlemionaWebDriver>>();
+            _container.Bind<IReflectionService, ReflectionService<IWebDriverProvider>>();
             _container.Bind<ITranslationService, TranslationService>();
             _container.Bind<IInputService, InputService>();
 

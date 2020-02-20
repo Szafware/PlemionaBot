@@ -27,5 +27,11 @@
         public int Noblemen { get; set; }
 
         public int Peasants { get; set; }
+
+        public bool AreUnsaddledTroopsPresent => (Spearmen > 0) || (Swordmen > 0) || (Axemen > 0) || (Bowmen > 0);
+
+        public bool AreSaddledTroopsPresent => (Scouts > 0) || (LightCavalary > 0) || (HorseArchers > 0) || (HeavyCavalary > 0);
+
+        public bool AreWarMachinesTroopsPresent => (Rams > 0) || (Catapultes > 0);
     }
 }
