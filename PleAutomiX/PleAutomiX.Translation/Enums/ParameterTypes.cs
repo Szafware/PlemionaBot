@@ -6,6 +6,7 @@
         Int,
         Bool,
         DateTime,
-        TimeSpan
+        TimeSpan,
+        Enum
     }
 }

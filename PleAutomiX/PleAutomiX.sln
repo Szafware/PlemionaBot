@@ -27,7 +27,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Apps", "Apps", "{095629AC-7
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{CCB03476-3EE9-400C-A159-CAF94E438E22}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PleAutomiX.Bots.Composites", "PleAutomiX.Bots.Composites\PleAutomiX.Bots.Composites.csproj", "{5809073A-5E24-4CE4-8D27-536DFD7D8507}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PleAutomiX.Bots.Features", "PleAutomiX.Bots.Composites\PleAutomiX.Bots.Features.csproj", "{5809073A-5E24-4CE4-8D27-536DFD7D8507}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,16 +1,25 @@
-﻿namespace PleAutomiX.Bots.Steps.StepTypes.Specific
+﻿namespace PleAutomiX.Bots.Steps.Steps
 {
-    public interface IPlemionaSpecificSteps
+    public interface IPlemionaSteps
     {
         void LoadPlemionaWebsite();
 
+        bool IsPlayerSignedIn();
+        void ClickSignOutFromAccountButton();
         void FillUserTextBox(string username);
         void FillPasswordTextBox(string password);
         void ClickSignInButton();
 
         void ClickWorldButton(int worldNumber);
 
+        void ClearVillageNameTextBox();
+        void FillVillageNameTextBox(string villageName);
+        void ClickVillageNameChangeButton();
+
         void ClickDailySignInGiftReceiveButton();
+
+        bool DidEventWindowPoopUp();
+        void ClickEventWindowCloseButton();
 
         void ClickVillageViewButton();
 
@@ -22,8 +31,15 @@
         void ClickWorkshopPicture();
         void ClickPalacePicture();
 
-        void ClickKnightRevivalButton();
         void ClickKnightRecruitmentButton();
+        void ClearKnightNameTextBox();
+        void FillKnightNameTextBox(string knightName);
+        void ClickKnightRecruitmentConfirmationButton();
+        bool CanSkipKnightRecruitment();
+        void ClickKnightRecruitmentSkipButton();
+        void ClickKnightRecruitmentCancellationButton();
+        void ClickKnightRevivalButton();
+        void ClickKnightRevivalConfirmationButton();
 
         void FillSpearmenCountTextBox(int count);
         void FillSwordmenCountTextBox(int count);
@@ -57,6 +73,29 @@
         void ClickSendAttackButton();
         void ClickSendHelpButton();
 
+        int GetSelfWoodCount();
+        int GetSelfClayCount();
+        int GetSelfIronCount();
+
+        int GetTownhallLevel();
+        int GetBarracksLevel();
+        int GetStableLevel();
+        int GetWorkshopLevel();
+        int GetPalaceLevel();
+        int GetForgeLevel();
+        int GetYardLevel();
+        int GetMarketLevel();
+        int GetSawmillLevel();
+        int GetBrickyardLevel();
+        int GetIronworksLevel();
+        int GetFarmLevel();
+        int GetStorageLevel();
+        int GetClipboardLevel();
+        int GetWallLevel();
+
         void ClickToWorldMapButton();
+
+        void ClickSignOutFromWorldButton();
+        void ClickReturnToMainPageButton();
     }
 }

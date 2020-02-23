@@ -15,8 +15,10 @@ namespace PleAutomiX.Bots.Core.Models
         public Buildings Buildings { get; set; }
 
         public Troops Troops { get; set; }
+        
+        public int CurrentPopulation { get; set; }
 
-        public int Population { get; set; }
+        public int MaxPopulation { get; set; }
 
         public int Backing { get; set; }
 

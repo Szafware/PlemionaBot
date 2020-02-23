@@ -5,13 +5,20 @@ namespace PleAutomiX.Bots.WebDriver
 {
     public class SeleniumWebDriverProvider : IWebDriverProvider
     {
+        private RemoteWebDriver _remoteWebDriver;
+
         public RemoteWebDriver CreateWebDriver()
         {
+            if (_remoteWebDriver != null)
+            {
+                return _remoteWebDriver;
+            }
+
             var chromeDriverService = ChromeDriverService.CreateDefaultService();
 
-            var chromeDriver = new ChromeDriver(chromeDriverService);
+            _remoteWebDriver = new ChromeDriver(chromeDriverService);
 
-            return chromeDriver;
+            return _remoteWebDriver;
         }
     }
 }

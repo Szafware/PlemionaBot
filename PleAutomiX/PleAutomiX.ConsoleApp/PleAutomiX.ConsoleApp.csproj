@@ -10,6 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\PleAutomiX.Bots.Composites\PleAutomiX.Bots.Features.csproj" />
     <ProjectReference Include="..\PleAutomiX.DependencyInjection\PleAutomiX.DependencyInjection.csproj" />
     <ProjectReference Include="..\PleAutomiX.Logic\PleAutomiX.Logic.csproj" />
     <ProjectReference Include="..\PleAutomiX.WebDriver\PleAutomiX.Bots.WebDriver.csproj" />

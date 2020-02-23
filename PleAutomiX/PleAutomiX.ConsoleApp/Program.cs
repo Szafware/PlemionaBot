@@ -1,4 +1,7 @@
-﻿using PleAutomiX.Bots.WebDriver;
+﻿using PleAutomiX.Bots.Features;
+using PleAutomiX.Bots.Steps.Steps;
+using PleAutomiX.Bots.Steps.WebDriverBase;
+using PleAutomiX.Bots.WebDriver;
 using PleAutomiX.DependencyInjection;
 using PleAutomiX.Logic.Models;
 using PleAutomiX.Logic.Services.ActionExecute;
@@ -24,20 +27,13 @@ namespace PleAutomiX.ConsoleApp
 
         public static void Main(string[] args)
         {
-            DependencyInjectionBinding();
-
-            while (true)
-            {
-                var possibleActionTexts = _translationService.GetActionTexts();
-
-                DisplayPossibleActionTexts(possibleActionTexts);
-
-                string actionTextToExecute = GetActionTextToExecute(possibleActionTexts);
-
-                var actionArguments = GetActionParameters(actionTextToExecute);
-
-                _actionExecuteService.ExecuteAction(actionTextToExecute, actionArguments.ToArray());
-            }
+            var seleniumDriverProvider = new SeleniumWebDriverProvider();
+            IPlemionaFeatures plemionaComposites = new PlemionaFeatures(new PlemionaSteps(seleniumDriverProvider, new WebDriverBaseMethods(seleniumDriverProvider)));
+            plemionaComposites.SignIn("Dziaczakra", "AmIpro94", 146);
+            //plemionaComposites.RecruitKnight("Chrobry");
+            //plemionaComposites.ChangeVillageName("Tajna Baza");
+            var buildings = plemionaComposites.GetCurrentVillageBuildings();
+            Console.ReadKey();
         }
 
         private static void DisplayPossibleActionTexts(IEnumerable<string> possibleActionTexts)
@@ -107,7 +103,7 @@ namespace PleAutomiX.ConsoleApp
 
             _container.Bind<IWebDriverProvider, SeleniumWebDriverProvider>();
             _container.Bind<IActionExecuteService, ActionExecuteService>();
-            _container.Bind<IReflectionService, ReflectionService<IWebDriverProvider>>();
+            _container.Bind<IReflectionService, ReflectionService<IPlemionaFeatures>>();
             _container.Bind<ITranslationService, TranslationService>();
             _container.Bind<IInputService, InputService>();
 
