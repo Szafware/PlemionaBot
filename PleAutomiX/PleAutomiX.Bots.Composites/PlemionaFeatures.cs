@@ -180,5 +180,12 @@ namespace PleAutomiX.Bots.Features
             _plemionaSteps.ClickVillageNameChangeButton();
             _plemionaSteps.ClickVillageViewButton();
         }
+
+        public void SignOut()
+        {
+            _plemionaSteps.ClickSignOutFromWorldButton();
+            _plemionaSteps.ClickReturnToMainPageButton();
+            _plemionaSteps.ClickSignOutFromAccountButton();
+        }
     }
 }

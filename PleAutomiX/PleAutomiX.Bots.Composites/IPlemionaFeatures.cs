@@ -1,5 +1,6 @@
 ﻿using PleAutomiX.Bots.Core.Enums;
 using PleAutomiX.Bots.Core.Models;
+using System.Collections.Generic;
 
 namespace PleAutomiX.Bots.Features
 {
@@ -22,5 +23,9 @@ namespace PleAutomiX.Bots.Features
         Buildings GetCurrentVillageBuildings();
 
         void ChangeVillageName(string villageName);
+
+        public IEnumerable<Village> ScanMap(int radiusFields);
+
+        public void SignOut();
     }
 }
