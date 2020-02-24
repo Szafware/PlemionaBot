@@ -20,6 +20,9 @@ namespace PleAutomiX.Bots.Steps.Steps
 
         private readonly string _plemionaUrl = "https://www.plemiona.pl/";
 
+        private readonly TimeSpan _timeoutForExpectedElements = TimeSpan.FromSeconds(5);
+        private readonly TimeSpan _timeoutForChceckingElementsExistence = TimeSpan.FromSeconds(2);
+
         private string _currentVillageNumber;
         private string _csrfVillageToken;
 
@@ -84,10 +87,10 @@ namespace PleAutomiX.Bots.Steps.Steps
 
         public void ClickVillageViewButton() => _webDriverBaseMethods.ClickElementByHref($"/game.php?village={_currentVillageNumber}&screen=overview");
         public void ClickKnightRecruitmentButton() => _webDriverBaseMethods.ClickElementByClassName("knight_recruit_launch"); // btn_recruit w innym trybie
-        public void ClearKnightNameTextBox() => _webDriverBaseMethods.FillElementByIdWhenAppears("knight_recruit_name", TimeSpan.FromSeconds(5), "\b");
-        public void FillKnightNameTextBox(string knightName) => _webDriverBaseMethods.FillElementByIdWhenAppears("knight_recruit_name", TimeSpan.FromSeconds(5), knightName);
+        public void ClearKnightNameTextBox() => _webDriverBaseMethods.FillElementByIdWhenAppears("knight_recruit_name", _timeoutForExpectedElements, "\b");
+        public void FillKnightNameTextBox(string knightName) => _webDriverBaseMethods.FillElementByIdWhenAppears("knight_recruit_name", _timeoutForExpectedElements, knightName);
         public void ClickKnightRecruitmentConfirmationButton() => _webDriverBaseMethods.ClickElementById("knight_recruit_confirm");
-        public bool CanSkipKnightRecruitment() => _webDriverBaseMethods.ElementExistsByClassNameWithDelay("knight_recruit_rush", TimeSpan.FromSeconds(2));
+        public bool CanSkipKnightRecruitment() => _webDriverBaseMethods.ElementExistsByClassNameWithDelay("knight_recruit_rush", _timeoutForChceckingElementsExistence);
         public void ClickKnightRecruitmentSkipButton() => _webDriverBaseMethods.ClickElementByClassName("knight_recruit_rush");
         public void ClickKnightRecruitmentCancellationButton() => _webDriverBaseMethods.ClickElementByClassName("knight_recruit_abort");
         public void ClickKnightRevivalButton() => _webDriverBaseMethods.ClickElementByClassName("knight_revive_launch");
