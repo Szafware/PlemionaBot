@@ -24,9 +24,9 @@ namespace PleAutomiX.Bots.Features
             _plemionaSteps.FillPasswordTextBox(password);
             _plemionaSteps.ClickSignInButton();
             _plemionaSteps.ClickWorldButton(worldNumber);
-            _plemionaSteps.ClickDailySignInGiftReceiveButton();
             if (_plemionaSteps.DidEventWindowPoopUp())
                 _plemionaSteps.ClickEventWindowCloseButton();
+            _plemionaSteps.ClickDailySignInGiftReceiveButton();
         }
 
         public void SwitchToVillage(string villageName)
