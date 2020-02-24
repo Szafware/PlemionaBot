@@ -159,8 +159,8 @@ namespace PleAutomiX.Bots.Steps.Steps
 
         public void ClickToWorldMapButton() => _webDriverBaseMethods.ClickElementByHref("map");
 
-        public void ClickReturnToMainPageButton() => _webDriverBaseMethods.ClickElementByHref("/");
         public void ClickSignOutFromWorldButton() => _webDriverBaseMethods.ClickElementByHref($"game.php?village={_currentVillageNumber}&screen=&action=logout&h={_csrfVillageToken}");
+        public void ClickReturnToMainPageButton() => _webDriverBaseMethods.ClickElementByXPath("//div[@class='button small']");
 
         private int GetBuildingLevel(string buildingHref)
         {
