@@ -21,6 +21,7 @@ namespace PleAutomiX.Bots.Steps.Steps
         private readonly string _plemionaUrl = "https://www.plemiona.pl/";
 
         private string _currentVillageNumber;
+        private string _csrfVillageToken;
 
         public PlemionaSteps(
             IWebDriverProvider webDriverProvider,
@@ -50,17 +51,7 @@ namespace PleAutomiX.Bots.Steps.Steps
 
                 worldButton.Click();
 
-                string hrefStart = "/game.php?village=";
-                string hrefEnd = "&screen=overview";
-
-                var element = _remoteWebDriver.FindElement(By.XPath($"//a[contains(@href,'{hrefStart}') and contains(@href,'{hrefEnd}')]"));
-
-                string href = element.GetAttribute("href");
-                href = href.Remove(0, href.IndexOf("=") + 1);
-
-                string villageNumber = string.Join(string.Empty, href.TakeWhile(c => c != '&'));
-
-                _currentVillageNumber = villageNumber;
+                InitializeVillageData();
             });
         }
 
@@ -230,6 +221,36 @@ namespace PleAutomiX.Bots.Steps.Steps
             {
                 throw new StepException(null, ex);
             }
+        }
+
+        private void InitializeVillageData()
+        {
+            // Receiving village unique number required to many url-based steps
+            string hrefStart = "/game.php?village=";
+            string hrefEnd = "&screen=overview";
+
+            var element = _remoteWebDriver.FindElement(By.XPath($"//a[contains(@href,'{hrefStart}') and contains(@href,'{hrefEnd}')]"));
+
+            string elementHref = element.GetAttribute("href");
+            elementHref = elementHref.Remove(0, elementHref.IndexOf("=") + 1);
+
+            string villageNumber = string.Join(string.Empty, elementHref.TakeWhile(c => c != '&'));
+
+            _currentVillageNumber = villageNumber;
+
+            // Receiving csrf token required (so far) to url-based sign out step
+            var scripts = _remoteWebDriver.FindElementsByTagName("script");
+            var scriptTexts = scripts.Select(s => s.GetAttribute("innerHTML"));
+            string mergerScriptsText = string.Join(string.Empty, scriptTexts);
+            string mergerScriptsTextWithoutSpaces = mergerScriptsText.Replace(" ", string.Empty);
+            string csrfSearchPhrase = "\"csrf\":\"";
+            int index = mergerScriptsText.IndexOf(csrfSearchPhrase);
+
+            int csrfSearchPhraseLength = csrfSearchPhrase.Length;
+            int csrfTokenLength = 8;
+
+            string csrfVillageToken = mergerScriptsText.Substring(index + csrfSearchPhraseLength, csrfTokenLength);
+            _csrfVillageToken = csrfVillageToken;
         }
     }
 }
