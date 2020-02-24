@@ -46,6 +46,15 @@ namespace PleAutomiX.Bots.Steps.WebDriverBase
             });
         }
 
+        public void FillElementTextByXPath(string xPath, string text)
+        {
+            ExceptionHandler(() =>
+            {
+                var element = _remoteWebDriver.FindElementByXPath(xPath);
+                element.SendKeys(text);
+            });
+        }
+
         public void ClickElementById(string id)
         {
             ExceptionHandler(() =>
@@ -69,6 +78,15 @@ namespace PleAutomiX.Bots.Steps.WebDriverBase
             ExceptionHandler(() =>
             {
                 var element = _remoteWebDriver.FindElement(By.CssSelector($"[href*='{href}']"));
+                element.Click();
+            });
+        }
+
+        public void ClickElementByXPath(string xPath)
+        {
+            ExceptionHandler(() =>
+            {
+                var element = _remoteWebDriver.FindElementByXPath(xPath);
                 element.Click();
             });
         }

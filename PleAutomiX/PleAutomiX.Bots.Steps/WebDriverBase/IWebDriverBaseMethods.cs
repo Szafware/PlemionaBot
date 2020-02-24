@@ -7,10 +7,12 @@ namespace PleAutomiX.Bots.Steps.WebDriverBase
         void FillElementTextById(string Id, string text);
         void FillElementTextByClassName(string className, string text);
         void FillElementTextByName(string name, string text);
+        void FillElementTextByXPath(string xPath, string text);
         
         void ClickElementById(string id);
         void ClickElementByClassName(string className);
         void ClickElementByHref(string href);
+        void ClickElementByXPath(string xPath);
         
         string GetElementTextById(string id);
 
