@@ -16,6 +16,7 @@
         void FillVillageNameTextBox(string villageName);
         void ClickVillageNameChangeButton();
 
+        bool DidDailySignInGiftWindowPopUp();
         void ClickDailySignInGiftReceiveButton();
 
         bool DidEventWindowPopUp();

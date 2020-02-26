@@ -38,7 +38,13 @@ namespace PleAutomiX.Bots.Steps.Steps
             _navigation = _remoteWebDriver.Navigate();
         }
 
-        public void LoadPlemionaWebsite() => _navigation.GoToUrl(_plemionaUrl);
+        public void LoadPlemionaWebsite()
+        {
+            _webDriverBaseMethods.ExceptionHandler(() =>
+            {
+                _navigation.GoToUrl(_plemionaUrl);
+            });
+        }
 
         public bool IsPlayerSignedIn() => _webDriverBaseMethods.ElementExistsByHref("/page/logout");
         public void ClickSignOutFromAccountButton() => _webDriverBaseMethods.ClickElementByHref("/page/logout");
@@ -69,6 +75,7 @@ namespace PleAutomiX.Bots.Steps.Steps
             });
         }
 
+        public bool DidDailySignInGiftWindowPopUp() => _webDriverBaseMethods.ElementExistsById("popup_box_daily_bonus");
         public void ClickDailySignInGiftReceiveButton()
         {
             _webDriverBaseMethods.ExceptionHandler(() =>

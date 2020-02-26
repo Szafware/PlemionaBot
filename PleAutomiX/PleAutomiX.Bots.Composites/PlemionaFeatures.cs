@@ -24,11 +24,10 @@ namespace PleAutomiX.Bots.Features
             _plemionaSteps.FillPasswordTextBox(password);
             _plemionaSteps.ClickSignInButton();
             _plemionaSteps.ClickWorldButton(worldNumber);
-            if (_plemionaSteps.DidEventWindowPoopUp())
-                _plemionaSteps.ClickEventWindowCloseButton();
-            _plemionaSteps.ClickDailySignInGiftReceiveButton();
             //if (_plemionaSteps.DidEventWindowPopUp())
             //    _plemionaSteps.ClickEventWindowCloseButton();
+            if (_plemionaSteps.DidDailySignInGiftWindowPopUp())
+                _plemionaSteps.ClickDailySignInGiftReceiveButton();
         }
 
         public void SwitchToVillage(string villageName)
