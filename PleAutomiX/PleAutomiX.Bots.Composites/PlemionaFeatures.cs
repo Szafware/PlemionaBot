@@ -27,6 +27,8 @@ namespace PleAutomiX.Bots.Features
             if (_plemionaSteps.DidEventWindowPoopUp())
                 _plemionaSteps.ClickEventWindowCloseButton();
             _plemionaSteps.ClickDailySignInGiftReceiveButton();
+            //if (_plemionaSteps.DidEventWindowPopUp())
+            //    _plemionaSteps.ClickEventWindowCloseButton();
         }
 
         public void SwitchToVillage(string villageName)

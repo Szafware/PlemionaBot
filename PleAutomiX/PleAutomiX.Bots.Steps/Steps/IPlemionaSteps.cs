@@ -18,7 +18,7 @@
 
         void ClickDailySignInGiftReceiveButton();
 
-        bool DidEventWindowPoopUp();
+        bool DidEventWindowPopUp();
         void ClickEventWindowCloseButton();
 
         void ClickVillageViewButton();

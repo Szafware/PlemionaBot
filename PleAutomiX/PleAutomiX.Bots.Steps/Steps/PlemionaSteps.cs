@@ -82,8 +82,8 @@ namespace PleAutomiX.Bots.Steps.Steps
             });
         }
 
-        public bool DidEventWindowPoopUp() => _webDriverBaseMethods.ElementExistsByClassName("popup_box_close");
-        public void ClickEventWindowCloseButton() => _webDriverBaseMethods.ClickElementByClassName("popup_box_close");
+        public bool DidEventWindowPopUp() => throw new NotImplementedException("Not enough concrete class used. Colidates with daily gift window."); //_webDriverBaseMethods.ElementExistsByClassName("popup_box_close");
+        public void ClickEventWindowCloseButton() => throw new NotImplementedException("Not enough concrete class used. Colidates with daily gift window."); // _webDriverBaseMethods.ClickElementByClassName("popup_box_close");
 
         public void ClickVillageViewButton() => _webDriverBaseMethods.ClickElementByHref($"/game.php?village={_currentVillageNumber}&screen=overview");
         public void ClickKnightRecruitmentButton() => _webDriverBaseMethods.ClickElementByClassName("knight_recruit_launch"); // btn_recruit w innym trybie
