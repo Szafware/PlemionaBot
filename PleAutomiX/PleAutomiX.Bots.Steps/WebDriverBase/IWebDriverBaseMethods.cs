@@ -35,5 +35,8 @@ namespace PleAutomiX.Bots.Steps.WebDriverBase
         void FillElementByHrefWhenAppears(string href, TimeSpan timeout, string text);
         void FillElementByIdWhenAppears(string id, TimeSpan timeout, string text);
         void FillElementByClassNameWhenAppears(string className, TimeSpan timeout, string text);
+
+        void ExceptionHandler(Action action);
+        TValue ExceptionHandler<TValue>(Func<TValue> function);
     }
 }

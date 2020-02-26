@@ -196,6 +196,32 @@ namespace PleAutomiX.Bots.Steps.WebDriverBase
             FillElementByWhenAppears(By.CssSelector($"[href*='{href}']"), timeout, text);
         }
 
+        public void ExceptionHandler(Action action)
+        {
+            try
+            {
+                action.Invoke();
+            }
+            catch (Exception ex)
+            {
+                throw new StepException(null, ex);
+            }
+        }
+
+        public TValue ExceptionHandler<TValue>(Func<TValue> function)
+        {
+            try
+            {
+                var value = function.Invoke();
+
+                return value;
+            }
+            catch (Exception ex)
+            {
+                throw new StepException(null, ex);
+            }
+        }
+
         private bool ElementExistsByWhenAppears(By by, TimeSpan timeout)
         {
             bool elementExists = ExistsExceptionHandler(() =>
@@ -238,32 +264,6 @@ namespace PleAutomiX.Bots.Steps.WebDriverBase
             catch (NoSuchElementException)
             {
                 return false;
-            }
-            catch (Exception ex)
-            {
-                throw new StepException(null, ex);
-            }
-        }
-
-        private void ExceptionHandler(Action action)
-        {
-            try
-            {
-                action.Invoke();
-            }
-            catch (Exception ex)
-            {
-                throw new StepException(null, ex);
-            }
-        }
-
-        private TValue ExceptionHandler<TValue>(Func<TValue> action)
-        {
-            try
-            {
-                var value = action.Invoke();
-
-                return value;
             }
             catch (Exception ex)
             {

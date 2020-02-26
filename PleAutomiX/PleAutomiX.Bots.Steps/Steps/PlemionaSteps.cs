@@ -47,7 +47,7 @@ namespace PleAutomiX.Bots.Steps.Steps
         public void ClickSignInButton() => _webDriverBaseMethods.ClickElementByClassName("btn-login");
         public void ClickWorldButton(int worldNumber)
         {
-            ExceptionHandler(() =>
+            _webDriverBaseMethods.ExceptionHandler(() =>
             {
                 var webDriverWait = new WebDriverWait(_remoteWebDriver, TimeSpan.FromSeconds(5));
                 var worldButton = webDriverWait.Until(ExpectedConditions.ElementExists(By.XPath($"//span[contains(text(),'{worldNumber}')]")));
@@ -62,7 +62,7 @@ namespace PleAutomiX.Bots.Steps.Steps
         public void FillVillageNameTextBox(string villageName) => _webDriverBaseMethods.FillElementTextByName("name", villageName);
         public void ClickVillageNameChangeButton()
         {
-            ExceptionHandler(() =>
+            _webDriverBaseMethods.ExceptionHandler(() =>
             {
                 var villageNameChangeButton = _remoteWebDriver.FindElementByXPath("//input[@type='submit']");
                 villageNameChangeButton.Click();
@@ -71,7 +71,7 @@ namespace PleAutomiX.Bots.Steps.Steps
 
         public void ClickDailySignInGiftReceiveButton()
         {
-            ExceptionHandler(() =>
+            _webDriverBaseMethods.ExceptionHandler(() =>
             {
                 var giftButtons = _remoteWebDriver.FindElementsByClassName("btn-default");
 
@@ -164,7 +164,7 @@ namespace PleAutomiX.Bots.Steps.Steps
 
         private int GetBuildingLevel(string buildingHref)
         {
-            int buildingLevel = ExceptionHandler(() =>
+            int buildingLevel = _webDriverBaseMethods.ExceptionHandler(() =>
             {
                 IWebElement buildingElement = null;
 
@@ -198,32 +198,6 @@ namespace PleAutomiX.Bots.Steps.Steps
             });
 
             return buildingLevel;
-        }
-
-        private TValue ExceptionHandler<TValue>(Func<TValue> function)
-        {
-            try
-            {
-                var value = function.Invoke();
-
-                return value;
-            }
-            catch (Exception ex)
-            {
-                throw new StepException(null, ex);
-            }
-        }
-
-        private void ExceptionHandler(Action action)
-        {
-            try
-            {
-                action.Invoke();
-            }
-            catch (Exception ex)
-            {
-                throw new StepException(null, ex);
-            }
         }
 
         private void InitializeVillageData()
