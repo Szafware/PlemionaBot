@@ -1,7 +1,6 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Remote;
 using OpenQA.Selenium.Support.UI;
-using PleAutomiX.Bots.Steps.Exceptions;
 using PleAutomiX.Bots.Steps.WebDriverBase;
 using PleAutomiX.Bots.WebDriver;
 using SeleniumExtras.WaitHelpers;
@@ -46,36 +45,23 @@ namespace PleAutomiX.Bots.Steps.Steps
             });
         }
 
-        public bool IsPlayerSignedIn() => _webDriverBaseMethods.ElementExistsByHref("/page/logout");
-        public void ClickSignOutFromAccountButton() => _webDriverBaseMethods.ClickElementByHref("/page/logout");
-        public void FillUserTextBox(string username) => _webDriverBaseMethods.FillElementTextById("user", username);
-        public void FillPasswordTextBox(string password) => _webDriverBaseMethods.FillElementTextById("password", password);
-        public void ClickSignInButton() => _webDriverBaseMethods.ClickElementByClassName("btn-login");
+        public bool IsPlayerSignedIn() => _webDriverBaseMethods.ExistsBy(By.XPath("//[@href='/page/logout']"));
+        public void ClickSignOutFromAccountButton() => _webDriverBaseMethods.ExistsBy(By.XPath("//[@href='/page/logout']"));
+        public void FillUserTextBox(string username) => _webDriverBaseMethods.FillBy(By.Id("user"), username);
+        public void FillPasswordTextBox(string password) => _webDriverBaseMethods.FillBy(By.Id("password"), password);
+        public void ClickSignInButton() => _webDriverBaseMethods.ClickBy(By.ClassName("btn-login"));
         public void ClickWorldButton(int worldNumber)
         {
-            _webDriverBaseMethods.ExceptionHandler(() =>
-            {
-                var webDriverWait = new WebDriverWait(_remoteWebDriver, TimeSpan.FromSeconds(5));
-                var worldButton = webDriverWait.Until(ExpectedConditions.ElementExists(By.XPath($"//span[contains(text(),'{worldNumber}')]")));
+            _webDriverBaseMethods.ClickByAndCondition(ExpectedConditions.ElementExists(By.XPath($"//span[contains(text(),'{worldNumber}')]")), _timeoutForExpectedElements);
 
-                worldButton.Click();
-
-                InitializeVillageData();
-            });
+            _webDriverBaseMethods.ExceptionHandler(InitializeVillageData);
         }
 
-        public void ClearVillageNameTextBox() => _webDriverBaseMethods.ClearElementContentByName("name");
-        public void FillVillageNameTextBox(string villageName) => _webDriverBaseMethods.FillElementTextByName("name", villageName);
-        public void ClickVillageNameChangeButton()
-        {
-            _webDriverBaseMethods.ExceptionHandler(() =>
-            {
-                var villageNameChangeButton = _remoteWebDriver.FindElementByXPath("//input[@type='submit']");
-                villageNameChangeButton.Click();
-            });
-        }
+        public void ClearVillageNameTextBox() => _webDriverBaseMethods.ClearBy(By.Name("name"));
+        public void FillVillageNameTextBox(string villageName) => _webDriverBaseMethods.FillBy(By.Name("name"), villageName);
+        public void ClickVillageNameChangeButton() => _webDriverBaseMethods.ClickBy(By.XPath("//input[@type='submit']"));
 
-        public bool DidDailySignInGiftWindowPopUp() => _webDriverBaseMethods.ElementExistsById("popup_box_daily_bonus");
+        public bool DidDailySignInGiftWindowPopUp() => _webDriverBaseMethods.ExistsBy(By.Id("popup_box_daily_bonus"));
         public void ClickDailySignInGiftReceiveButton()
         {
             _webDriverBaseMethods.ExceptionHandler(() =>
@@ -92,61 +78,61 @@ namespace PleAutomiX.Bots.Steps.Steps
         public bool DidEventWindowPopUp() => throw new NotImplementedException("Not enough concrete class used. Colidates with daily gift window."); //_webDriverBaseMethods.ElementExistsByClassName("popup_box_close");
         public void ClickEventWindowCloseButton() => throw new NotImplementedException("Not enough concrete class used. Colidates with daily gift window."); // _webDriverBaseMethods.ClickElementByClassName("popup_box_close");
 
-        public void ClickVillageViewButton() => _webDriverBaseMethods.ClickElementByHref($"/game.php?village={_currentVillageNumber}&screen=overview");
-        public void ClickKnightRecruitmentButton() => _webDriverBaseMethods.ClickElementByClassName("knight_recruit_launch"); // btn_recruit w innym trybie
-        public void ClearKnightNameTextBox() => _webDriverBaseMethods.FillElementByIdWhenAppears("knight_recruit_name", _timeoutForExpectedElements, "\b");
-        public void FillKnightNameTextBox(string knightName) => _webDriverBaseMethods.FillElementByIdWhenAppears("knight_recruit_name", _timeoutForExpectedElements, knightName);
-        public void ClickKnightRecruitmentConfirmationButton() => _webDriverBaseMethods.ClickElementById("knight_recruit_confirm");
-        public bool CanSkipKnightRecruitment() => _webDriverBaseMethods.ElementExistsByClassNameWithDelay("knight_recruit_rush", _timeoutForChceckingElementsExistence);
-        public void ClickKnightRecruitmentSkipButton() => _webDriverBaseMethods.ClickElementByClassName("knight_recruit_rush");
-        public void ClickKnightRecruitmentCancellationButton() => _webDriverBaseMethods.ClickElementByClassName("knight_recruit_abort");
-        public void ClickKnightRevivalButton() => _webDriverBaseMethods.ClickElementByClassName("knight_revive_launch");
-        public void ClickKnightRevivalConfirmationButton() => _webDriverBaseMethods.ClickElementById("knight_revive_confirm");
+        public void ClickVillageViewButton() => _webDriverBaseMethods.ClickBy(By.XPath($"//[@href='/game.php?village={_currentVillageNumber}&screen=overview']"));
+        public void ClickKnightRecruitmentButton() => _webDriverBaseMethods.ClickBy(By.ClassName("knight_recruit_launch")); // btn_recruit w innym trybie
+        public void ClearKnightNameTextBox() => _webDriverBaseMethods.ClearByAndCondition(ExpectedConditions.ElementExists(By.Id("knight_recruit_name")), _timeoutForExpectedElements);
+        public void FillKnightNameTextBox(string knightName) => _webDriverBaseMethods.FillByAndCondition(ExpectedConditions.ElementExists(By.Id("knight_recruit_name")), _timeoutForExpectedElements, knightName);
+        public void ClickKnightRecruitmentConfirmationButton() => _webDriverBaseMethods.ClickBy(By.Id("knight_recruit_confirm"));
+        public bool CanSkipKnightRecruitment() => _webDriverBaseMethods.ExistsByAndCondition(ExpectedConditions.ElementExists(By.ClassName("knight_recruit_rush")), _timeoutForChceckingElementsExistence);
+        public void ClickKnightRecruitmentSkipButton() => _webDriverBaseMethods.ClickBy(By.ClassName("knight_recruit_rush"));
+        public void ClickKnightRecruitmentCancellationButton() => _webDriverBaseMethods.ClickBy(By.ClassName("knight_recruit_abort"));
+        public void ClickKnightRevivalButton() => _webDriverBaseMethods.ClickBy(By.ClassName("knight_revive_launch"));
+        public void ClickKnightRevivalConfirmationButton() => _webDriverBaseMethods.ClickBy(By.Id("knight_revive_confirm"));
 
-        public void ClickTownhallPicture() => _webDriverBaseMethods.ClickElementByHref($"/game.php?village={_currentVillageNumber}&screen=main");
-        public void ClickYardPicture() => _webDriverBaseMethods.ClickElementByHref($"/game.php?village={_currentVillageNumber}&screen=place");
-        public void ClickBarracksPicture() => _webDriverBaseMethods.ClickElementByHref($"/game.php?village={_currentVillageNumber}&screen=barracks");
-        public void ClickStatuePicture() => _webDriverBaseMethods.ClickElementByHref($"/game.php?village={_currentVillageNumber}&screen=statue");
-        public void ClickStablePicture() => _webDriverBaseMethods.ClickElementByHref("NULL");
-        public void ClickWorkshopPicture() => _webDriverBaseMethods.ClickElementByHref("NULL");
-        public void ClickPalacePicture() => _webDriverBaseMethods.ClickElementByHref("NULL");
+        public void ClickTownhallPicture() => _webDriverBaseMethods.ClickBy(By.XPath($"//[@href='/game.php?village={_currentVillageNumber}&screen=main']"));
+        public void ClickYardPicture() => _webDriverBaseMethods.ClickBy(By.XPath($"//[@href='/game.php?village={_currentVillageNumber}&screen=place']"));
+        public void ClickBarracksPicture() => _webDriverBaseMethods.ClickBy(By.XPath($"//[@href='/game.php?village={_currentVillageNumber}&screen=barracks']"));
+        public void ClickStatuePicture() => _webDriverBaseMethods.ClickBy(By.XPath($"//[@href='/game.php?village={_currentVillageNumber}&screen=statue']"));
+        public void ClickStablePicture() => _webDriverBaseMethods.ClickBy(By.XPath("NULL"));
+        public void ClickWorkshopPicture() => _webDriverBaseMethods.ClickBy(By.XPath("NULL"));
+        public void ClickPalacePicture() => _webDriverBaseMethods.ClickBy(By.XPath("NULL"));
         // CLICK BUILDINGS
 
-        public void FillSpearmenCountTextBox(int count) => _webDriverBaseMethods.FillElementTextById("spear_0", count.ToString());
-        public void FillSwordmenCountTextBox(int count) => _webDriverBaseMethods.FillElementTextById("NULL", count.ToString());
-        public void FillAxemenCountTextBox(int count) => _webDriverBaseMethods.FillElementTextById("NULL", count.ToString());
-        public void FillBowmenCountTextBox(int count) => _webDriverBaseMethods.FillElementTextById("NULL", count.ToString());
-        public void ClickUnsaddledTroopsRecruitmentButton() => _webDriverBaseMethods.ClickElementByClassName("btn-recruit");
+        public void FillSpearmenCountTextBox(int count) => _webDriverBaseMethods.FillBy(By.Id("spear_0"), count.ToString());
+        public void FillSwordmenCountTextBox(int count) => _webDriverBaseMethods.FillBy(By.Id("NULL"), count.ToString());
+        public void FillAxemenCountTextBox(int count) => _webDriverBaseMethods.FillBy(By.Id("NULL"), count.ToString());
+        public void FillBowmenCountTextBox(int count) => _webDriverBaseMethods.FillBy(By.Id("NULL"), count.ToString());
+        public void ClickUnsaddledTroopsRecruitmentButton() => _webDriverBaseMethods.ClickBy(By.ClassName("btn-recruit"));
 
-        public void FillScoutCountTextBox(int count) => _webDriverBaseMethods.FillElementTextById("NULL", count.ToString());
-        public void FillLightCavalaryCountTextBox(int count) => _webDriverBaseMethods.FillElementTextById("NULL", count.ToString());
-        public void FillHorseArchersCountTextBox(int count) => _webDriverBaseMethods.FillElementTextById("NULL", count.ToString());
-        public void FillHeavyCavalaryCountTextBox(int count) => _webDriverBaseMethods.FillElementTextById("NULL", count.ToString());
-        public void ClickSaddledTroopsRecruitmentButton() => _webDriverBaseMethods.ClickElementByClassName("NULL");
+        public void FillScoutCountTextBox(int count) => _webDriverBaseMethods.FillBy(By.Id("NULL"), count.ToString());
+        public void FillLightCavalaryCountTextBox(int count) => _webDriverBaseMethods.FillBy(By.Id("NULL"), count.ToString());
+        public void FillHorseArchersCountTextBox(int count) => _webDriverBaseMethods.FillBy(By.Id("NULL"), count.ToString());
+        public void FillHeavyCavalaryCountTextBox(int count) => _webDriverBaseMethods.FillBy(By.Id("NULL"), count.ToString());
+        public void ClickSaddledTroopsRecruitmentButton() => _webDriverBaseMethods.ClickBy(By.ClassName("NULL"));
 
-        public void FillRamsCountTextBox(int count) => _webDriverBaseMethods.FillElementTextById("NULL", count.ToString());
-        public void FillCatapultesCountTextBox(int count) => _webDriverBaseMethods.FillElementTextById("NULL", count.ToString());
-        public void ClickWarMachinesRecruitmentTroops() => _webDriverBaseMethods.ClickElementByClassName("NULL");
+        public void FillRamsCountTextBox(int count) => _webDriverBaseMethods.FillBy(By.Id("NULL"), count.ToString());
+        public void FillCatapultesCountTextBox(int count) => _webDriverBaseMethods.FillBy(By.Id("NULL"), count.ToString());
+        public void ClickWarMachinesRecruitmentTroops() => _webDriverBaseMethods.ClickBy(By.ClassName("NULL"));
 
-        public void FillYardSpearmenCountTextBox(int count) => _webDriverBaseMethods.FillElementTextById("unit_input_spear", count.ToString());
-        public void FillYardSwordmenCountTextBox(int count) => _webDriverBaseMethods.FillElementTextById("unit_input_sword", count.ToString());
-        public void FillYardAxemenCountTextBox(int count) => _webDriverBaseMethods.FillElementTextById("unit_input_axe", count.ToString());
-        public void FillYardBowmenCountTextBox(int count) => _webDriverBaseMethods.FillElementTextById("unit_input_archer", count.ToString());
-        public void FillYardScoutCountTextBox(int count) => _webDriverBaseMethods.FillElementTextById("unit_input_spy", count.ToString());
-        public void FillYardLightCavalaryCountTextBox(int count) => _webDriverBaseMethods.FillElementTextById("unit_input_light", count.ToString());
-        public void FillYardHorseArchersCountTextBox(int count) => _webDriverBaseMethods.FillElementTextById("unit_input_marcher", count.ToString());
-        public void FillYardHeavyCavalaryCountTextBox(int count) => _webDriverBaseMethods.FillElementTextById("unit_input_heavy", count.ToString());
-        public void FillYardRamsCountTextBox(int count) => _webDriverBaseMethods.FillElementTextById("unit_input_ram", count.ToString());
-        public void FillYardCatapultesCountTextBox(int count) => _webDriverBaseMethods.FillElementTextById("unit_input_catapult", count.ToString());
-        public void FillYardKnightsCountTextBox(int count) => _webDriverBaseMethods.FillElementTextById("unit_input_knight", count.ToString());
-        public void FillYardNobelmenCountTextBox(int count) => _webDriverBaseMethods.FillElementTextById("unit_input_snob", count.ToString());
-        public void FillAttackCoordinatesTextBox(int coordinateX, int coordinateY) => _webDriverBaseMethods.FillElementTextByClassName("target-input-field", $"{coordinateX}|{coordinateY}");
-        public void ClickSendAttackButton() => _webDriverBaseMethods.ClickElementById("target_attack");
-        public void ClickSendHelpButton() => _webDriverBaseMethods.ClickElementById("target_support");
+        public void FillYardSpearmenCountTextBox(int count) => _webDriverBaseMethods.FillBy(By.Id("unit_input_spear"), count.ToString());
+        public void FillYardSwordmenCountTextBox(int count) => _webDriverBaseMethods.FillBy(By.Id("unit_input_sword"), count.ToString());
+        public void FillYardAxemenCountTextBox(int count) => _webDriverBaseMethods.FillBy(By.Id("unit_input_axe"), count.ToString());
+        public void FillYardBowmenCountTextBox(int count) => _webDriverBaseMethods.FillBy(By.Id("unit_input_archer"), count.ToString());
+        public void FillYardScoutCountTextBox(int count) => _webDriverBaseMethods.FillBy(By.Id("unit_input_spy"), count.ToString());
+        public void FillYardLightCavalaryCountTextBox(int count) => _webDriverBaseMethods.FillBy(By.Id("unit_input_light"), count.ToString());
+        public void FillYardHorseArchersCountTextBox(int count) => _webDriverBaseMethods.FillBy(By.Id("unit_input_marcher"), count.ToString());
+        public void FillYardHeavyCavalaryCountTextBox(int count) => _webDriverBaseMethods.FillBy(By.Id("unit_input_heavy"), count.ToString());
+        public void FillYardRamsCountTextBox(int count) => _webDriverBaseMethods.FillBy(By.Id("unit_input_ram"), count.ToString());
+        public void FillYardCatapultesCountTextBox(int count) => _webDriverBaseMethods.FillBy(By.Id("unit_input_catapult"), count.ToString());
+        public void FillYardKnightsCountTextBox(int count) => _webDriverBaseMethods.FillBy(By.Id("unit_input_knight"), count.ToString());
+        public void FillYardNobelmenCountTextBox(int count) => _webDriverBaseMethods.FillBy(By.Id("unit_input_snob"), count.ToString());
+        public void FillAttackCoordinatesTextBox(int coordinateX, int coordinateY) => _webDriverBaseMethods.FillBy(By.ClassName("target-input-field"), $"{coordinateX}|{coordinateY}");
+        public void ClickSendAttackButton() => _webDriverBaseMethods.ClickBy(By.Id("target_attack"));
+        public void ClickSendHelpButton() => _webDriverBaseMethods.ClickBy(By.Id("target_support"));
 
-        public int GetSelfWoodCount() => Convert.ToInt32(_webDriverBaseMethods.GetElementTextById("wood"));
-        public int GetSelfClayCount() => Convert.ToInt32(_webDriverBaseMethods.GetElementTextById("stone"));
-        public int GetSelfIronCount() => Convert.ToInt32(_webDriverBaseMethods.GetElementTextById("iron"));
+        public int GetSelfWoodCount() => _webDriverBaseMethods.ExceptionHandler(() => Convert.ToInt32(_webDriverBaseMethods.GetTextBy(By.Id("wood"))));
+        public int GetSelfClayCount() => _webDriverBaseMethods.ExceptionHandler(() => Convert.ToInt32(_webDriverBaseMethods.GetTextBy(By.Id("stone"))));
+        public int GetSelfIronCount() => _webDriverBaseMethods.ExceptionHandler(() => Convert.ToInt32(_webDriverBaseMethods.GetTextBy(By.Id("iron"))));
 
         public int GetTownhallLevel() => GetBuildingLevel($"/game.php?village={_currentVillageNumber}&screen=main");
         public int GetBarracksLevel() => GetBuildingLevel($"/game.php?village={_currentVillageNumber}&screen=barracks");
@@ -164,10 +150,10 @@ namespace PleAutomiX.Bots.Steps.Steps
         public int GetClipboardLevel() => GetBuildingLevel($"/game.php?village={_currentVillageNumber}&screen=hide");
         public int GetWallLevel() => GetBuildingLevel($"/game.php?village={_currentVillageNumber}&screen=wall");
 
-        public void ClickToWorldMapButton() => _webDriverBaseMethods.ClickElementByHref("map");
+        public void ClickWorldMapButton() => _webDriverBaseMethods.ClickBy(By.XPath($"//[@href='/game.php?village={_currentVillageNumber}&screen=map']"));
 
-        public void ClickSignOutFromWorldButton() => _webDriverBaseMethods.ClickElementByHref($"game.php?village={_currentVillageNumber}&screen=&action=logout&h={_csrfVillageToken}");
-        public void ClickReturnToMainPageButton() => _webDriverBaseMethods.ClickElementByXPath("//div[@class='button small']");
+        public void ClickSignOutFromWorldButton() => _webDriverBaseMethods.ClickBy(By.XPath($"//[@href='/game.php?village={_currentVillageNumber}&screen=&action=logout&h={_csrfVillageToken}']"));
+        public void ClickReturnToMainPageButton() => _webDriverBaseMethods.ClickBy(By.XPath("//div[@class='button small']"));
 
         private int GetBuildingLevel(string buildingHref)
         {
@@ -195,7 +181,7 @@ namespace PleAutomiX.Bots.Steps.Steps
                 {
                     buildingLevelLabelNumbers = Convert.ToInt32(buildingLevelLabelNumbersString);
                 }
-                catch
+                catch (FormatException)
                 {
                     // Building label contains "not built". Returning level 0.
                     return 0;

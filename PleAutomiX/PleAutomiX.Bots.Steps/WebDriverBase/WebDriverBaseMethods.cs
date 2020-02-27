@@ -3,7 +3,6 @@ using OpenQA.Selenium.Remote;
 using OpenQA.Selenium.Support.UI;
 using PleAutomiX.Bots.Steps.Exceptions;
 using PleAutomiX.Bots.WebDriver;
-using SeleniumExtras.WaitHelpers;
 using System;
 
 namespace PleAutomiX.Bots.Steps.WebDriverBase
@@ -19,181 +18,103 @@ namespace PleAutomiX.Bots.Steps.WebDriverBase
             _remoteWebDriver = _webDriverProvider.CreateWebDriver();
         }
 
-        public void FillElementTextById(string id, string text)
+        public void ClickBy(By by)
         {
             ExceptionHandler(() =>
             {
-                var element = _remoteWebDriver.FindElementById(id);
-                element.SendKeys(text);
-            });
-        }
-
-        public void FillElementTextByClassName(string className, string text)
-        {
-            ExceptionHandler(() =>
-            {
-                var element = _remoteWebDriver.FindElementByClassName(className);
-                element.SendKeys(text);
-            });
-        }
-
-        public void FillElementTextByName(string name, string text)
-        {
-            ExceptionHandler(() =>
-            {
-                var element = _remoteWebDriver.FindElementByName(name);
-                element.SendKeys(text);
-            });
-        }
-
-        public void FillElementTextByXPath(string xPath, string text)
-        {
-            ExceptionHandler(() =>
-            {
-                var element = _remoteWebDriver.FindElementByXPath(xPath);
-                element.SendKeys(text);
-            });
-        }
-
-        public void ClickElementById(string id)
-        {
-            ExceptionHandler(() =>
-            {
-                var element = _remoteWebDriver.FindElementById(id);
+                var element = _remoteWebDriver.FindElement(by);
                 element.Click();
             });
         }
 
-        public void ClickElementByClassName(string className)
+        public void FillBy(By by, string text)
         {
             ExceptionHandler(() =>
             {
-                var element = _remoteWebDriver.FindElementByClassName(className);
-                element.Click();
+                var element = _remoteWebDriver.FindElement(by);
+                element.SendKeys(text);
             });
         }
 
-        public void ClickElementByHref(string href)
+        public void ClearBy(By by)
         {
             ExceptionHandler(() =>
             {
-                var element = _remoteWebDriver.FindElement(By.CssSelector($"[href*='{href}']"));
-                element.Click();
+                var element = _remoteWebDriver.FindElement(by);
+                element.Clear();
             });
         }
 
-        public void ClickElementByXPath(string xPath)
+        public string GetTextBy(By by)
         {
-            ExceptionHandler(() =>
+            string elementText = ExceptionHandler(() =>
             {
-                var element = _remoteWebDriver.FindElementByXPath(xPath);
-                element.Click();
-            });
-        }
-
-        public string GetElementTextById(string id)
-        {
-            var value = ExceptionHandler(() =>
-            {
-                var element = _remoteWebDriver.FindElementById(id);
+                var element = _remoteWebDriver.FindElement(by);
                 string elementText = element.Text;
                 return elementText;
             });
 
-            return value;
+            return elementText;
         }
 
-        public void ClearElementContentById(string id)
+        public bool ExistsBy(By by)
+        {
+            bool elementExists = ExistsExceptionHandler(() => _remoteWebDriver.FindElement(by));
+            return elementExists;
+        }
+
+        public void ClickByAndCondition(Func<IWebDriver, IWebElement> expectedCondition, TimeSpan timeout)
         {
             ExceptionHandler(() =>
             {
-                var element = _remoteWebDriver.FindElementById(id);
+                var webDriverWait = new WebDriverWait(_remoteWebDriver, timeout);
+                var element = webDriverWait.Until(expectedCondition);
+                element.Click();
+            });
+        }
+
+        public void FillByAndCondition(Func<IWebDriver, IWebElement> expectedCondition, TimeSpan timeout, string text)
+        {
+            ExceptionHandler(() =>
+            {
+                var webDriverWait = new WebDriverWait(_remoteWebDriver, timeout);
+                var element = webDriverWait.Until(expectedCondition);
+                element.SendKeys(text);
+            });
+        }
+
+        public void ClearByAndCondition(Func<IWebDriver, IWebElement> expectedCondition, TimeSpan timeout)
+        {
+            ExceptionHandler(() =>
+            {
+                var webDriverWait = new WebDriverWait(_remoteWebDriver, timeout);
+                var element = webDriverWait.Until(expectedCondition);
                 element.Clear();
             });
         }
 
-        public void ClearElementContentByClassName(string className)
+        public string GetTextByAndCondition(Func<IWebDriver, IWebElement> expectedCondition, TimeSpan timeout)
         {
-            ExceptionHandler(() =>
+            string elementText = ExceptionHandler(() =>
             {
-                var element = _remoteWebDriver.FindElementByClassName(className);
-                element.Clear();
+                var webDriverWait = new WebDriverWait(_remoteWebDriver, timeout);
+                var element = webDriverWait.Until(expectedCondition);
+                string elementText = element.Text;
+                return elementText;
             });
+
+            return elementText;
         }
 
-        public void ClearElementContentByName(string name)
+        public bool ExistsByAndCondition(Func<IWebDriver, IWebElement> expectedCondition, TimeSpan timeout)
         {
-            ExceptionHandler(() =>
+            bool elementExists = ExistsExceptionHandler(() =>
             {
-                var element = _remoteWebDriver.FindElementByName(name);
-                element.Clear();
+                var webDriverWait = new WebDriverWait(_remoteWebDriver, timeout);
+                var element = webDriverWait.Until(expectedCondition);
             });
-        }
 
-        public bool ElementExistsById(string id)
-        {
-            bool elementExists = ExistsExceptionHandler(() => _remoteWebDriver.FindElementById(id));
             return elementExists;
-        }
-
-        public bool ElementExistsByClassName(string className)
-        {
-            bool elementExists = ExistsExceptionHandler(() => _remoteWebDriver.FindElementByClassName(className));
-            return elementExists;
-        }
-
-        public bool ElementExistsByHref(string href)
-        {
-            bool elementExists = ExistsExceptionHandler(() => _remoteWebDriver.FindElement(By.CssSelector($"[href*='{href}']")));
-            return elementExists;
-        }
-
-        public bool ElementExistsByIdWithDelay(string id, TimeSpan timeout)
-        {
-            bool elementExists = ElementExistsByWhenAppears(By.Id(id), timeout);
-            return elementExists;
-        }
-
-        public bool ElementExistsByClassNameWithDelay(string className, TimeSpan timeout)
-        {
-            bool elementExists = ElementExistsByWhenAppears(By.ClassName(className), timeout);
-            return elementExists;
-        }
-
-        public bool ElementExistsByHrefWithDelay(string href, TimeSpan timeout)
-        {
-            bool elementExists = ElementExistsByWhenAppears(By.CssSelector($"[href*='{href}']"), timeout);
-            return elementExists;
-        }
-
-        public void ClickElementByIdWhenAppears(string id, TimeSpan timeout)
-        {
-            ClickElementByWhenAppears(By.Id(id), timeout);
-        }
-
-        public void ClickElementByClassNameWhenAppears(string className, TimeSpan timeout)
-        {
-            ClickElementByWhenAppears(By.ClassName(className), timeout);
-        }
-
-        public void ClickElementByHrefWhenAppears(string href, TimeSpan timeout)
-        {
-            ClickElementByWhenAppears(By.CssSelector($"[href*='{href}']"), timeout);
-        }
-
-        public void FillElementByIdWhenAppears(string id, TimeSpan timeout, string text)
-        {
-            FillElementByWhenAppears(By.Id(id), timeout, text);
-        }
-
-        public void FillElementByClassNameWhenAppears(string className, TimeSpan timeout, string text)
-        {
-            FillElementByWhenAppears(By.ClassName(className), timeout, text);
-        }
-
-        public void FillElementByHrefWhenAppears(string href, TimeSpan timeout, string text)
-        {
-            FillElementByWhenAppears(By.CssSelector($"[href*='{href}']"), timeout, text);
         }
 
         public void ExceptionHandler(Action action)
@@ -220,37 +141,6 @@ namespace PleAutomiX.Bots.Steps.WebDriverBase
             {
                 throw new StepException(null, ex);
             }
-        }
-
-        private bool ElementExistsByWhenAppears(By by, TimeSpan timeout)
-        {
-            bool elementExists = ExistsExceptionHandler(() =>
-            {
-                var webDriverWait = new WebDriverWait(_remoteWebDriver, timeout);
-                webDriverWait.Until(ExpectedConditions.ElementExists(by));
-            });
-
-            return elementExists;
-        }
-
-        private void ClickElementByWhenAppears(By by, TimeSpan timeout)
-        {
-            ExceptionHandler(() =>
-            {
-                var webDriverWait = new WebDriverWait(_remoteWebDriver, timeout);
-                var skipKnightRecruitmentButton = webDriverWait.Until(ExpectedConditions.ElementExists(by));
-                skipKnightRecruitmentButton.Click();
-            });
-        }
-
-        private void FillElementByWhenAppears(By by, TimeSpan timeout, string text)
-        {
-            ExceptionHandler(() =>
-            {
-                var webDriverWait = new WebDriverWait(_remoteWebDriver, timeout);
-                var skipKnightRecruitmentButton = webDriverWait.Until(ExpectedConditions.ElementExists(by));
-                skipKnightRecruitmentButton.SendKeys(text);
-            });
         }
 
         private bool ExistsExceptionHandler(Action indicator)

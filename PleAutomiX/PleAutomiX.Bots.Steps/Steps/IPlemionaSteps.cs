@@ -94,7 +94,7 @@
         int GetClipboardLevel();
         int GetWallLevel();
 
-        void ClickToWorldMapButton();
+        void ClickWorldMapButton();
 
         void ClickSignOutFromWorldButton();
         void ClickReturnToMainPageButton();
