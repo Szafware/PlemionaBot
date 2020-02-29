@@ -12,9 +12,9 @@ namespace PleAutomiX.Bots.Features
 
         void RecruitTroops(Troops troops);
 
-        public void RecruitKnight(string knightName);
+        void RecruitKnight(string knightName);
 
-        public void ReviveKnight();
+        void ReviveKnight();
 
         void SendTroops(Troops troops, int coordinateX, int coordinateY, TroopsIntentions troopsIntentions);
 
@@ -24,8 +24,10 @@ namespace PleAutomiX.Bots.Features
 
         void ChangeVillageName(string villageName);
 
-        public IEnumerable<Village> ScanMap(int radiusFields);
+        Player GetSelfInformation();
 
-        public void SignOut();
+        IEnumerable<Village> GetNerbaryVillages(int radiusFields);
+
+        void SignOut();
     }
 }

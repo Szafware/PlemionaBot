@@ -1,10 +1,13 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Remote;
 using OpenQA.Selenium.Support.UI;
+using PleAutomiX.Bots.Steps.Models;
 using PleAutomiX.Bots.Steps.WebDriverBase;
 using PleAutomiX.Bots.WebDriver;
 using SeleniumExtras.WaitHelpers;
 using System;
+using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 
 namespace PleAutomiX.Bots.Steps.Steps
@@ -151,6 +154,49 @@ namespace PleAutomiX.Bots.Steps.Steps
         public int GetWallLevel() => GetBuildingLevel($"/game.php?village={_currentVillageNumber}&screen=wall");
 
         public void ClickWorldMapButton() => _webDriverBaseMethods.ClickBy(By.XPath($"//[@href='/game.php?village={_currentVillageNumber}&screen=map']"));
+
+        public void ClickPlayerInformationButton() => _webDriverBaseMethods.ClickBy(By.XPath($"//*[@href='/game.php?village={_currentVillageNumber}&screen=info_player']"));
+
+        public string GetPlayerButtonTextFromProfileButtons() => _webDriverBaseMethods.GetTextBy(By.XPath($"//*[@href='/game.php?village={_currentVillageNumber}&screen=info_player']"));
+        public IEnumerable<VillageRow> GetVillageRows()
+        {
+            var villageRows = _webDriverBaseMethods.ExceptionHandler(() =>
+            {
+                List<VillageRow> villageRows = new List<VillageRow>();
+
+                var villagesTable = _webDriverBaseMethods.GetBy(By.XPath("//table[@id='villages_list']/tbody"));
+
+                var villageTableRows = villagesTable.FindElements(By.XPath("tr"));
+
+                foreach (var villageTableRow in villageTableRows)
+                {
+                    var villageRow = new VillageRow();
+
+                    var tableRowCells = villageTableRow.FindElements(By.XPath("td"));
+                    var villageNameCell = tableRowCells[0];
+                    var villageLocationCell = tableRowCells[1];
+                    var villagePointsCell = tableRowCells[2];
+
+                    string villageName = villageNameCell.FindElement(By.XPath("table/tbody/tr/td/span/a")).Text;
+
+                    int villageLocationX = Convert.ToInt32(villageLocationCell.Text.Substring(0, 3));
+                    int villageLocationY = Convert.ToInt32(villageLocationCell.Text.Substring(4, 3));
+                    var villageLocation = new Point(villageLocationX, villageLocationY);
+
+                    int villagePoints = Convert.ToInt32(villagePointsCell.Text);
+
+                    villageRow.Name = villageName;
+                    villageRow.Location = villageLocation;
+                    villageRow.Points = villagePoints;
+
+                    villageRows.Add(villageRow);
+                }
+
+                return villageRows;
+            });
+
+            return villageRows;
+        }
 
         public void ClickSignOutFromWorldButton() => _webDriverBaseMethods.ClickBy(By.XPath($"//[@href='/game.php?village={_currentVillageNumber}&screen=&action=logout&h={_csrfVillageToken}']"));
         public void ClickReturnToMainPageButton() => _webDriverBaseMethods.ClickBy(By.XPath("//div[@class='button small']"));

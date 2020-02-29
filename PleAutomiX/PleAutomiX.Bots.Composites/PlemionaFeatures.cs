@@ -168,8 +168,22 @@ namespace PleAutomiX.Bots.Features
             return buildings;
         }
 
-        public IEnumerable<Village> ScanMap(int radiusFields)
+        public Player GetSelfInformation()
         {
+            var player = new Player();
+
+            _plemionaSteps.ClickPlayerInformationButton();
+            string playerName = _plemionaSteps.GetPlayerButtonTextFromProfileButtons();
+            var villageRows = _plemionaSteps.GetVillageRows();
+
+            return player;
+        }
+
+        public IEnumerable<Village> GetNerbaryVillages(int radiusFields)
+        {
+            _plemionaSteps.ClickYardPicture();
+
+
             throw new NotImplementedException();
         }
 

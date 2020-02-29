@@ -1,4 +1,7 @@
-﻿namespace PleAutomiX.Bots.Steps.Steps
+﻿using PleAutomiX.Bots.Steps.Models;
+using System.Collections.Generic;
+
+namespace PleAutomiX.Bots.Steps.Steps
 {
     public interface IPlemionaSteps
     {
@@ -95,6 +98,11 @@
         int GetWallLevel();
 
         void ClickWorldMapButton();
+
+        void ClickPlayerInformationButton();
+
+        string GetPlayerButtonTextFromProfileButtons();
+        IEnumerable<VillageRow> GetVillageRows();
 
         void ClickSignOutFromWorldButton();
         void ClickReturnToMainPageButton();
