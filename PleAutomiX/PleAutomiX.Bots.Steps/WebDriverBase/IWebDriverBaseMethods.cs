@@ -5,6 +5,10 @@ namespace PleAutomiX.Bots.Steps.WebDriverBase
 {
     public interface IWebDriverBaseMethods
     {
+        IWebElement GetBy(By by);
+        IWebElement GetByAndCondition(Func<IWebDriver, IWebElement> expectedCondition, TimeSpan timeout);
+
+
         void ClickBy(By by);
         void FillBy(By by, string text);
         void ClearBy(By by);

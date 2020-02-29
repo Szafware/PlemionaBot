@@ -18,6 +18,29 @@ namespace PleAutomiX.Bots.Steps.WebDriverBase
             _remoteWebDriver = _webDriverProvider.CreateWebDriver();
         }
 
+        public IWebElement GetBy(By by)
+        {
+            var element = ExceptionHandler(() =>
+            {
+                var element = _remoteWebDriver.FindElement(by);
+                return element;
+            });
+
+            return element;
+        }
+
+        public IWebElement GetByAndCondition(Func<IWebDriver, IWebElement> expectedCondition, TimeSpan timeout)
+        {
+            var element = ExceptionHandler(() =>
+            {
+                var webDriverWait = new WebDriverWait(_remoteWebDriver, timeout);
+                var element = webDriverWait.Until(expectedCondition);
+                return element;
+            });
+
+            return element;
+        }
+
         public void ClickBy(By by)
         {
             ExceptionHandler(() =>
