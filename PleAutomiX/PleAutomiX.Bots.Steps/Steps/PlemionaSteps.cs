@@ -48,8 +48,8 @@ namespace PleAutomiX.Bots.Steps.Steps
             });
         }
 
-        public bool IsPlayerSignedIn() => _webDriverBaseMethods.ExistsBy(By.XPath("//[@href='/page/logout']"));
-        public void ClickSignOutFromAccountButton() => _webDriverBaseMethods.ExistsBy(By.XPath("//[@href='/page/logout']"));
+        public bool IsPlayerSignedIn() => _webDriverBaseMethods.ExistsBy(By.XPath("//*[@href='/page/logout']"));
+        public void ClickSignOutFromAccountButton() => _webDriverBaseMethods.ExistsBy(By.XPath("//*[@href='/page/logout']"));
         public void FillUserTextBox(string username) => _webDriverBaseMethods.FillBy(By.Id("user"), username);
         public void FillPasswordTextBox(string password) => _webDriverBaseMethods.FillBy(By.Id("password"), password);
         public void ClickSignInButton() => _webDriverBaseMethods.ClickBy(By.ClassName("btn-login"));
@@ -81,7 +81,7 @@ namespace PleAutomiX.Bots.Steps.Steps
         public bool DidEventWindowPopUp() => throw new NotImplementedException("Not enough concrete class used. Colidates with daily gift window."); //_webDriverBaseMethods.ElementExistsByClassName("popup_box_close");
         public void ClickEventWindowCloseButton() => throw new NotImplementedException("Not enough concrete class used. Colidates with daily gift window."); // _webDriverBaseMethods.ClickElementByClassName("popup_box_close");
 
-        public void ClickVillageViewButton() => _webDriverBaseMethods.ClickBy(By.XPath($"//[@href='/game.php?village={_currentVillageNumber}&screen=overview']"));
+        public void ClickVillageViewButton() => _webDriverBaseMethods.ClickBy(By.XPath($"//*[@href='/game.php?village={_currentVillageNumber}&screen=overview']"));
         public void ClickKnightRecruitmentButton() => _webDriverBaseMethods.ClickBy(By.ClassName("knight_recruit_launch")); // btn_recruit w innym trybie
         public void ClearKnightNameTextBox() => _webDriverBaseMethods.ClearByAndCondition(ExpectedConditions.ElementExists(By.Id("knight_recruit_name")), _timeoutForExpectedElements);
         public void FillKnightNameTextBox(string knightName) => _webDriverBaseMethods.FillByAndCondition(ExpectedConditions.ElementExists(By.Id("knight_recruit_name")), _timeoutForExpectedElements, knightName);
@@ -92,10 +92,10 @@ namespace PleAutomiX.Bots.Steps.Steps
         public void ClickKnightRevivalButton() => _webDriverBaseMethods.ClickBy(By.ClassName("knight_revive_launch"));
         public void ClickKnightRevivalConfirmationButton() => _webDriverBaseMethods.ClickBy(By.Id("knight_revive_confirm"));
 
-        public void ClickTownhallPicture() => _webDriverBaseMethods.ClickBy(By.XPath($"//[@href='/game.php?village={_currentVillageNumber}&screen=main']"));
-        public void ClickYardPicture() => _webDriverBaseMethods.ClickBy(By.XPath($"//[@href='/game.php?village={_currentVillageNumber}&screen=place']"));
-        public void ClickBarracksPicture() => _webDriverBaseMethods.ClickBy(By.XPath($"//[@href='/game.php?village={_currentVillageNumber}&screen=barracks']"));
-        public void ClickStatuePicture() => _webDriverBaseMethods.ClickBy(By.XPath($"//[@href='/game.php?village={_currentVillageNumber}&screen=statue']"));
+        public void ClickTownhallPicture() => _webDriverBaseMethods.ClickBy(By.XPath($"//*[@href='/game.php?village={_currentVillageNumber}&screen=main']"));
+        public void ClickYardPicture() => _webDriverBaseMethods.ClickBy(By.XPath($"//*[@href='/game.php?village={_currentVillageNumber}&screen=place']"));
+        public void ClickBarracksPicture() => _webDriverBaseMethods.ClickBy(By.XPath($"//*[@href='/game.php?village={_currentVillageNumber}&screen=barracks']"));
+        public void ClickStatuePicture() => _webDriverBaseMethods.ClickBy(By.XPath($"//*[@href='/game.php?village={_currentVillageNumber}&screen=statue']"));
         public void ClickStablePicture() => _webDriverBaseMethods.ClickBy(By.XPath("NULL"));
         public void ClickWorkshopPicture() => _webDriverBaseMethods.ClickBy(By.XPath("NULL"));
         public void ClickPalacePicture() => _webDriverBaseMethods.ClickBy(By.XPath("NULL"));
@@ -153,7 +153,7 @@ namespace PleAutomiX.Bots.Steps.Steps
         public int GetClipboardLevel() => GetBuildingLevel($"/game.php?village={_currentVillageNumber}&screen=hide");
         public int GetWallLevel() => GetBuildingLevel($"/game.php?village={_currentVillageNumber}&screen=wall");
 
-        public void ClickWorldMapButton() => _webDriverBaseMethods.ClickBy(By.XPath($"//[@href='/game.php?village={_currentVillageNumber}&screen=map']"));
+        public void ClickWorldMapButton() => _webDriverBaseMethods.ClickBy(By.XPath($"//*[@href='/game.php?village={_currentVillageNumber}&screen=map']"));
 
         public void ClickPlayerInformationButton() => _webDriverBaseMethods.ClickBy(By.XPath($"//*[@href='/game.php?village={_currentVillageNumber}&screen=info_player']"));
 
@@ -198,7 +198,7 @@ namespace PleAutomiX.Bots.Steps.Steps
             return villageRows;
         }
 
-        public void ClickSignOutFromWorldButton() => _webDriverBaseMethods.ClickBy(By.XPath($"//[@href='/game.php?village={_currentVillageNumber}&screen=&action=logout&h={_csrfVillageToken}']"));
+        public void ClickSignOutFromWorldButton() => _webDriverBaseMethods.ClickBy(By.XPath($"//*[@href='/game.php?village={_currentVillageNumber}&screen=&action=logout&h={_csrfVillageToken}']"));
         public void ClickReturnToMainPageButton() => _webDriverBaseMethods.ClickBy(By.XPath("//div[@class='button small']"));
 
         private int GetBuildingLevel(string buildingHref)
