@@ -24,6 +24,8 @@ namespace PleAutomiX.Bots.Features
 
         void ChangeVillageName(string villageName);
 
+        void AddBuildingToQueue(BuildingTypes Building);
+
         Player GetSelfInformation();
 
         IEnumerable<Village> GetNerbaryVillages(int radiusFields);

@@ -1,4 +1,5 @@
-﻿using PleAutomiX.Bots.Steps.Models;
+﻿using PleAutomiX.Bots.Core.Enums;
+using PleAutomiX.Bots.Steps.Models;
 using System.Collections.Generic;
 
 namespace PleAutomiX.Bots.Steps.Steps
@@ -27,13 +28,7 @@ namespace PleAutomiX.Bots.Steps.Steps
 
         void ClickVillageViewButton();
 
-        void ClickTownhallPicture();
-        void ClickYardPicture();
-        void ClickBarracksPicture();
-        void ClickStatuePicture();
-        void ClickStablePicture();
-        void ClickWorkshopPicture();
-        void ClickPalacePicture();
+        void ClickBuildingPicture(BuildingTypes building);
 
         void ClickKnightRecruitmentButton();
         void ClearKnightNameTextBox();
@@ -81,28 +76,16 @@ namespace PleAutomiX.Bots.Steps.Steps
         int GetSelfClayCount();
         int GetSelfIronCount();
 
-        int GetTownhallLevel();
-        int GetBarracksLevel();
-        int GetStableLevel();
-        int GetWorkshopLevel();
-        int GetPalaceLevel();
-        int GetForgeLevel();
-        int GetYardLevel();
-        int GetMarketLevel();
-        int GetSawmillLevel();
-        int GetBrickyardLevel();
-        int GetIronworksLevel();
-        int GetFarmLevel();
-        int GetStorageLevel();
-        int GetClipboardLevel();
-        int GetWallLevel();
+        int GetBuildingLevel(BuildingTypes building);
+
+        void ClickAddBuildingToBuildQueueButton(BuildingTypes building);
 
         void ClickWorldMapButton();
 
         void ClickPlayerInformationButton();
 
         string GetPlayerButtonTextFromProfileButtons();
-        IEnumerable<VillageRow> GetVillageRows();
+        IEnumerable<ProfileVillageRow> GetVillageRows();
 
         void ClickSignOutFromWorldButton();
         void ClickReturnToMainPageButton();

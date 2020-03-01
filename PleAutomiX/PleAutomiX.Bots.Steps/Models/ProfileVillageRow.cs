@@ -2,7 +2,7 @@
 
 namespace PleAutomiX.Bots.Steps.Models
 {
-    public class VillageRow
+    public class ProfileVillageRow
     {
         public string Name { get; set; }
 

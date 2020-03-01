@@ -16,6 +16,8 @@
         
         public int Yard { get; set; }
         
+        public int Statue { get; set; }
+
         public int Market { get; set; }
         
         public int Sawmill { get; set; }

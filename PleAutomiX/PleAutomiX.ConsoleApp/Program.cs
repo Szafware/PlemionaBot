@@ -1,4 +1,5 @@
-﻿using PleAutomiX.Bots.Features;
+﻿using PleAutomiX.Bots.Core.Models;
+using PleAutomiX.Bots.Features;
 using PleAutomiX.Bots.Steps.Steps;
 using PleAutomiX.Bots.Steps.WebDriverBase;
 using PleAutomiX.Bots.WebDriver;
@@ -28,11 +29,10 @@ namespace PleAutomiX.ConsoleApp
         public static void Main(string[] args)
         {
             var seleniumDriverProvider = new SeleniumWebDriverProvider();
-            IPlemionaFeatures plemionaComposites = new PlemionaFeatures(new PlemionaSteps(seleniumDriverProvider, new WebDriverBaseMethods(seleniumDriverProvider)));
-            plemionaComposites.SignIn("Dziaczakra", "AmIpro94", 146);
-            //plemionaComposites.RecruitKnight("Chrobry");
-            //plemionaComposites.ChangeVillageName("Tajna Baza");
-            var buildings = plemionaComposites.GetCurrentVillageBuildings();
+            IPlemionaFeatures plemionaFeatures = new PlemionaFeatures(new PlemionaSteps(seleniumDriverProvider, new WebDriverBaseMethods(seleniumDriverProvider)));
+
+            plemionaFeatures.SignIn("Dziaczakra", "AmIpro94", 146);
+
             Console.ReadKey();
         }
 

@@ -39,7 +39,7 @@ namespace PleAutomiX.Bots.Features
         {
             if (troops.AreUnsaddledTroopsPresent)
             {
-                _plemionaSteps.ClickBarracksPicture();
+                _plemionaSteps.ClickBuildingPicture(BuildingTypes.Barracks);
                 _plemionaSteps.FillSpearmenCountTextBox(troops.Spearmen);
                 _plemionaSteps.FillSwordmenCountTextBox(troops.Spearmen);
                 _plemionaSteps.FillAxemenCountTextBox(troops.Spearmen);
@@ -50,7 +50,7 @@ namespace PleAutomiX.Bots.Features
             if (troops.AreSaddledTroopsPresent)
             {
                 _plemionaSteps.ClickVillageViewButton();
-                _plemionaSteps.ClickStablePicture();
+                _plemionaSteps.ClickBuildingPicture(BuildingTypes.Stable);
                 _plemionaSteps.FillScoutCountTextBox(troops.Spearmen);
                 _plemionaSteps.FillLightCavalaryCountTextBox(troops.Spearmen);
                 _plemionaSteps.FillHorseArchersCountTextBox(troops.Spearmen);
@@ -61,7 +61,7 @@ namespace PleAutomiX.Bots.Features
             if (troops.AreWarMachinesTroopsPresent)
             {
                 _plemionaSteps.ClickVillageViewButton();
-                _plemionaSteps.ClickWorkshopPicture();
+                _plemionaSteps.ClickBuildingPicture(BuildingTypes.Workshop);
                 _plemionaSteps.FillRamsCountTextBox(troops.Spearmen);
                 _plemionaSteps.FillCatapultesCountTextBox(troops.Spearmen);
                 _plemionaSteps.ClickWarMachinesRecruitmentTroops();
@@ -69,7 +69,7 @@ namespace PleAutomiX.Bots.Features
 
             if (troops.Noblemen > 0)
             {
-                _plemionaSteps.ClickPalacePicture();
+                _plemionaSteps.ClickBuildingPicture(BuildingTypes.Palace);
                 // TODO - Monety? Nie monety?
 
                 _plemionaSteps.ClickVillageViewButton();
@@ -80,7 +80,7 @@ namespace PleAutomiX.Bots.Features
 
         public void RecruitKnight(string knightName)
         {
-            _plemionaSteps.ClickStatuePicture();
+            _plemionaSteps.ClickBuildingPicture(BuildingTypes.Statue);
             _plemionaSteps.ClickKnightRecruitmentButton();
             _plemionaSteps.ClearKnightNameTextBox();
             _plemionaSteps.FillKnightNameTextBox(knightName);
@@ -92,7 +92,7 @@ namespace PleAutomiX.Bots.Features
 
         public void ReviveKnight()
         {
-            _plemionaSteps.ClickStatuePicture();
+            _plemionaSteps.ClickBuildingPicture(BuildingTypes.Statue);
             _plemionaSteps.ClickKnightRevivalButton();
             _plemionaSteps.ClickKnightRevivalConfirmationButton();
             _plemionaSteps.ClickVillageViewButton();
@@ -100,7 +100,7 @@ namespace PleAutomiX.Bots.Features
 
         public void SendTroops(Troops troops, int coordinateX, int coordinateY, TroopsIntentions troopsIntentions)
         {
-            _plemionaSteps.ClickYardPicture();
+            _plemionaSteps.ClickBuildingPicture(BuildingTypes.Yard);
 
             _plemionaSteps.FillYardSpearmenCountTextBox(troops.Spearmen);
             _plemionaSteps.FillYardSwordmenCountTextBox(troops.Swordmen);
@@ -142,30 +142,55 @@ namespace PleAutomiX.Bots.Features
 
         public Buildings GetCurrentVillageBuildings()
         {
-            _plemionaSteps.ClickTownhallPicture();
+            _plemionaSteps.ClickBuildingPicture(BuildingTypes.Townhall);
 
             var buildings = new Buildings
             {
-                Townhall = _plemionaSteps.GetTownhallLevel(),
-                Barracks = _plemionaSteps.GetBarracksLevel(),
-                Stable = _plemionaSteps.GetStableLevel(),
-                Workshop = _plemionaSteps.GetWorkshopLevel(),
-                Palace = _plemionaSteps.GetPalaceLevel(),
-                Forge = _plemionaSteps.GetForgeLevel(),
-                Yard = _plemionaSteps.GetYardLevel(),
-                Market = _plemionaSteps.GetMarketLevel(),
-                Sawmill = _plemionaSteps.GetSawmillLevel(),
-                Brickyard = _plemionaSteps.GetBrickyardLevel(),
-                Ironworks = _plemionaSteps.GetIronworksLevel(),
-                Farm = _plemionaSteps.GetFarmLevel(),
-                Storage = _plemionaSteps.GetStorageLevel(),
-                Clipboard = _plemionaSteps.GetClipboardLevel(),
-                Wall = _plemionaSteps.GetWallLevel()
+                Townhall = _plemionaSteps.GetBuildingLevel(BuildingTypes.Townhall),
+                Barracks = _plemionaSteps.GetBuildingLevel(BuildingTypes.Barracks),
+                Stable = _plemionaSteps.GetBuildingLevel(BuildingTypes.Stable),
+                Workshop = _plemionaSteps.GetBuildingLevel(BuildingTypes.Workshop),
+                Palace = _plemionaSteps.GetBuildingLevel(BuildingTypes.Palace),
+                Forge = _plemionaSteps.GetBuildingLevel(BuildingTypes.Forge),
+                Yard = _plemionaSteps.GetBuildingLevel(BuildingTypes.Yard),
+                Statue = _plemionaSteps.GetBuildingLevel(BuildingTypes.Statue),
+                Market = _plemionaSteps.GetBuildingLevel(BuildingTypes.Market),
+                Sawmill = _plemionaSteps.GetBuildingLevel(BuildingTypes.Sawmill),
+                Brickyard = _plemionaSteps.GetBuildingLevel(BuildingTypes.Brickyard),
+                Ironworks = _plemionaSteps.GetBuildingLevel(BuildingTypes.Ironworks),
+                Farm = _plemionaSteps.GetBuildingLevel(BuildingTypes.Farm),
+                Storage = _plemionaSteps.GetBuildingLevel(BuildingTypes.Storage),
+                Clipboard = _plemionaSteps.GetBuildingLevel(BuildingTypes.Clipboard),
+                Wall = _plemionaSteps.GetBuildingLevel(BuildingTypes.Wall)
             };
 
             _plemionaSteps.ClickVillageViewButton();
 
             return buildings;
+        }
+
+        public void ChangeVillageName(string villageName)
+        {
+            _plemionaSteps.ClickBuildingPicture(BuildingTypes.Townhall);
+            _plemionaSteps.ClearVillageNameTextBox();
+            _plemionaSteps.FillVillageNameTextBox(villageName);
+            _plemionaSteps.ClickVillageNameChangeButton();
+            _plemionaSteps.ClickVillageViewButton();
+        }
+
+        public IEnumerable<Village> GetNerbaryVillages(int radiusFields)
+        {
+            _plemionaSteps.ClickBuildingPicture(BuildingTypes.Yard);
+
+
+            throw new NotImplementedException();
+        }
+
+        public void AddBuildingToQueue(BuildingTypes building)
+        {
+            _plemionaSteps.ClickBuildingPicture(BuildingTypes.Townhall);
+            _plemionaSteps.ClickAddBuildingToBuildQueueButton(building);
+            _plemionaSteps.ClickVillageViewButton();
         }
 
         public Player GetSelfInformation()
@@ -177,23 +202,6 @@ namespace PleAutomiX.Bots.Features
             var villageRows = _plemionaSteps.GetVillageRows();
 
             return player;
-        }
-
-        public IEnumerable<Village> GetNerbaryVillages(int radiusFields)
-        {
-            _plemionaSteps.ClickYardPicture();
-
-
-            throw new NotImplementedException();
-        }
-
-        public void ChangeVillageName(string villageName)
-        {
-            _plemionaSteps.ClickTownhallPicture();
-            _plemionaSteps.ClearVillageNameTextBox();
-            _plemionaSteps.FillVillageNameTextBox(villageName);
-            _plemionaSteps.ClickVillageNameChangeButton();
-            _plemionaSteps.ClickVillageViewButton();
         }
 
         public void SignOut()
