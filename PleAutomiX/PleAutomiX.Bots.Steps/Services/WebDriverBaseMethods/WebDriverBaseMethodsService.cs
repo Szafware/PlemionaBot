@@ -7,12 +7,12 @@ using System;
 
 namespace PleAutomiX.Bots.Steps.WebDriverBase
 {
-    public class WebDriverBaseMethods : IWebDriverBaseMethods
+    public class WebDriverBaseMethodsService : IWebDriverBaseMethodsService
     {
         private readonly IWebDriverProvider _webDriverProvider;
         private readonly RemoteWebDriver _remoteWebDriver;
 
-        public WebDriverBaseMethods(IWebDriverProvider webDriverProvider)
+        public WebDriverBaseMethodsService(IWebDriverProvider webDriverProvider)
         {
             _webDriverProvider = webDriverProvider;
             _remoteWebDriver = _webDriverProvider.CreateWebDriver();

@@ -1,5 +1,7 @@
-﻿using PleAutomiX.Bots.Core.Models;
+﻿using PleAutomiX.Bots.Core.Enums;
+using PleAutomiX.Bots.Core.Models;
 using PleAutomiX.Bots.Features;
+using PleAutomiX.Bots.Steps.Services.PlemionaConfigProvider;
 using PleAutomiX.Bots.Steps.Steps;
 using PleAutomiX.Bots.Steps.WebDriverBase;
 using PleAutomiX.Bots.WebDriver;
@@ -29,9 +31,9 @@ namespace PleAutomiX.ConsoleApp
         public static void Main(string[] args)
         {
             var seleniumDriverProvider = new SeleniumWebDriverProvider();
-            IPlemionaFeatures plemionaFeatures = new PlemionaFeatures(new PlemionaSteps(seleniumDriverProvider, new WebDriverBaseMethods(seleniumDriverProvider)));
+            IPlemionaFeatures plemionaFeatures = new PlemionaFeatures(new PlemionaSteps(seleniumDriverProvider, new WebDriverBaseMethodsService(seleniumDriverProvider), new PlemionaConfigProviderService(seleniumDriverProvider)));
 
-            plemionaFeatures.SignIn("Dziaczakra", "AmIpro94", 146);
+            plemionaFeatures.SignIn("Dziaczakra", "AmIpro94", 149);
 
             Console.ReadKey();
         }

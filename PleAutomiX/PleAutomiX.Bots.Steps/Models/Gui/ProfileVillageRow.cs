@@ -1,6 +1,6 @@
 ﻿using System.Drawing;
 
-namespace PleAutomiX.Bots.Steps.Models
+namespace PleAutomiX.Bots.Steps.Models.Gui
 {
     public class ProfileVillageRow
     {

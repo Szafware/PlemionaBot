@@ -1,5 +1,5 @@
 ﻿using PleAutomiX.Bots.Core.Enums;
-using PleAutomiX.Bots.Steps.Models;
+using PleAutomiX.Bots.Steps.Models.Gui;
 using System.Collections.Generic;
 
 namespace PleAutomiX.Bots.Steps.Steps
