@@ -19,7 +19,7 @@ namespace PleAutomiX.Bots.Steps.Steps
         private readonly IWebDriverProvider _webDriverProvider;
         private readonly IWebDriverBaseMethodsService _webDriverBaseMethodsService;
         private readonly IPlemionaConfigProviderService _plemionaConfigProviderService;
-        
+
         private readonly RemoteWebDriver _remoteWebDriver;
         private readonly INavigation _navigation;
 
@@ -64,6 +64,8 @@ namespace PleAutomiX.Bots.Steps.Steps
             var plemionaConfig = _webDriverBaseMethodsService.ExceptionHandler(() => _plemionaConfigProviderService.Create());
 
             _plemionaConfig = plemionaConfig;
+
+            _plemionaConfig.VillageId = "60550";
         }
 
         public void ClearVillageNameTextBox() => _webDriverBaseMethodsService.ClearBy(By.Name("name"));
@@ -122,6 +124,7 @@ namespace PleAutomiX.Bots.Steps.Steps
             };
 
             _webDriverBaseMethodsService.ClickBy(By.XPath(buildingXPath));
+            //_webDriverBaseMethodsService.ClickByAndCondition(ExpectedConditions.ElementExists(By.XPath(buildingXPath)), _timeoutForExpectedElements);
         }
 
         public void FillSpearmenCountTextBox(int count) => _webDriverBaseMethodsService.FillBy(By.Id("spear_0"), count.ToString());
@@ -168,20 +171,20 @@ namespace PleAutomiX.Bots.Steps.Steps
                 {
                     BuildingTypes.Townhall => $"/game.php?village={_plemionaConfig.VillageId}&screen=main",
                     BuildingTypes.Barracks => $"/game.php?village={_plemionaConfig.VillageId}&screen=barracks",
-                      BuildingTypes.Stable => $"/game.php?village={_plemionaConfig.VillageId}&screen=stable",
+                    BuildingTypes.Stable => $"/game.php?village={_plemionaConfig.VillageId}&screen=stable",
                     BuildingTypes.Workshop => $"/game.php?village={_plemionaConfig.VillageId}&screen=garage",
-                      BuildingTypes.Palace => $"/game.php?village={_plemionaConfig.VillageId}&screen=snob",
-                       BuildingTypes.Forge => $"/game.php?village={_plemionaConfig.VillageId}&screen=smith",
-                        BuildingTypes.Yard => $"/game.php?village={_plemionaConfig.VillageId}&screen=place",
-                      BuildingTypes.Statue => $"/game.php?village={_plemionaConfig.VillageId}&screen=statue",
-                      BuildingTypes.Market => $"/game.php?village={_plemionaConfig.VillageId}&screen=market",
-                     BuildingTypes.Sawmill => $"/game.php?village={_plemionaConfig.VillageId}&screen=wood",
-                   BuildingTypes.Brickyard => $"/game.php?village={_plemionaConfig.VillageId}&screen=stone",
-                   BuildingTypes.Ironworks => $"/game.php?village={_plemionaConfig.VillageId}&screen=iron",
-                        BuildingTypes.Farm => $"/game.php?village={_plemionaConfig.VillageId}&screen=farm",
-                     BuildingTypes.Storage => $"/game.php?village={_plemionaConfig.VillageId}&screen=storage",
-                   BuildingTypes.Clipboard => $"/game.php?village={_plemionaConfig.VillageId}&screen=hide",
-                        BuildingTypes.Wall => $"/game.php?village={_plemionaConfig.VillageId}&screen=wall",
+                    BuildingTypes.Palace => $"/game.php?village={_plemionaConfig.VillageId}&screen=snob",
+                    BuildingTypes.Forge => $"/game.php?village={_plemionaConfig.VillageId}&screen=smith",
+                    BuildingTypes.Yard => $"/game.php?village={_plemionaConfig.VillageId}&screen=place",
+                    BuildingTypes.Statue => $"/game.php?village={_plemionaConfig.VillageId}&screen=statue",
+                    BuildingTypes.Market => $"/game.php?village={_plemionaConfig.VillageId}&screen=market",
+                    BuildingTypes.Sawmill => $"/game.php?village={_plemionaConfig.VillageId}&screen=wood",
+                    BuildingTypes.Brickyard => $"/game.php?village={_plemionaConfig.VillageId}&screen=stone",
+                    BuildingTypes.Ironworks => $"/game.php?village={_plemionaConfig.VillageId}&screen=iron",
+                    BuildingTypes.Farm => $"/game.php?village={_plemionaConfig.VillageId}&screen=farm",
+                    BuildingTypes.Storage => $"/game.php?village={_plemionaConfig.VillageId}&screen=storage",
+                    BuildingTypes.Clipboard => $"/game.php?village={_plemionaConfig.VillageId}&screen=hide",
+                    BuildingTypes.Wall => $"/game.php?village={_plemionaConfig.VillageId}&screen=wall",
                     _ => throw new NotImplementedException()
                 };
 

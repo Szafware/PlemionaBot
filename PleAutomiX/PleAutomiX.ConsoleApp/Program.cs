@@ -35,6 +35,27 @@ namespace PleAutomiX.ConsoleApp
 
             plemionaFeatures.SignIn("Dziaczakra", "AmIpro94", 149);
 
+            plemionaFeatures.ChangeVillageName("Wioska Tocika");
+
+            plemionaFeatures.AddBuildingToQueue(BuildingTypes.Sawmill);
+
+            Buildings buildings = plemionaFeatures.GetCurrentVillageBuildings();
+
+            Console.WriteLine("Read building levels:\n");
+
+            foreach (var property in typeof(Buildings).GetProperties())
+            {
+                Console.WriteLine($"{property.Name} - {property.GetValue(buildings)} lvl");
+            }
+
+            plemionaFeatures.SignOut();
+
+            //plemionaFeatures.ChangeVillageName("Majorka");
+            //plemionaFeatures.SignOut();
+
+            //plemionaFeatures.GetSelfInformation();
+            //plemionaFeatures.RecruitKnight("Chrobry");
+            //var buildings = plemionaFeatures.GetCurrentVillageBuildings();
             Console.ReadKey();
         }
 
