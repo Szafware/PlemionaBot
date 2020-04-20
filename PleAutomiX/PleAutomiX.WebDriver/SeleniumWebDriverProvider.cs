@@ -1,4 +1,4 @@
-﻿using OpenQA.Selenium.Chrome;
+﻿using OpenQA.Selenium.Opera;
 using OpenQA.Selenium.Remote;
 
 namespace PleAutomiX.Bots.WebDriver
@@ -14,9 +14,9 @@ namespace PleAutomiX.Bots.WebDriver
                 return _remoteWebDriver;
             }
 
-            var chromeDriverService = ChromeDriverService.CreateDefaultService();
+            var operaDriverService = OperaDriverService.CreateDefaultService();
 
-            _remoteWebDriver = new ChromeDriver(chromeDriverService);
+            _remoteWebDriver = new OperaDriver(operaDriverService, new OperaOptions());
 
             return _remoteWebDriver;
         }
