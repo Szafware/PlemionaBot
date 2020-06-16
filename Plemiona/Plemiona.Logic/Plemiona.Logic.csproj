@@ -32,6 +32,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
@@ -47,11 +48,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\IWindowsPositionService.cs" />
-    <Compile Include="Services\WindowsPositionService.cs" />
+    <Compile Include="Services\PlemionaSettingsInitialization\IPlemionaSettingsInitializationService.cs" />
+    <Compile Include="Services\PlemionaSettingsInitialization\PlemionaSettingsInitializationService.cs" />
+    <Compile Include="Services\WindowsPosition\IWindowsPositionService.cs" />
+    <Compile Include="Services\WindowsPosition\WindowsPositionService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Plemiona.Core\Plemiona.Core.csproj">
+      <Project>{772BE4AE-05B2-4F91-BBD7-ECBA7C258089}</Project>
+      <Name>Plemiona.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

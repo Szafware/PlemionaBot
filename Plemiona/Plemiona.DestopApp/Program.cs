@@ -1,4 +1,5 @@
-﻿using Plemiona.Core.Features;
+﻿using Plemiona.Core.Configuration;
+using Plemiona.Core.Features;
 using Plemiona.Core.Interfaces;
 using Plemiona.Core.Steps.Services.PlemionaConfigProvider;
 using Plemiona.Core.Steps.Steps;
@@ -6,7 +7,8 @@ using Plemiona.Core.Steps.WebDriverBase;
 using Plemiona.Core.WebDriver;
 using Plemiona.DependencyInjection;
 using Plemiona.DestopApp.Forms;
-using Plemiona.Logic.Services;
+using Plemiona.Logic.Services.PlemionaSettingsInitialization;
+using Plemiona.Logic.Services.WindowsPosition;
 using System;
 using System.Windows.Forms;
 
@@ -33,6 +35,7 @@ namespace Plemiona.DestopApp
         {
             _container.BindToSelf<FrmMain>();
 
+            _container.BindToSelfAsSingleton<PlemionaSettings>();
             _container.BindAsSingleton<IWebDriverProvider, SeleniumWebDriverProvider>();
             _container.Bind<IPlemionaFeatures, PlemionaFeatures>();
             _container.Bind<IPlemionaSteps, PlemionaSteps>();
@@ -40,6 +43,7 @@ namespace Plemiona.DestopApp
             _container.Bind<IPlemionaConfigProviderService, PlemionaConfigProviderService>();
 
             _container.Bind<IWindowsPositionService, WindowsPositionService>();
+            _container.Bind<IPlemionaSettingsInitializationService, PlemionaSettingsInitializationService>();
         }
     }
 }

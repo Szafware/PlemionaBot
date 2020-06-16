@@ -1,8 +1,12 @@
-﻿using Plemiona.Core.Interfaces;
+﻿using Plemiona.Core.Enums;
+using Plemiona.Core.Interfaces;
+using Plemiona.Core.Models;
 using Plemiona.Core.WebDriver;
-using Plemiona.Logic.Services;
+using Plemiona.Logic.Services.PlemionaSettingsInitialization;
+using Plemiona.Logic.Services.WindowsPosition;
 using System;
 using System.Configuration;
+using System.Reactive.Linq;
 using System.Windows.Forms;
 
 namespace Plemiona.DestopApp.Forms
@@ -13,21 +17,28 @@ namespace Plemiona.DestopApp.Forms
         private readonly IWebDriverProvider _webDriverProvider;
 
         private readonly IWindowsPositionService _windowsPositionService;
+        private readonly IPlemionaSettingsInitializationService _plemionaSettingsInitializationService;
 
         public FrmMain(
             IPlemionaFeatures plemionaFeatures,
             IWebDriverProvider webDriverProvider,
-            IWindowsPositionService windowsPositionService)
+            IWindowsPositionService windowsPositionService,
+            IPlemionaSettingsInitializationService plemionaSettingsInitializationService)
         {
             InitializeComponent();
 
             _plemionaFeatures = plemionaFeatures;
             _webDriverProvider = webDriverProvider;
-            _windowsPositionService = windowsPositionService;           
+            _windowsPositionService = windowsPositionService;
+            _plemionaSettingsInitializationService = plemionaSettingsInitializationService;
+
+            _windowsPositionService.SetMainFormWindow(this);
         }
 
         private void FrmMain_Shown(object sender, EventArgs e)
         {
+            _plemionaSettingsInitializationService.Initialize();
+
             string username = ConfigurationManager.AppSettings["Username"];
             string password = ConfigurationManager.AppSettings["Password"];
             int worldNumber = Convert.ToInt32(ConfigurationManager.AppSettings["WorldNumber"]);
@@ -38,7 +49,7 @@ namespace Plemiona.DestopApp.Forms
 
             var browserWindow = webDriver.Manage().Window;
 
-            _windowsPositionService.SetWindowsPosition(this, browserWindow);
+            _windowsPositionService.SetBrowserWindow(browserWindow);
         }
     }
 }
