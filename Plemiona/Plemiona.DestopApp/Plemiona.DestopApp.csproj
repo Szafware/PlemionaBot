@@ -39,6 +39,7 @@
       <HintPath>..\packages\DotNetSeleniumExtras.WaitHelpers.3.11.0\lib\net45\SeleniumExtras.WaitHelpers.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -62,6 +63,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Forms\FrmMain.resx">
+      <DependentUpon>FrmMain.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -101,6 +105,10 @@
     <ProjectReference Include="..\Plemiona.DependencyInjection\Plemiona.DependencyInjection.csproj">
       <Project>{82EE7BCF-A6AE-450B-A785-294495485487}</Project>
       <Name>Plemiona.DependencyInjection</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Plemiona.Logic\Plemiona.Logic.csproj">
+      <Project>{BAF773C3-245C-4CBA-A850-D15EDFDC098A}</Project>
+      <Name>Plemiona.Logic</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

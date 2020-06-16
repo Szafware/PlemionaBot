@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Plemiona.DestopApp", "Plemi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Plemiona.DependencyInjection", "Plemiona.DependencyInjection\Plemiona.DependencyInjection.csproj", "{82EE7BCF-A6AE-450B-A785-294495485487}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Plemiona.Logic", "Plemiona.Logic\Plemiona.Logic.csproj", "{BAF773C3-245C-4CBA-A850-D15EDFDC098A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{82EE7BCF-A6AE-450B-A785-294495485487}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{82EE7BCF-A6AE-450B-A785-294495485487}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{82EE7BCF-A6AE-450B-A785-294495485487}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BAF773C3-245C-4CBA-A850-D15EDFDC098A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BAF773C3-245C-4CBA-A850-D15EDFDC098A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BAF773C3-245C-4CBA-A850-D15EDFDC098A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BAF773C3-245C-4CBA-A850-D15EDFDC098A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -56,6 +62,7 @@ Global
 		{5809073A-5E24-4CE4-8D27-536DFD7D8507} = {5D40D4C8-7090-49FD-9620-BF3DEC7EE116}
 		{9E8FC56A-3E3F-4153-91F8-BB28112B8E11} = {095629AC-7069-471F-AB55-D6A215EF86F6}
 		{82EE7BCF-A6AE-450B-A785-294495485487} = {CCB03476-3EE9-400C-A159-CAF94E438E22}
+		{BAF773C3-245C-4CBA-A850-D15EDFDC098A} = {CCB03476-3EE9-400C-A159-CAF94E438E22}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0B7743E8-5968-4667-8E8D-6B7D905818D7}

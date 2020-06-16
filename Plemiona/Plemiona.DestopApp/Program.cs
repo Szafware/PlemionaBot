@@ -6,6 +6,7 @@ using Plemiona.Core.Steps.WebDriverBase;
 using Plemiona.Core.WebDriver;
 using Plemiona.DependencyInjection;
 using Plemiona.DestopApp.Forms;
+using Plemiona.Logic.Services;
 using System;
 using System.Windows.Forms;
 
@@ -37,6 +38,8 @@ namespace Plemiona.DestopApp
             _container.Bind<IPlemionaSteps, PlemionaSteps>();
             _container.Bind<IWebDriverBaseMethodsService, WebDriverBaseMethodsService>();
             _container.Bind<IPlemionaConfigProviderService, PlemionaConfigProviderService>();
+
+            _container.Bind<IWindowsPositionService, WindowsPositionService>();
         }
     }
 }
