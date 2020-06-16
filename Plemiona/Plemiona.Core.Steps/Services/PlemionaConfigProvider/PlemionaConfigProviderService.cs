@@ -7,11 +7,17 @@ namespace Plemiona.Core.Steps.Services.PlemionaConfigProvider
 {
     public class PlemionaConfigProviderService : IPlemionaConfigProviderService
     {
-        private readonly RemoteWebDriver _webDriver;
+        private readonly IWebDriverProvider _webDriverProvider;
+        private RemoteWebDriver _webDriver;
 
         public PlemionaConfigProviderService(IWebDriverProvider webDriverProvider)
         {
-            _webDriver = webDriverProvider.CreateWebDriver();
+            _webDriverProvider = webDriverProvider;
+        }
+
+        public void Initialize()
+        {
+            _webDriver = _webDriverProvider.CreateWebDriver();
         }
 
         public PlemionaConfig Create()

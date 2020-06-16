@@ -20,8 +20,8 @@ namespace Plemiona.Core.Steps.Steps
         private readonly IWebDriverBaseMethodsService _webDriverBaseMethodsService;
         private readonly IPlemionaConfigProviderService _plemionaConfigProviderService;
 
-        private readonly RemoteWebDriver _remoteWebDriver;
-        private readonly INavigation _navigation;
+        private RemoteWebDriver _remoteWebDriver;
+        private INavigation _navigation;
 
         private readonly string _plemionaUrl = "https://www.plemiona.pl/";
 
@@ -38,14 +38,16 @@ namespace Plemiona.Core.Steps.Steps
             _webDriverProvider = webDriverProvider;
             _webDriverBaseMethodsService = webDriverBaseMethodsService;
             _plemionaConfigProviderService = plemionaConfigProviderService;
-
-            _remoteWebDriver = _webDriverProvider.CreateWebDriver();
-
-            _navigation = _remoteWebDriver.Navigate();
         }
 
         public void LoadPlemionaWebsite()
         {
+            _remoteWebDriver = _webDriverProvider.CreateWebDriver();
+            _navigation = _remoteWebDriver.Navigate();
+
+            _plemionaConfigProviderService.Initialize();
+            _webDriverBaseMethodsService.Initialize();
+
             _webDriverBaseMethodsService.ExceptionHandler(() =>
             {
                 _navigation.GoToUrl(_plemionaUrl);

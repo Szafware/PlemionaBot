@@ -5,6 +5,8 @@ namespace Plemiona.Core.Steps.WebDriverBase
 {
     public interface IWebDriverBaseMethodsService
     {
+        void Initialize();
+
         IWebElement GetBy(By by);
         IWebElement GetByAndCondition(Func<IWebDriver, IWebElement> expectedCondition, TimeSpan timeout);
 

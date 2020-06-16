@@ -10,11 +10,15 @@ namespace Plemiona.Core.Steps.WebDriverBase
     public class WebDriverBaseMethodsService : IWebDriverBaseMethodsService
     {
         private readonly IWebDriverProvider _webDriverProvider;
-        private readonly RemoteWebDriver _remoteWebDriver;
+        private RemoteWebDriver _remoteWebDriver;
 
         public WebDriverBaseMethodsService(IWebDriverProvider webDriverProvider)
         {
             _webDriverProvider = webDriverProvider;
+        }
+
+        public void Initialize()
+        {
             _remoteWebDriver = _webDriverProvider.CreateWebDriver();
         }
 
