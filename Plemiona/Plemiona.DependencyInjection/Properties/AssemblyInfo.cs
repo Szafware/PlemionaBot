@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Plemiona.DestopApp")]
+[assembly: AssemblyTitle("Plemiona.DependencyInjection")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Plemiona.DestopApp")]
+[assembly: AssemblyProduct("Plemiona.DependencyInjection")]
 [assembly: AssemblyCopyright("Copyright ©  2020")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("9e8fc56a-3e3f-4153-91f8-bb28112b8e11")]
+[assembly: Guid("82ee7bcf-a6ae-450b-a785-294495485487")]
 
 // Version information for an assembly consists of the following four values:
 //

@@ -19,7 +19,7 @@ namespace Plemiona.Core.Steps.Steps
         private readonly IWebDriverProvider _webDriverProvider;
         private readonly IWebDriverBaseMethodsService _webDriverBaseMethodsService;
         private readonly IPlemionaConfigProviderService _plemionaConfigProviderService;
-        
+
         private readonly RemoteWebDriver _remoteWebDriver;
         private readonly INavigation _navigation;
 
@@ -100,26 +100,28 @@ namespace Plemiona.Core.Steps.Steps
 
         public void ClickBuildingPicture(BuildingTypes building)
         {
-            string buildingXPath = building switch
+            string buildingXPath = null;
+
+            switch(building)
             {
-                BuildingTypes.Townhall => $"//*[@href='/game.php?village={_plemionaConfig.VillageId}&screen=main']",
-                BuildingTypes.Barracks => $"//*[@href='/game.php?village={_plemionaConfig.VillageId}&screen=barracks']",
-                BuildingTypes.Stable => $"//*[@href='/game.php?village={_plemionaConfig.VillageId}&screen=stable']",
-                BuildingTypes.Workshop => $"//*[@href='/game.php?village={_plemionaConfig.VillageId}&screen=garage']",
-                BuildingTypes.Palace => $"//*[@href='/game.php?village={_plemionaConfig.VillageId}&screen=snob']",
-                BuildingTypes.Forge => $"//*[@href='/game.php?village={_plemionaConfig.VillageId}&screen=smith']",
-                BuildingTypes.Yard => $"//*[@href='/game.php?village={_plemionaConfig.VillageId}&screen=place']",
-                BuildingTypes.Statue => $"//*[@href='/game.php?village={_plemionaConfig.VillageId}&screen=statue']",
-                BuildingTypes.Market => $"//*[@href='/game.php?village={_plemionaConfig.VillageId}&screen=market']",
-                BuildingTypes.Sawmill => $"//*[@href='/game.php?village={_plemionaConfig.VillageId}&screen=wood']",
-                BuildingTypes.Brickyard => $"//*[@href='/game.php?village={_plemionaConfig.VillageId}&screen=stone']",
-                BuildingTypes.Ironworks => $"//*[@href='/game.php?village={_plemionaConfig.VillageId}&screen=iron']",
-                BuildingTypes.Farm => $"//*[@href='/game.php?village={_plemionaConfig.VillageId}&screen=farm']",
-                BuildingTypes.Storage => $"//*[@href='/game.php?village={_plemionaConfig.VillageId}&screen=storage']",
-                BuildingTypes.Clipboard => $"//*[@href='/game.php?village={_plemionaConfig.VillageId}&screen=hide']",
-                BuildingTypes.Wall => $"//*[@href='/game.php?village={_plemionaConfig.VillageId}&screen=wall']",
-                _ => throw new NotImplementedException()
-            };
+                case BuildingTypes.Townhall: buildingXPath = $"//*[@href='/game.php?village={_plemionaConfig.VillageId}&screen=main']"; break;
+                case BuildingTypes.Barracks: buildingXPath = $"//*[@href='/game.php?village={_plemionaConfig.VillageId}&screen=barracks']"; break;
+                case BuildingTypes.Stable: buildingXPath = $"//*[@href='/game.php?village={_plemionaConfig.VillageId}&screen=stable']"; break;
+                case BuildingTypes.Workshop: buildingXPath = $"//*[@href='/game.php?village={_plemionaConfig.VillageId}&screen=garage']"; break;
+                case BuildingTypes.Palace: buildingXPath = $"//*[@href='/game.php?village={_plemionaConfig.VillageId}&screen=snob']"; break;
+                case BuildingTypes.Forge: buildingXPath = $"//*[@href='/game.php?village={_plemionaConfig.VillageId}&screen=smith']"; break;
+                case BuildingTypes.Yard: buildingXPath = $"//*[@href='/game.php?village={_plemionaConfig.VillageId}&screen=place']"; break;
+                case BuildingTypes.Statue: buildingXPath = $"//*[@href='/game.php?village={_plemionaConfig.VillageId}&screen=statue']"; break;
+                case BuildingTypes.Market: buildingXPath = $"//*[@href='/game.php?village={_plemionaConfig.VillageId}&screen=market']"; break;
+                case BuildingTypes.Sawmill: buildingXPath = $"//*[@href='/game.php?village={_plemionaConfig.VillageId}&screen=wood']"; break;
+                case BuildingTypes.Brickyard: buildingXPath = $"//*[@href='/game.php?village={_plemionaConfig.VillageId}&screen=stone']"; break;
+                case BuildingTypes.Ironworks: buildingXPath = $"//*[@href='/game.php?village={_plemionaConfig.VillageId}&screen=iron']"; break;
+                case BuildingTypes.Farm: buildingXPath = $"//*[@href='/game.php?village={_plemionaConfig.VillageId}&screen=farm']"; break;
+                case BuildingTypes.Storage: buildingXPath = $"//*[@href='/game.php?village={_plemionaConfig.VillageId}&screen=storage']"; break;
+                case BuildingTypes.Clipboard: buildingXPath = $"//*[@href='/game.php?village={_plemionaConfig.VillageId}&screen=hide']"; break;
+                case BuildingTypes.Wall: buildingXPath = $"//*[@href='/game.php?village={_plemionaConfig.VillageId}&screen=wall']"; break;
+                default: throw new NotImplementedException();
+            }
 
             _webDriverBaseMethodsService.ClickBy(By.XPath(buildingXPath));
         }
@@ -164,30 +166,32 @@ namespace Plemiona.Core.Steps.Steps
         {
             int buildingLevel = _webDriverBaseMethodsService.ExceptionHandler(() =>
             {
-                string buildingXPath = building switch
+                string buildingXPath = null;
+
+                switch (building)
                 {
-                    BuildingTypes.Townhall => $"/game.php?village={_plemionaConfig.VillageId}&screen=main",
-                    BuildingTypes.Barracks => $"/game.php?village={_plemionaConfig.VillageId}&screen=barracks",
-                      BuildingTypes.Stable => $"/game.php?village={_plemionaConfig.VillageId}&screen=stable",
-                    BuildingTypes.Workshop => $"/game.php?village={_plemionaConfig.VillageId}&screen=garage",
-                      BuildingTypes.Palace => $"/game.php?village={_plemionaConfig.VillageId}&screen=snob",
-                       BuildingTypes.Forge => $"/game.php?village={_plemionaConfig.VillageId}&screen=smith",
-                        BuildingTypes.Yard => $"/game.php?village={_plemionaConfig.VillageId}&screen=place",
-                      BuildingTypes.Statue => $"/game.php?village={_plemionaConfig.VillageId}&screen=statue",
-                      BuildingTypes.Market => $"/game.php?village={_plemionaConfig.VillageId}&screen=market",
-                     BuildingTypes.Sawmill => $"/game.php?village={_plemionaConfig.VillageId}&screen=wood",
-                   BuildingTypes.Brickyard => $"/game.php?village={_plemionaConfig.VillageId}&screen=stone",
-                   BuildingTypes.Ironworks => $"/game.php?village={_plemionaConfig.VillageId}&screen=iron",
-                        BuildingTypes.Farm => $"/game.php?village={_plemionaConfig.VillageId}&screen=farm",
-                     BuildingTypes.Storage => $"/game.php?village={_plemionaConfig.VillageId}&screen=storage",
-                   BuildingTypes.Clipboard => $"/game.php?village={_plemionaConfig.VillageId}&screen=hide",
-                        BuildingTypes.Wall => $"/game.php?village={_plemionaConfig.VillageId}&screen=wall",
-                    _ => throw new NotImplementedException()
-                };
+                    case BuildingTypes.Townhall: buildingXPath = $"/game.php?village={_plemionaConfig.VillageId}&screen=main"; break;
+                    case BuildingTypes.Barracks: buildingXPath = $"/game.php?village={_plemionaConfig.VillageId}&screen=barracks"; break;
+                    case BuildingTypes.Stable: buildingXPath = $"/game.php?village={_plemionaConfig.VillageId}&screen=stable"; break;
+                    case BuildingTypes.Workshop: buildingXPath = $"/game.php?village={_plemionaConfig.VillageId}&screen=garage"; break;
+                    case BuildingTypes.Palace: buildingXPath = $"/game.php?village={_plemionaConfig.VillageId}&screen=snob"; break;
+                    case BuildingTypes.Forge: buildingXPath = $"/game.php?village={_plemionaConfig.VillageId}&screen=smith"; break;
+                    case BuildingTypes.Yard: buildingXPath = $"/game.php?village={_plemionaConfig.VillageId}&screen=place"; break;
+                    case BuildingTypes.Statue: buildingXPath = $"/game.php?village={_plemionaConfig.VillageId}&screen=statue"; break;
+                    case BuildingTypes.Market: buildingXPath = $"/game.php?village={_plemionaConfig.VillageId}&screen=market"; break;
+                    case BuildingTypes.Sawmill: buildingXPath = $"/game.php?village={_plemionaConfig.VillageId}&screen=wood"; break;
+                    case BuildingTypes.Brickyard: buildingXPath = $"/game.php?village={_plemionaConfig.VillageId}&screen=stone"; break;
+                    case BuildingTypes.Ironworks: buildingXPath = $"/game.php?village={_plemionaConfig.VillageId}&screen=iron"; break;
+                    case BuildingTypes.Farm: buildingXPath = $"/game.php?village={_plemionaConfig.VillageId}&screen=farm"; break;
+                    case BuildingTypes.Storage: buildingXPath = $"/game.php?village={_plemionaConfig.VillageId}&screen=storage"; break;
+                    case BuildingTypes.Clipboard: buildingXPath = $"/game.php?village={_plemionaConfig.VillageId}&screen=hide"; break;
+                    case BuildingTypes.Wall: buildingXPath = $"/game.php?village={_plemionaConfig.VillageId}&screen=wall"; break;
+                    default: throw new NotImplementedException();
+                }
+            
+                int localBuildingLevel = GetBuildingLevel(buildingXPath);
 
-                int buildingLevel = GetBuildingLevel(buildingXPath);
-
-                return buildingLevel;
+                return localBuildingLevel;
             });
 
             return buildingLevel;
@@ -197,26 +201,28 @@ namespace Plemiona.Core.Steps.Steps
         {
             _webDriverBaseMethodsService.ExceptionHandler(() =>
             {
-                string addBuildingToBuildQueueButtonXPath = building switch
+                string addBuildingToBuildQueueButtonXPath = null;
+
+                switch (building)
                 {
-                    BuildingTypes.Townhall => $"//*[@href='/game.php?village={_plemionaConfig.VillageId}&screen=main&action=upgrade_building&id=main&type=main&h={_plemionaConfig.CsrfToken}']",
-                    BuildingTypes.Barracks => $"//*[@href='/game.php?village={_plemionaConfig.VillageId}&screen=main&action=upgrade_building&id=barracks&type=main&h={_plemionaConfig.CsrfToken}']",
-                    BuildingTypes.Stable => $"//*[@href='/game.php?village={_plemionaConfig.VillageId}&screen=main&action=upgrade_building&id=stable&type=main&h={_plemionaConfig.CsrfToken}']",
-                    BuildingTypes.Workshop => $"//*[@href='/game.php?village={_plemionaConfig.VillageId}&screen=main&action=upgrade_building&id=garage&type=main&h={_plemionaConfig.CsrfToken}']",
-                    BuildingTypes.Palace => $"//*[@href='/game.php?village={_plemionaConfig.VillageId}&screen=main&action=upgrade_building&id=snob&type=main&h={_plemionaConfig.CsrfToken}']",
-                    BuildingTypes.Forge => $"//*[@href='/game.php?village={_plemionaConfig.VillageId}&screen=main&action=upgrade_building&id=smith&type=main&h={_plemionaConfig.CsrfToken}']",
-                    BuildingTypes.Yard => $"//*[@href='/game.php?village={_plemionaConfig.VillageId}&screen=main&action=upgrade_building&id=place&type=main&h={_plemionaConfig.CsrfToken}']",
-                    BuildingTypes.Statue => $"//*[@href='/game.php?village={_plemionaConfig.VillageId}&screen=main&action=upgrade_building&id=statue&type=main&h={_plemionaConfig.CsrfToken}']",
-                    BuildingTypes.Market => $"//*[@href='/game.php?village={_plemionaConfig.VillageId}&screen=main&action=upgrade_building&id=market&type=main&h={_plemionaConfig.CsrfToken}']",
-                    BuildingTypes.Sawmill => $"//*[@href='/game.php?village={_plemionaConfig.VillageId}&screen=main&action=upgrade_building&id=wood&type=main&h={_plemionaConfig.CsrfToken}']",
-                    BuildingTypes.Brickyard => $"//*[@href='/game.php?village={_plemionaConfig.VillageId}&screen=main&action=upgrade_building&id=stone&type=main&h={_plemionaConfig.CsrfToken}']",
-                    BuildingTypes.Ironworks => $"//*[@href='/game.php?village={_plemionaConfig.VillageId}&screen=main&action=upgrade_building&id=iron&type=main&h={_plemionaConfig.CsrfToken}']",
-                    BuildingTypes.Farm => $"//*[@href='/game.php?village={_plemionaConfig.VillageId}&screen=main&action=upgrade_building&id=farm&type=main&h={_plemionaConfig.CsrfToken}']",
-                    BuildingTypes.Storage => $"//*[@href='/game.php?village={_plemionaConfig.VillageId}&screen=main&action=upgrade_building&id=storage&type=main&h={_plemionaConfig.CsrfToken}']",
-                    BuildingTypes.Clipboard => $"//*[@href='/game.php?village={_plemionaConfig.VillageId}&screen=main&action=upgrade_building&id=hide&type=main&h={_plemionaConfig.CsrfToken}']",
-                    BuildingTypes.Wall => $"//*[@href='/game.php?village={_plemionaConfig.VillageId}&screen=main&action=upgrade_building&id=wall&type=main&h={_plemionaConfig.CsrfToken}']",
-                    _ => throw new NotImplementedException()
-                };
+                    case BuildingTypes.Townhall: addBuildingToBuildQueueButtonXPath = $"//*[@href='/game.php?village={_plemionaConfig.VillageId}&screen=main&action=upgrade_building&id=main&type=main&h={_plemionaConfig.CsrfToken}']";break;
+                    case BuildingTypes.Barracks: addBuildingToBuildQueueButtonXPath = $"//*[@href='/game.php?village={_plemionaConfig.VillageId}&screen=main&action=upgrade_building&id=barracks&type=main&h={_plemionaConfig.CsrfToken}']"; break;
+                    case BuildingTypes.Stable: addBuildingToBuildQueueButtonXPath = $"//*[@href='/game.php?village={_plemionaConfig.VillageId}&screen=main&action=upgrade_building&id=stable&type=main&h={_plemionaConfig.CsrfToken}']"; break;
+                    case BuildingTypes.Workshop: addBuildingToBuildQueueButtonXPath = $"//*[@href='/game.php?village={_plemionaConfig.VillageId}&screen=main&action=upgrade_building&id=garage&type=main&h={_plemionaConfig.CsrfToken}']"; break;
+                    case BuildingTypes.Palace: addBuildingToBuildQueueButtonXPath = $"//*[@href='/game.php?village={_plemionaConfig.VillageId}&screen=main&action=upgrade_building&id=snob&type=main&h={_plemionaConfig.CsrfToken}']"; break;
+                    case BuildingTypes.Forge: addBuildingToBuildQueueButtonXPath = $"//*[@href='/game.php?village={_plemionaConfig.VillageId}&screen=main&action=upgrade_building&id=smith&type=main&h={_plemionaConfig.CsrfToken}']"; break;
+                    case BuildingTypes.Yard: addBuildingToBuildQueueButtonXPath = $"//*[@href='/game.php?village={_plemionaConfig.VillageId}&screen=main&action=upgrade_building&id=place&type=main&h={_plemionaConfig.CsrfToken}']"; break;
+                    case BuildingTypes.Statue: addBuildingToBuildQueueButtonXPath = $"//*[@href='/game.php?village={_plemionaConfig.VillageId}&screen=main&action=upgrade_building&id=statue&type=main&h={_plemionaConfig.CsrfToken}']"; break;
+                    case BuildingTypes.Market: addBuildingToBuildQueueButtonXPath = $"//*[@href='/game.php?village={_plemionaConfig.VillageId}&screen=main&action=upgrade_building&id=market&type=main&h={_plemionaConfig.CsrfToken}']"; break;
+                    case BuildingTypes.Sawmill: addBuildingToBuildQueueButtonXPath = $"//*[@href='/game.php?village={_plemionaConfig.VillageId}&screen=main&action=upgrade_building&id=wood&type=main&h={_plemionaConfig.CsrfToken}']"; break;
+                    case BuildingTypes.Brickyard: addBuildingToBuildQueueButtonXPath = $"//*[@href='/game.php?village={_plemionaConfig.VillageId}&screen=main&action=upgrade_building&id=stone&type=main&h={_plemionaConfig.CsrfToken}']"; break;
+                    case BuildingTypes.Ironworks: addBuildingToBuildQueueButtonXPath = $"//*[@href='/game.php?village={_plemionaConfig.VillageId}&screen=main&action=upgrade_building&id=iron&type=main&h={_plemionaConfig.CsrfToken}']"; break;
+                    case BuildingTypes.Farm: addBuildingToBuildQueueButtonXPath = $"//*[@href='/game.php?village={_plemionaConfig.VillageId}&screen=main&action=upgrade_building&id=farm&type=main&h={_plemionaConfig.CsrfToken}']"; break;
+                    case BuildingTypes.Storage: addBuildingToBuildQueueButtonXPath = $"//*[@href='/game.php?village={_plemionaConfig.VillageId}&screen=main&action=upgrade_building&id=storage&type=main&h={_plemionaConfig.CsrfToken}']"; break;
+                    case BuildingTypes.Clipboard: addBuildingToBuildQueueButtonXPath = $"//*[@href='/game.php?village={_plemionaConfig.VillageId}&screen=main&action=upgrade_building&id=hide&type=main&h={_plemionaConfig.CsrfToken}']"; break;
+                    case BuildingTypes.Wall: addBuildingToBuildQueueButtonXPath = $"//*[@href='/game.php?village={_plemionaConfig.VillageId}&screen=main&action=upgrade_building&id=wall&type=main&h={_plemionaConfig.CsrfToken}']"; break;
+                    default: throw new NotImplementedException();
+                }
 
                 _webDriverBaseMethodsService.ClickBy(By.XPath(addBuildingToBuildQueueButtonXPath));
             });

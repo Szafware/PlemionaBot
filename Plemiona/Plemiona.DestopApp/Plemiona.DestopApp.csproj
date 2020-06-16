@@ -4,14 +4,16 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{5C4AFA5B-3678-4942-B24E-43148D882942}</ProjectGuid>
+    <ProjectGuid>{9E8FC56A-3E3F-4153-91F8-BB28112B8E11}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>PleAutomix.DestopApp</RootNamespace>
-    <AssemblyName>PleAutomix.DestopApp</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <RootNamespace>Plemiona.DestopApp</RootNamespace>
+    <AssemblyName>Plemiona.DestopApp</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -44,6 +46,9 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="WebDriver, Version=3.141.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Selenium.WebDriver.3.141.0\lib\net45\WebDriver.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Forms\FrmMain.cs">
@@ -63,6 +68,7 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -76,5 +82,30 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Plemiona.Core.Features\Plemiona.Core.Features.csproj">
+      <Project>{5809073A-5E24-4CE4-8D27-536DFD7D8507}</Project>
+      <Name>Plemiona.Core.Features</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Plemiona.Core.Steps\Plemiona.Core.Steps.csproj">
+      <Project>{DFCE06B5-2DC9-4CE3-B80F-44575741D3B1}</Project>
+      <Name>Plemiona.Core.Steps</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Plemiona.Core\Plemiona.Core.csproj">
+      <Project>{772BE4AE-05B2-4F91-BBD7-ECBA7C258089}</Project>
+      <Name>Plemiona.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Plemiona.DependencyInjection\Plemiona.DependencyInjection.csproj">
+      <Project>{82EE7BCF-A6AE-450B-A785-294495485487}</Project>
+      <Name>Plemiona.DependencyInjection</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\packages\Selenium.WebDriver.ChromeDriver.83.0.4103.3900\build\Selenium.WebDriver.ChromeDriver.targets" Condition="Exists('..\packages\Selenium.WebDriver.ChromeDriver.83.0.4103.3900\build\Selenium.WebDriver.ChromeDriver.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Selenium.WebDriver.ChromeDriver.83.0.4103.3900\build\Selenium.WebDriver.ChromeDriver.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Selenium.WebDriver.ChromeDriver.83.0.4103.3900\build\Selenium.WebDriver.ChromeDriver.targets'))" />
+  </Target>
 </Project>

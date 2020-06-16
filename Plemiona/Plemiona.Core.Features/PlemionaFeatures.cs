@@ -11,9 +11,9 @@ namespace Plemiona.Core.Features
     {
         private readonly IPlemionaSteps _plemionaSteps;
 
-        public PlemionaFeatures(IPlemionaSteps plemionaSpecificSteps)
+        public PlemionaFeatures(IPlemionaSteps plemionaSteps)
         {
-            _plemionaSteps = plemionaSpecificSteps;
+            _plemionaSteps = plemionaSteps;
         }
 
         public void SignIn(string username, string password, int worldNumber)

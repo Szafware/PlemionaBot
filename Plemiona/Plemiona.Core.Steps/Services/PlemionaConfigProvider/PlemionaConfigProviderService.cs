@@ -47,9 +47,9 @@ namespace Plemiona.Core.Steps.Services.PlemionaConfigProvider
 
             string scriptStartingFromPropertyValueFirstCharacter = script.Remove(0, propertyValueStartIndex);
 
-            bool propertyValueFirstCharacterIsApostrophe = scriptStartingFromPropertyValueFirstCharacter.StartsWith('"');
+            bool propertyValueFirstCharacterIsApostrophe = scriptStartingFromPropertyValueFirstCharacter.StartsWith("\"");
 
-            char propertyValueEndCharacter = scriptStartingFromPropertyValueFirstCharacter.StartsWith('"') ? '"' : ',';
+            char propertyValueEndCharacter = scriptStartingFromPropertyValueFirstCharacter.StartsWith("\"") ? '"' : ',';
 
             if (propertyValueFirstCharacterIsApostrophe)
             {

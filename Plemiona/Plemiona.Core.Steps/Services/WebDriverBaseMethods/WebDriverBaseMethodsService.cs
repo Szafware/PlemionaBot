@@ -22,8 +22,8 @@ namespace Plemiona.Core.Steps.WebDriverBase
         {
             var element = ExceptionHandler(() =>
             {
-                var element = _remoteWebDriver.FindElement(by);
-                return element;
+                var localElement = _remoteWebDriver.FindElement(by);
+                return localElement;
             });
 
             return element;
@@ -34,8 +34,8 @@ namespace Plemiona.Core.Steps.WebDriverBase
             var element = ExceptionHandler(() =>
             {
                 var webDriverWait = new WebDriverWait(_remoteWebDriver, timeout);
-                var element = webDriverWait.Until(expectedCondition);
-                return element;
+                var localElement = webDriverWait.Until(expectedCondition);
+                return localElement;
             });
 
             return element;
@@ -73,8 +73,8 @@ namespace Plemiona.Core.Steps.WebDriverBase
             string elementText = ExceptionHandler(() =>
             {
                 var element = _remoteWebDriver.FindElement(by);
-                string elementText = element.Text;
-                return elementText;
+                string localElementText = element.Text;
+                return localElementText;
             });
 
             return elementText;
@@ -122,8 +122,8 @@ namespace Plemiona.Core.Steps.WebDriverBase
             {
                 var webDriverWait = new WebDriverWait(_remoteWebDriver, timeout);
                 var element = webDriverWait.Until(expectedCondition);
-                string elementText = element.Text;
-                return elementText;
+                string localElementText = element.Text;
+                return localElementText;
             });
 
             return elementText;
