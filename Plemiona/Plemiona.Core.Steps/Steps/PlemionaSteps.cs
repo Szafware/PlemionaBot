@@ -156,9 +156,10 @@ namespace Plemiona.Core.Steps.Steps
         public void FillYardCatapultesCountTextBox(int count) => _webDriverBaseMethodsService.FillBy(By.Id("unit_input_catapult"), count.ToString());
         public void FillYardKnightsCountTextBox(int count) => _webDriverBaseMethodsService.FillBy(By.Id("unit_input_knight"), count.ToString());
         public void FillYardNobelmenCountTextBox(int count) => _webDriverBaseMethodsService.FillBy(By.Id("unit_input_snob"), count.ToString());
-        public void FillAttackCoordinatesTextBox(int coordinateX, int coordinateY) => _webDriverBaseMethodsService.FillBy(By.ClassName("target-input-field"), $"{coordinateX}|{coordinateY}");
+        public void FillYardCoordinatesTextBox(int coordinateX, int coordinateY) => _webDriverBaseMethodsService.FillBy(By.ClassName("target-input-field"), $"{coordinateX}|{coordinateY}");
         public void ClickSendAttackButton() => _webDriverBaseMethodsService.ClickBy(By.Id("target_attack"));
         public void ClickSendHelpButton() => _webDriverBaseMethodsService.ClickBy(By.Id("target_support"));
+        public void ClickSendingTroopsConfirmationButton() => _webDriverBaseMethodsService.ClickBy(By.Id("troop_confirm_go"));
 
         public int GetSelfWoodCount() => _webDriverBaseMethodsService.ExceptionHandler(() => Convert.ToInt32(_webDriverBaseMethodsService.GetTextBy(By.Id("wood"))));
         public int GetSelfClayCount() => _webDriverBaseMethodsService.ExceptionHandler(() => Convert.ToInt32(_webDriverBaseMethodsService.GetTextBy(By.Id("stone"))));

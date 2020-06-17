@@ -111,7 +111,7 @@ namespace Plemiona.Core.Features
             _plemionaSteps.FillYardScoutCountTextBox(troops.Scouts);
             _plemionaSteps.FillYardLightCavalaryCountTextBox(troops.LightCavalary);
             _plemionaSteps.FillYardHorseArchersCountTextBox(troops.HorseArchers);
-            _plemionaSteps.FillHeavyCavalaryCountTextBox(troops.HeavyCavalary);
+            _plemionaSteps.FillYardHeavyCavalaryCountTextBox(troops.HeavyCavalary);
 
             _plemionaSteps.FillYardRamsCountTextBox(troops.Rams);
             _plemionaSteps.FillYardCatapultesCountTextBox(troops.Catapultes);
@@ -119,12 +119,14 @@ namespace Plemiona.Core.Features
             _plemionaSteps.FillYardKnightsCountTextBox(troops.Knights);
             _plemionaSteps.FillYardNobelmenCountTextBox(troops.Noblemen);
 
-            _plemionaSteps.FillAttackCoordinatesTextBox(coordinateX, coordinateY);
+            _plemionaSteps.FillYardCoordinatesTextBox(coordinateX, coordinateY);
 
             if (troopsIntentions == TroopsIntentions.Attack)
                 _plemionaSteps.ClickSendAttackButton();
             else
                 _plemionaSteps.ClickSendHelpButton();
+
+            _plemionaSteps.ClickSendingTroopsConfirmationButton();
 
             _plemionaSteps.ClickVillageViewButton();
         }

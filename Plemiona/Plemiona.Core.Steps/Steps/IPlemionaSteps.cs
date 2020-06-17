@@ -68,9 +68,10 @@ namespace Plemiona.Core.Steps.Steps
         void FillYardCatapultesCountTextBox(int count);
         void FillYardKnightsCountTextBox(int count);
         void FillYardNobelmenCountTextBox(int count);
-        void FillAttackCoordinatesTextBox(int coordinateX, int coordinateY);
+        void FillYardCoordinatesTextBox(int coordinateX, int coordinateY);
         void ClickSendAttackButton();
         void ClickSendHelpButton();
+        void ClickSendingTroopsConfirmationButton();
 
         int GetSelfWoodCount();
         int GetSelfClayCount();
