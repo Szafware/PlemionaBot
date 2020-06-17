@@ -1,5 +1,5 @@
 ﻿using Plemiona.Core.Enums;
-using Plemiona.Core.Steps.Models.Gui;
+using Plemiona.Core.Models.Gui;
 using System.Collections.Generic;
 
 namespace Plemiona.Core.Steps.Steps

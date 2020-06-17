@@ -1,8 +1,10 @@
-﻿namespace Plemiona.Core.Steps.Models
+﻿namespace Plemiona.Core.Models
 {
-    public class PlemionaConfig
+    public class PlemionaMetadata
     {
         public string PlemionaVersion { get; set; }
+
+        public string PlayerId { get; set; }
 
         public string VillageId { get;set; }
 

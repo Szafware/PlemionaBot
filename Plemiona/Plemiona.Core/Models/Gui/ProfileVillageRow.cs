@@ -1,6 +1,6 @@
 ﻿using System.Drawing;
 
-namespace Plemiona.Core.Steps.Models.Gui
+namespace Plemiona.Core.Models.Gui
 {
     public class ProfileVillageRow
     {

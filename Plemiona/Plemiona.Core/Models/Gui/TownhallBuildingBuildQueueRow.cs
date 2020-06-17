@@ -1,7 +1,7 @@
 ﻿using Plemiona.Core.Enums;
 using System;
 
-namespace Plemiona.Core.Steps.Models.Gui
+namespace Plemiona.Core.Models.Gui
 {
     public class TownhallBuildingBuildQueueRow
     {
