@@ -12,6 +12,7 @@ using Plemiona.DestopApp.Forms;
 using Plemiona.Logic.Services.PlemionaSettingsInitialization;
 using Plemiona.Logic.Services.WindowsPosition;
 using System;
+using System.Configuration;
 using System.Windows.Forms;
 
 namespace Plemiona.DestopApp
@@ -23,14 +24,21 @@ namespace Plemiona.DestopApp
         [STAThread]
         public static void Main()
         {
-            Binding();
+            try
+            {
+                Binding();
 
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
+                Application.EnableVisualStyles();
+                Application.SetCompatibleTextRenderingDefault(false);
 
-            var frmMain = _container.GetImplementation<FrmMain>();
+                var frmMain = _container.GetImplementation<FrmMain>();
 
-            Application.Run(frmMain);
+                Application.Run(frmMain);
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message, "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private static void Binding()
@@ -44,8 +52,25 @@ namespace Plemiona.DestopApp
             _container.Bind<IPlemionaMetadataProviderService, PlemionaMetadataProviderService>();
 
             _container.Bind<IStepProviderService, StepProviderService>();
-            _container.BindAsSingleton<IStepDelayService, ConstantStepDelayService>();
-            _container.BindAsSingleton<ITypingDelayService, RandomTypingDelayService>();
+
+            bool randomStepDelay = Convert.ToBoolean(ConfigurationManager.AppSettings["RandomStepDelay"]);
+            bool constantStepDelay = Convert.ToBoolean(ConfigurationManager.AppSettings["ConstantStepDelay"]);
+            bool randomTypingDelay = Convert.ToBoolean(ConfigurationManager.AppSettings["RandomTypingDelay"]);
+            bool constantTypingDelay = Convert.ToBoolean(ConfigurationManager.AppSettings["ConstantTypingDelay"]);
+            
+            if ((randomStepDelay && constantStepDelay) || 
+                ((!randomStepDelay) && (!constantStepDelay)) ||
+                (randomTypingDelay && constantTypingDelay) ||
+                ((!randomTypingDelay) && (!constantTypingDelay)))
+            {
+                throw new Exception("Incorrect delay configuration. Make sure that Plemiona.DesktopApp.exe.config file contains exactly one StepDelay option is set to true, and also exactly one TypingDelay option is set to true.");
+            }
+
+            var stepDelayServiceType = randomStepDelay ? typeof(RandomStepDelayService) : typeof(ConstantStepDelayService);
+            var typingDelayServiceType = randomTypingDelay ? typeof(RandomTypingDelayService) : typeof(ConstantTypingDelayService);
+
+            _container.BindAsSingleton<IStepDelayService>(stepDelayServiceType);
+            _container.BindAsSingleton<ITypingDelayService>(typingDelayServiceType);
             _container.Bind<IFeatureLoggingService, FeatureLoggingService>();
 
             _container.Bind<IWindowsPositionService, WindowsPositionService>();
