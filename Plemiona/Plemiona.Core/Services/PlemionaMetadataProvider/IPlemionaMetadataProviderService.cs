@@ -1,6 +1,6 @@
 ﻿using Plemiona.Core.Models;
 
-namespace Plemiona.Core.PlemionaMetadataProvider
+namespace Plemiona.Core.Services.PlemionaMetadataProvider
 {
     public interface IPlemionaMetadataProviderService
     {

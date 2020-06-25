@@ -12,4 +12,8 @@
     <ProjectReference Include="..\Plemiona.Core\Plemiona.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Steps\Definitions\Gameplay\TribeSteps\" />
+  </ItemGroup>
+
 </Project>

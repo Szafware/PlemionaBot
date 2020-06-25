@@ -21,8 +21,5 @@ namespace Plemiona.Core.Steps.WebDriverBase
         void ClearByAndCondition(Func<IWebDriver, IWebElement> expectedCondition, TimeSpan timeout);
         string GetTextByAndCondition(Func<IWebDriver, IWebElement> expectedCondition, TimeSpan timeout);
         bool ExistsByAndCondition(Func<IWebDriver, IWebElement> expectedCondition, TimeSpan timeout);
-
-        void ExceptionHandler(Action action);
-        TValue ExceptionHandler<TValue>(Func<TValue> function);
     }
 }

@@ -2,6 +2,6 @@
 {
     public class PlemionaSettings
     {
-        public bool ShowConsole { get; set; }       
+        public bool ShowConsole { get; set; }
     }
 }

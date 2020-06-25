@@ -1,24 +1,24 @@
 ﻿using Newtonsoft.Json.Linq;
 using OpenQA.Selenium.Remote;
 using Plemiona.Core.Models;
-using Plemiona.Core.WebDriver;
+using Plemiona.Core.Services.WebDriverProvider;
 using System.Linq;
 
-namespace Plemiona.Core.PlemionaMetadataProvider
+namespace Plemiona.Core.Services.PlemionaMetadataProvider
 {
     public class PlemionaMetadataProviderService : IPlemionaMetadataProviderService
     {
-        private readonly IWebDriverProvider _webDriverProvider;
+        private readonly IWebDriverProviderService _webDriverProviderService;
         private RemoteWebDriver _webDriver;
 
-        public PlemionaMetadataProviderService(IWebDriverProvider webDriverProvider)
+        public PlemionaMetadataProviderService(IWebDriverProviderService webDriverProviderService)
         {
-            _webDriverProvider = webDriverProvider;
+            _webDriverProviderService = webDriverProviderService;
         }
 
         public void Initialize()
         {
-            _webDriver = _webDriverProvider.CreateWebDriver();
+            _webDriver = _webDriverProviderService.CreateWebDriver();
         }
 
         public PlemionaMetadata Create()

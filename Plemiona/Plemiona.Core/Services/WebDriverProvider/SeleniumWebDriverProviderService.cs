@@ -2,14 +2,14 @@
 using OpenQA.Selenium.Remote;
 using Plemiona.Core.Configuration;
 
-namespace Plemiona.Core.WebDriver
+namespace Plemiona.Core.Services.WebDriverProvider
 {
-    public class SeleniumWebDriverProvider : IWebDriverProvider
+    public class SeleniumWebDriverProviderService : IWebDriverProviderService
     {
         private readonly PlemionaSettings _plemionaSettings;
         private RemoteWebDriver _remoteWebDriver;
 
-        public SeleniumWebDriverProvider(PlemionaSettings plemionaSettings)
+        public SeleniumWebDriverProviderService(PlemionaSettings plemionaSettings)
         {
             _plemionaSettings = plemionaSettings;
         }

@@ -2,7 +2,7 @@
 using Plemiona.Core.Models;
 using System.Collections.Generic;
 
-namespace Plemiona.Core.Interfaces
+namespace Plemiona.Core.Interfaces.Features
 {
     public interface IPlemionaFeatures
     {
@@ -18,9 +18,9 @@ namespace Plemiona.Core.Interfaces
 
         void SendTroops(Troops troops, int coordinateX, int coordinateY, TroopsIntentions troopsIntentions);
 
-        Resources GetCurrentVillageResources();
+        Resources GetResources();
 
-        Buildings GetCurrentVillageBuildings();
+        Buildings GetBuildings();
 
         void ChangeVillageName(string villageName);
 
