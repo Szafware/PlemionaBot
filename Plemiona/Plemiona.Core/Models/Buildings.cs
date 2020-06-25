@@ -1,5 +1,8 @@
-﻿namespace Plemiona.Core.Models
+﻿using System;
+
+namespace Plemiona.Core.Models
 {
+    [Serializable]
     public class Buildings
     {
         public int Townhall { get; set; }

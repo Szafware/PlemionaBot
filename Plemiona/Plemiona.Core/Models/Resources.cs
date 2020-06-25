@@ -1,5 +1,8 @@
-﻿namespace Plemiona.Core.Models
+﻿using System;
+
+namespace Plemiona.Core.Models
 {
+    [Serializable]
     public class Resources
     {
         public int Wood { get; set; }

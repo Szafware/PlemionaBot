@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Plemiona.Core.Models
 {
+    [Serializable]
     public class Player
     {
         public string Name { get; set; }

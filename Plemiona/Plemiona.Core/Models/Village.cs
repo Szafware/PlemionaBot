@@ -1,7 +1,9 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 
 namespace Plemiona.Core.Models
 {
+    [Serializable]
     public class Village
     {
         public string Name { get; set; }

@@ -1,7 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Plemiona.Core.Models
 {
+    [Serializable]
     public class Tribe
     {
         public string Name { get; set; }
@@ -14,6 +17,7 @@ namespace Plemiona.Core.Models
 
         public List<Tribe> NonAggressionPactTribes { get; set; }
 
+        public int Points => Members.Sum(m => m.Points);
 
         public Tribe()
         {

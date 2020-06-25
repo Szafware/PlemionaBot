@@ -2,6 +2,7 @@
 
 namespace Plemiona.Core.Models
 {
+    [Serializable]
     public class IncomingAttack
     {
         public Village AttackingVillage { get; set; }
