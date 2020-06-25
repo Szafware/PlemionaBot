@@ -1,11 +1,15 @@
 # PlemionaBot
 
 > Exe project requires following dependency injection bindindings in order to use `PlemionaFeatures` class:
-- IWebDriverProvider | SeleniumWebDriverProvider (singleton)
-- IPlemionaFeatures | PlemionaFeatures
-- IPlemionaSteps | PlemionaSteps
-- IWebDriverBaseMethodsService| WebDriverBaseMethodsService
-- IPlemionaConfigProviderService | PlemionaConfigProviderService
+- PlemionaSettings (to self, singleton)
+- IWebDriverProviderService <-> SeleniumWebDriverProviderService (singleton)
+- IPlemionaFeatures <-> PlemionaDefaultFeatures
+- IWebDriverBaseMethodsService <-> WebDriverBaseMethodsService
+- IPlemionaMetadataProviderService <-> PlemionaMetadataProviderService
+- IStepProviderService <-> StepProviderService
+- IStepDelayService <-> ConstantStepDelayService|RandomStepDelayService
+- ITypingDelayService <-> ConstantTypingDelayService|RandomTypingDelayService
+- IFeatureLoggingService <-> FeatureLoggingService
 
 > Exe project requires following nugets to work properly:
 - Selenium.WebDriver (v3.141.0)
