@@ -30,6 +30,8 @@ namespace Plemiona.Core.Interfaces.Features
 
         IEnumerable<Village> GetNerbaryVillages(int radiusFields);
 
+        Village GetVillage(int coordinateX, int coordinateY);
+
         void SignOut();
     }
 }

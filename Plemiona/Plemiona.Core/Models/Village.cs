@@ -12,18 +12,6 @@ namespace Plemiona.Core.Models
 
         public int Points { get; set; }
 
-        public Resources Resources { get; set; } 
-
-        public Buildings Buildings { get; set; }
-
-        public Troops Troops { get; set; }
-        
-        public int CurrentPopulation { get; set; }
-
-        public int MaxPopulation { get; set; }
-
-        public int Backing { get; set; }
-
-        public bool IsBarbarian { get; set; }
+        public bool IsNomadOrBarbarian { get; set; }
     }
 }

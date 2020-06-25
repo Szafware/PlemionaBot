@@ -277,6 +277,24 @@ namespace Plemiona.Core.Features
             }
         }
 
+        // TODO: Implement
+        public Village GetVillage(int coordinateX, int coordinateY)
+        {
+            try
+            {
+                var village = new Village();
+
+                throw new NotImplementedException();
+
+                return village;
+            }
+            catch (Exception e)
+            {
+                _featureLoggingService.LogException(e);
+                throw;
+            }
+        }
+
         public void AddBuildingToQueue(BuildingTypes building)
         {
             try
