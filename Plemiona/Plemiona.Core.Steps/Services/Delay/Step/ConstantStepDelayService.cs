@@ -5,7 +5,7 @@ namespace Plemiona.Core.Steps.Services.Delay.Step
 {
     public class ConstantStepDelayService : IStepDelayService
     {
-        private int _millisecondDelay = 1500;
+        private int _millisecondDelay = 1000;
 
         public void Configure(int minimumMilliseconds, int maximumMilliseconds)
         {
