@@ -453,6 +453,7 @@
             this.ClientSize = new System.Drawing.Size(277, 185);
             this.Controls.Add(this.PnlMain);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
             this.Name = "FrmTroopsTemplate";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;

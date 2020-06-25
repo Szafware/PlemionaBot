@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmTroopsAction));
             this.PnlMain = new System.Windows.Forms.TableLayoutPanel();
             this.LblEveryday = new System.Windows.Forms.Label();
             this.LblExecutionDate = new System.Windows.Forms.Label();
@@ -304,6 +305,7 @@
             this.Controls.Add(this.PnlMain);
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "FrmTroopsAction";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "FrmTroopsAction";

@@ -287,7 +287,11 @@ namespace Plemiona.DestopApp.Forms
         {
             if (GridTroopsActions.Columns[e.ColumnIndex] is DataGridViewButtonColumn && e.RowIndex >= 0)
             {
-                var dialogResult = MessageBox.Show($"Are you sure that you want to perform action \"{_selectedTroopsAction.Name}\"?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                string clickedTroopsActionName = GridTroopsActions.Rows[e.RowIndex].Cells[1].Value.ToString();
+
+                var clickedTroopAction = _plemionaToolLocalData.TroopsActions.Single(ta => ta.Name == clickedTroopsActionName);
+
+                var dialogResult = MessageBox.Show($"Are you sure that you want to perform action \"{clickedTroopAction.Name}\"?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
                 if (dialogResult == DialogResult.Yes)
                 {
@@ -320,7 +324,7 @@ namespace Plemiona.DestopApp.Forms
             }
             catch
             {
-                MessageBox.Show($"Saving data failed.", "Fatal error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Saving data failed.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }

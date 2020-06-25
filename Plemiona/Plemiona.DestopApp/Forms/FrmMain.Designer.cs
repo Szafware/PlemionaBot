@@ -29,12 +29,14 @@
         private void InitializeComponent()
         {
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmMain));
             this.PnlMain = new System.Windows.Forms.TableLayoutPanel();
             this.GridTroopsTemplates = new System.Windows.Forms.DataGridView();
-            this.BtnAddTroopsTemplate = new System.Windows.Forms.Button();
+            this.ColumnTroopsTypesNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColumnTroopsTypesName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.BtnAddTroopsAction = new System.Windows.Forms.Button();
             this.GridTroopsActions = new System.Windows.Forms.DataGridView();
             this.ColumnTroopsActionsNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -43,8 +45,7 @@
             this.ColumnTroopsActionsExecutionDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnTroopsActionsEveryday = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.ColumnTroopsActionExecute = new System.Windows.Forms.DataGridViewButtonColumn();
-            this.ColumnTroopsTypesNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ColumnTroopsTypesName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.BtnAddTroopsTemplate = new System.Windows.Forms.Button();
             this.PnlMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.GridTroopsTemplates)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.GridTroopsActions)).BeginInit();
@@ -102,17 +103,20 @@
             this.GridTroopsTemplates.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.GridTroopsTemplates_CellMouseDoubleClick);
             this.GridTroopsTemplates.KeyDown += new System.Windows.Forms.KeyEventHandler(this.GridTroopsTemplates_KeyDown);
             // 
-            // BtnAddTroopsTemplate
+            // ColumnTroopsTypesNumber
             // 
-            this.BtnAddTroopsTemplate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.BtnAddTroopsTemplate.Font = new System.Drawing.Font("Verdana", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.BtnAddTroopsTemplate.Location = new System.Drawing.Point(3, 20);
-            this.BtnAddTroopsTemplate.Name = "BtnAddTroopsTemplate";
-            this.BtnAddTroopsTemplate.Size = new System.Drawing.Size(173, 27);
-            this.BtnAddTroopsTemplate.TabIndex = 0;
-            this.BtnAddTroopsTemplate.Text = "Add troops template";
-            this.BtnAddTroopsTemplate.UseVisualStyleBackColor = true;
-            this.BtnAddTroopsTemplate.MouseClick += new System.Windows.Forms.MouseEventHandler(this.BtnAddTroopsTemplate_MouseClick);
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.ColumnTroopsTypesNumber.DefaultCellStyle = dataGridViewCellStyle2;
+            this.ColumnTroopsTypesNumber.FillWeight = 10F;
+            this.ColumnTroopsTypesNumber.HeaderText = "";
+            this.ColumnTroopsTypesNumber.Name = "ColumnTroopsTypesNumber";
+            this.ColumnTroopsTypesNumber.ReadOnly = true;
+            // 
+            // ColumnTroopsTypesName
+            // 
+            this.ColumnTroopsTypesName.HeaderText = "Name";
+            this.ColumnTroopsTypesName.Name = "ColumnTroopsTypesName";
+            this.ColumnTroopsTypesName.ReadOnly = true;
             // 
             // BtnAddTroopsAction
             // 
@@ -204,20 +208,17 @@
             this.ColumnTroopsActionExecute.Name = "ColumnTroopsActionExecute";
             this.ColumnTroopsActionExecute.ReadOnly = true;
             // 
-            // ColumnTroopsTypesNumber
+            // BtnAddTroopsTemplate
             // 
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.ColumnTroopsTypesNumber.DefaultCellStyle = dataGridViewCellStyle2;
-            this.ColumnTroopsTypesNumber.FillWeight = 10F;
-            this.ColumnTroopsTypesNumber.HeaderText = "";
-            this.ColumnTroopsTypesNumber.Name = "ColumnTroopsTypesNumber";
-            this.ColumnTroopsTypesNumber.ReadOnly = true;
-            // 
-            // ColumnTroopsTypesName
-            // 
-            this.ColumnTroopsTypesName.HeaderText = "Name";
-            this.ColumnTroopsTypesName.Name = "ColumnTroopsTypesName";
-            this.ColumnTroopsTypesName.ReadOnly = true;
+            this.BtnAddTroopsTemplate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.BtnAddTroopsTemplate.Font = new System.Drawing.Font("Verdana", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.BtnAddTroopsTemplate.Location = new System.Drawing.Point(3, 20);
+            this.BtnAddTroopsTemplate.Name = "BtnAddTroopsTemplate";
+            this.BtnAddTroopsTemplate.Size = new System.Drawing.Size(173, 27);
+            this.BtnAddTroopsTemplate.TabIndex = 0;
+            this.BtnAddTroopsTemplate.Text = "Add troops template";
+            this.BtnAddTroopsTemplate.UseVisualStyleBackColor = true;
+            this.BtnAddTroopsTemplate.MouseClick += new System.Windows.Forms.MouseEventHandler(this.BtnAddTroopsTemplate_MouseClick);
             // 
             // FrmMain
             // 
@@ -226,6 +227,7 @@
             this.ClientSize = new System.Drawing.Size(725, 684);
             this.Controls.Add(this.PnlMain);
             this.DoubleBuffered = true;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
             this.Name = "FrmMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;

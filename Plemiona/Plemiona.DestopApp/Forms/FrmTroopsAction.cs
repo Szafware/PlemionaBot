@@ -148,6 +148,12 @@ namespace Plemiona.DestopApp.Forms
             {
                 var coordinates = new Point(Convert.ToInt32(TbxCoordinateX.Text), Convert.ToInt32(TbxCoordinateY.Text));
 
+                if (LbxCoordinates.Items.Cast<string>().Any(c => c == $"{coordinates.X}|{coordinates.Y}"))
+                {
+                    MessageBox.Show("Coordinates are already in the list.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
                 LbxCoordinates.Items.Add($"{coordinates.X}|{coordinates.Y}");
             }
             catch
