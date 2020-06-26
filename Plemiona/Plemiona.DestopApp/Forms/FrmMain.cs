@@ -1,4 +1,5 @@
-﻿using Plemiona.Core.Enums;
+﻿using OpenQA.Selenium.Remote;
+using Plemiona.Core.Enums;
 using Plemiona.Core.Interfaces.Features;
 using Plemiona.Core.Services.WebDriverProvider;
 using Plemiona.Core.Steps.Services.Delay.Step;
@@ -8,6 +9,7 @@ using Plemiona.Logic.Services.PlemionaSettingsInitialization;
 using Plemiona.Logic.Services.WindowsPosition;
 using System;
 using System.Configuration;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -18,6 +20,7 @@ namespace Plemiona.DestopApp.Forms
     {
         private readonly IPlemionaFeatures _plemionaFeatures;
         private readonly IWebDriverProviderService _webDriverProviderService;
+        private readonly RemoteWebDriver _webDriver;
 
         private readonly IWindowsPositionService _windowsPositionService;
         private readonly IPlemionaSettingsInitializationService _plemionaSettingsInitializationService;
@@ -43,6 +46,8 @@ namespace Plemiona.DestopApp.Forms
             _windowsPositionService = windowsPositionService;
             _plemionaSettingsInitializationService = plemionaSettingsInitializationService;
             _stepDelayService = stepDelayService;
+
+            _webDriver = webDriverProviderService.CreateWebDriver();
 
             _windowsPositionService.SetMainFormWindow(this);
 
@@ -297,9 +302,9 @@ namespace Plemiona.DestopApp.Forms
                 {
                     await Task.Run(() =>
                     {
-                        foreach (var villageCoordinates in _selectedTroopsAction.VillagesCoordinates)
+                        foreach (var villageCoordinates in clickedTroopAction.VillagesCoordinates)
                         {
-                            _plemionaFeatures.SendTroops(_selectedTroopsAction.TroopsTemplate.Troops, villageCoordinates.X, villageCoordinates.Y, TroopsIntentions.Attack);
+                            _plemionaFeatures.SendTroops(clickedTroopAction.TroopsTemplate.Troops, villageCoordinates.X, villageCoordinates.Y, TroopsIntentions.Attack);
                         }
                     });
                 }
@@ -310,7 +315,7 @@ namespace Plemiona.DestopApp.Forms
 
         private void FixGridNumbers(DataGridView grid)
         {
-            for (int i = 0; i < GridTroopsTemplates.RowCount; i++)
+            for (int i = 0; i < GridTroopsTemplates.RowCount - 1; i++)
             {
                 grid.Rows[i].Cells[0].Value = i + 1;
             }
@@ -326,6 +331,8 @@ namespace Plemiona.DestopApp.Forms
             {
                 MessageBox.Show($"Saving data failed.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+
+            _webDriver.Quit();
         }
     }
 }
