@@ -8,8 +8,8 @@ namespace Plemiona.Core.Steps.Services.Delay.Step
         private readonly Random _random = new Random();
         private readonly object _lock = new object();
 
-        private int _minimumMilliseconds = 50;
-        private int _maximumMilliseconds = 300;
+        private int _minimumMilliseconds = 20;
+        private int _maximumMilliseconds = 250;
 
         public void Configure(int minimumMilliseconds, int maximumMilliseconds)
         {
