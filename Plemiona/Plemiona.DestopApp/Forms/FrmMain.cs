@@ -47,13 +47,15 @@ namespace Plemiona.DestopApp.Forms
             _plemionaSettingsInitializationService = plemionaSettingsInitializationService;
             _stepDelayService = stepDelayService;
 
+            _plemionaToolLocalData = _plemionaToolLocalDataService.Load();
+
             _webDriver = webDriverProviderService.CreateWebDriver();
 
             _windowsPositionService.SetMainFormWindow(this);
 
-            _stepDelayService.Configure(500, 500);
+            var browserWindow = _webDriver.Manage().Window;
 
-            _plemionaToolLocalData = _plemionaToolLocalDataService.Load();
+            _windowsPositionService.SetBrowserWindow(browserWindow);
 
             GridTroopsTemplates.LostFocus += (s, e) => GridTroopsTemplates.ClearSelection();
             GridTroopsActions.LostFocus += (s, e) => GridTroopsActions.ClearSelection();
@@ -84,12 +86,6 @@ namespace Plemiona.DestopApp.Forms
                 int worldNumber = Convert.ToInt32(ConfigurationManager.AppSettings["WorldNumber"]);
 
                 _plemionaFeatures.SignIn(username, password, worldNumber);
-
-                var webDriver = _webDriverProviderService.CreateWebDriver();
-
-                var browserWindow = webDriver.Manage().Window;
-
-                _windowsPositionService.SetBrowserWindow(browserWindow);
             });
         }
 

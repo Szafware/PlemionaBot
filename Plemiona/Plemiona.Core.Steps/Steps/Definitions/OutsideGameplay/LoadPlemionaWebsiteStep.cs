@@ -20,8 +20,6 @@ namespace Plemiona.Core.Steps.Steps.Definitions.OutsideGameplay
 
         public object Execute(object parameter)
         {
-            _stepDelayService.Delay();
-
             _remoteWebDriver = _webDriverProviderService.CreateWebDriver();
             _navigation = _remoteWebDriver.Navigate();
 
