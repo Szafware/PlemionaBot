@@ -66,10 +66,14 @@ namespace Plemiona.Core.Features
                 if (troops.AreUnsaddledTroopsPresent)
                 {
                     _stepProviderService.GetStep("ClickBuildingPicture").Execute(BuildingTypes.Barracks);
-                    _stepProviderService.GetStep("FillRecruitmentTroopsCountTextBox").Execute(TroopsRecruitment.Create(TroopTypes.Spearman, troops.Spearmen));
-                    _stepProviderService.GetStep("FillRecruitmentTroopsCountTextBox").Execute(TroopsRecruitment.Create(TroopTypes.Swordman, troops.Swordmen));
-                    _stepProviderService.GetStep("FillRecruitmentTroopsCountTextBox").Execute(TroopsRecruitment.Create(TroopTypes.Axeman, troops.Axemen));
-                    _stepProviderService.GetStep("FillRecruitmentTroopsCountTextBox").Execute(TroopsRecruitment.Create(TroopTypes.Bowman, troops.Bowmen));
+                    if (troops.Spearmen > 0)
+                        _stepProviderService.GetStep("FillRecruitmentTroopsCountTextBox").Execute(TroopsRecruitment.Create(TroopTypes.Spearman, troops.Spearmen));
+                    if (troops.Swordmen > 0)
+                        _stepProviderService.GetStep("FillRecruitmentTroopsCountTextBox").Execute(TroopsRecruitment.Create(TroopTypes.Swordman, troops.Swordmen));
+                    if (troops.Axemen > 0)
+                        _stepProviderService.GetStep("FillRecruitmentTroopsCountTextBox").Execute(TroopsRecruitment.Create(TroopTypes.Axeman, troops.Axemen));
+                    if (troops.Bowmen > 0)
+                        _stepProviderService.GetStep("FillRecruitmentTroopsCountTextBox").Execute(TroopsRecruitment.Create(TroopTypes.Bowman, troops.Bowmen));
                     _stepProviderService.GetStep("ClickUnsaddledTroopsRecruitmentButton").Execute();
                 }
 
@@ -77,10 +81,14 @@ namespace Plemiona.Core.Features
                 {
                     _stepProviderService.GetStep("ClickVillageViewButton").Execute();
                     _stepProviderService.GetStep("ClickBuildingPicture").Execute(BuildingTypes.Stable);
-                    _stepProviderService.GetStep("FillRecruitmentTroopsCountTextBox").Execute(TroopsRecruitment.Create(TroopTypes.Scout, troops.Scouts));
-                    _stepProviderService.GetStep("FillRecruitmentTroopsCountTextBox").Execute(TroopsRecruitment.Create(TroopTypes.LightCavalryman, troops.LightCavalary));
-                    _stepProviderService.GetStep("FillRecruitmentTroopsCountTextBox").Execute(TroopsRecruitment.Create(TroopTypes.HorseArcher, troops.HorseArchers));
-                    _stepProviderService.GetStep("FillRecruitmentTroopsCountTextBox").Execute(TroopsRecruitment.Create(TroopTypes.HeavyCavalryman, troops.HeavyCavalary));
+                    if (troops.Scouts > 0)
+                        _stepProviderService.GetStep("FillRecruitmentTroopsCountTextBox").Execute(TroopsRecruitment.Create(TroopTypes.Scout, troops.Scouts));
+                    if (troops.LightCavalary > 0)
+                        _stepProviderService.GetStep("FillRecruitmentTroopsCountTextBox").Execute(TroopsRecruitment.Create(TroopTypes.LightCavalryman, troops.LightCavalary));
+                    if (troops.HorseArchers > 0)
+                        _stepProviderService.GetStep("FillRecruitmentTroopsCountTextBox").Execute(TroopsRecruitment.Create(TroopTypes.HorseArcher, troops.HorseArchers));
+                    if (troops.HeavyCavalary > 0)
+                        _stepProviderService.GetStep("FillRecruitmentTroopsCountTextBox").Execute(TroopsRecruitment.Create(TroopTypes.HeavyCavalryman, troops.HeavyCavalary));
                     _stepProviderService.GetStep("ClickSaddledTroopsRecruitmentButton").Execute();
                 }
 
@@ -88,8 +96,10 @@ namespace Plemiona.Core.Features
                 {
                     _stepProviderService.GetStep("ClickVillageViewButton").Execute();
                     _stepProviderService.GetStep("ClickBuildingPicture").Execute(BuildingTypes.Workshop);
-                    _stepProviderService.GetStep("FillRecruitmentTroopsCountTextBox").Execute(TroopsRecruitment.Create(TroopTypes.Ram, troops.Rams));
-                    _stepProviderService.GetStep("FillRecruitmentTroopsCountTextBox").Execute(TroopsRecruitment.Create(TroopTypes.Catapulte, troops.Catapultes));
+                    if (troops.Rams > 0)
+                        _stepProviderService.GetStep("FillRecruitmentTroopsCountTextBox").Execute(TroopsRecruitment.Create(TroopTypes.Ram, troops.Rams));
+                    if (troops.Catapultes > 0)
+                        _stepProviderService.GetStep("FillRecruitmentTroopsCountTextBox").Execute(TroopsRecruitment.Create(TroopTypes.Catapulte, troops.Catapultes));
                     _stepProviderService.GetStep("ClickWarMachinesRecruitmentButton").Execute();
                 }
 
@@ -152,21 +162,33 @@ namespace Plemiona.Core.Features
             {
                 _stepProviderService.GetStep("ClickBuildingPicture").Execute(BuildingTypes.Yard);
 
-                _stepProviderService.GetStep("FillYardSpearmenCountTextBox").Execute(troops.Spearmen);
-                _stepProviderService.GetStep("FillYardSwordmenCountTextBox").Execute(troops.Swordmen);
-                _stepProviderService.GetStep("FillYardAxemenCountTextBox").Execute(troops.Axemen);
-                _stepProviderService.GetStep("FillYardBowmenCountTextBox").Execute(troops.Bowmen);
+                if (troops.Spearmen > 0)
+                    _stepProviderService.GetStep("FillYardSpearmenCountTextBox").Execute(troops.Spearmen);
+                if (troops.Swordmen > 0)
+                    _stepProviderService.GetStep("FillYardSwordmenCountTextBox").Execute(troops.Swordmen);
+                if (troops.Axemen > 0)
+                    _stepProviderService.GetStep("FillYardAxemenCountTextBox").Execute(troops.Axemen);
+                if (troops.Bowmen > 0)
+                    _stepProviderService.GetStep("FillYardBowmenCountTextBox").Execute(troops.Bowmen);
 
-                _stepProviderService.GetStep("FillYardScoutCountTextBox").Execute(troops.Scouts);
-                _stepProviderService.GetStep("FillYardLightCavalaryCountTextBox").Execute(troops.LightCavalary);
-                _stepProviderService.GetStep("FillYardHorseArchersCountTextBox").Execute(troops.HorseArchers);
-                _stepProviderService.GetStep("FillYardHeavyCavalaryCountTextBox").Execute(troops.HeavyCavalary);
+                if (troops.Scouts > 0)
+                    _stepProviderService.GetStep("FillYardScoutCountTextBox").Execute(troops.Scouts);
+                if (troops.LightCavalary > 0)
+                    _stepProviderService.GetStep("FillYardLightCavalaryCountTextBox").Execute(troops.LightCavalary);
+                if (troops.HorseArchers > 0)
+                    _stepProviderService.GetStep("FillYardHorseArchersCountTextBox").Execute(troops.HorseArchers);
+                if (troops.HeavyCavalary > 0)
+                    _stepProviderService.GetStep("FillYardHeavyCavalaryCountTextBox").Execute(troops.HeavyCavalary);
 
-                _stepProviderService.GetStep("FillYardRamsCountTextBox").Execute(troops.Rams);
-                _stepProviderService.GetStep("FillYardCatapultesCountTextBox").Execute(troops.Catapultes);
+                if (troops.Rams > 0)
+                    _stepProviderService.GetStep("FillYardRamsCountTextBox").Execute(troops.Rams);
+                if (troops.Catapultes > 0)
+                    _stepProviderService.GetStep("FillYardCatapultesCountTextBox").Execute(troops.Catapultes);
 
-                _stepProviderService.GetStep("FillYardKnightsCountTextBox").Execute(troops.Knights);
-                _stepProviderService.GetStep("FillYardNobelmenCountTextBox").Execute(troops.Noblemen);
+                if (troops.Knights > 0)
+                    _stepProviderService.GetStep("FillYardKnightsCountTextBox").Execute(troops.Knights);
+                if (troops.Noblemen > 0)
+                    _stepProviderService.GetStep("FillYardNobelmenCountTextBox").Execute(troops.Noblemen);
 
                 _stepProviderService.GetStep("FillYardVillageCoordinatesTextBox").Execute(new Point(coordinateX, coordinateY));
 
