@@ -46,6 +46,7 @@
             this.ColumnTroopsActionsEveryday = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.ColumnTroopsActionExecute = new System.Windows.Forms.DataGridViewButtonColumn();
             this.BtnAddTroopsTemplate = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             this.PnlMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.GridTroopsTemplates)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.GridTroopsActions)).BeginInit();
@@ -59,6 +60,7 @@
             this.PnlMain.Controls.Add(this.BtnAddTroopsAction, 0, 2);
             this.PnlMain.Controls.Add(this.GridTroopsActions, 0, 3);
             this.PnlMain.Controls.Add(this.BtnAddTroopsTemplate, 0, 0);
+            this.PnlMain.Controls.Add(this.button1, 0, 4);
             this.PnlMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.PnlMain.Location = new System.Drawing.Point(0, 0);
             this.PnlMain.Name = "PnlMain";
@@ -220,6 +222,16 @@
             this.BtnAddTroopsTemplate.UseVisualStyleBackColor = true;
             this.BtnAddTroopsTemplate.MouseClick += new System.Windows.Forms.MouseEventHandler(this.BtnAddTroopsTemplate_MouseClick);
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(3, 453);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 5;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // FrmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -256,5 +268,6 @@
         private System.Windows.Forms.DataGridViewButtonColumn ColumnTroopsActionExecute;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnTroopsTypesNumber;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnTroopsTypesName;
+        private System.Windows.Forms.Button button1;
     }
 }

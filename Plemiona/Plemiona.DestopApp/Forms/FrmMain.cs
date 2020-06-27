@@ -1,5 +1,6 @@
 ﻿using OpenQA.Selenium.Remote;
 using Plemiona.Core.Enums;
+using Plemiona.Core.Exceptions;
 using Plemiona.Core.Interfaces.Features;
 using Plemiona.Core.Services.WebDriverProvider;
 using Plemiona.Core.Steps.Services.Delay.Step;
@@ -329,6 +330,22 @@ namespace Plemiona.DestopApp.Forms
             }
 
             _webDriver.Quit();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                _plemionaFeatures.SendTroops(new Core.Models.Troops { Scouts = 1 }, 692, 517, TroopsIntentions.Attack);
+            }
+            catch (FeatureException ex)
+            {
+                MessageBox.Show(ex.Message, "Plemiona Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Unexpected Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }
