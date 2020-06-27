@@ -1,4 +1,5 @@
 ﻿using Plemiona.Core.Enums;
+using Plemiona.Core.Exceptions;
 using Plemiona.Core.Interfaces.Features;
 using Plemiona.Core.Models;
 using Plemiona.Core.Models.Steps;
@@ -35,14 +36,24 @@ namespace Plemiona.Core.Features
                 _stepProviderService.GetStep("FillPasswordTextBox").Execute(password);
                 _stepProviderService.GetStep("ClickSignInButton").Execute();
                 _stepProviderService.GetStep("ClickWorldButton").Execute(worldNumber);
-                if ((bool)_stepProviderService.GetStep("DidDailySignInGiftWindowPopUp").Execute())
+                if ((bool)_stepProviderService.GetStep("IsDailySignInGiftWindowPresent").Execute())
                     _stepProviderService.GetStep("ClickDailySignInGiftReceiveButton").Execute();
                 _stepProviderService.GetStep("ClickHideChatButton").Execute();
             }
             catch (Exception e)
             {
-                _featureLoggingService.LogException(e);
-                throw;
+                if ((bool)_stepProviderService.GetStep("IsErrorMessagePresent").Execute())
+                {
+                    string errorMessage = (string)_stepProviderService.GetStep("GetErrorMessage").Execute();
+                    TryToReturnToVillageView();
+                    throw new FeatureException(errorMessage);
+                }
+                else
+                {
+                    _featureLoggingService.LogException(e);
+                    TryToReturnToVillageView();
+                    throw;
+                }
             }
         }
 
@@ -55,7 +66,18 @@ namespace Plemiona.Core.Features
             }
             catch (Exception e)
             {
-                throw;
+                if ((bool)_stepProviderService.GetStep("IsErrorMessagePresent").Execute())
+                {
+                    string errorMessage = (string)_stepProviderService.GetStep("GetErrorMessage").Execute();
+                    TryToReturnToVillageView();
+                    throw new FeatureException(errorMessage);
+                }
+                else
+                {
+                    _featureLoggingService.LogException(e);
+                    TryToReturnToVillageView();
+                    throw;
+                }
             }
         }
 
@@ -115,8 +137,18 @@ namespace Plemiona.Core.Features
             }
             catch (Exception e)
             {
-                _featureLoggingService.LogException(e);
-                throw;
+                if ((bool)_stepProviderService.GetStep("IsErrorMessagePresent").Execute())
+                {
+                    string errorMessage = (string)_stepProviderService.GetStep("GetErrorMessage").Execute();
+                    TryToReturnToVillageView();
+                    throw new FeatureException(errorMessage);
+                }
+                else
+                {
+                    _featureLoggingService.LogException(e);
+                    TryToReturnToVillageView();
+                    throw;
+                }
             }
         }
 
@@ -135,8 +167,18 @@ namespace Plemiona.Core.Features
             }
             catch (Exception e)
             {
-                _featureLoggingService.LogException(e);
-                throw;
+                if ((bool)_stepProviderService.GetStep("IsErrorMessagePresent").Execute())
+                {
+                    string errorMessage = (string)_stepProviderService.GetStep("GetErrorMessage").Execute();
+                    TryToReturnToVillageView();
+                    throw new FeatureException(errorMessage);
+                }
+                else
+                {
+                    _featureLoggingService.LogException(e);
+                    TryToReturnToVillageView();
+                    throw;
+                }
             }
         }
 
@@ -151,8 +193,18 @@ namespace Plemiona.Core.Features
             }
             catch (Exception e)
             {
-                _featureLoggingService.LogException(e);
-                throw;
+                if ((bool)_stepProviderService.GetStep("IsErrorMessagePresent").Execute())
+                {
+                    string errorMessage = (string)_stepProviderService.GetStep("GetErrorMessage").Execute();
+                    TryToReturnToVillageView();
+                    throw new FeatureException(errorMessage);
+                }
+                else
+                {
+                    _featureLoggingService.LogException(e);
+                    TryToReturnToVillageView();
+                    throw;
+                }
             }
         }
 
@@ -203,8 +255,18 @@ namespace Plemiona.Core.Features
             }
             catch (Exception e)
             {
-                _featureLoggingService.LogException(e);
-                throw;
+                if ((bool)_stepProviderService.GetStep("IsErrorMessagePresent").Execute())
+                {
+                    string errorMessage = (string)_stepProviderService.GetStep("GetErrorMessage").Execute();
+                    TryToReturnToVillageView();
+                    throw new FeatureException(errorMessage);
+                }
+                else
+                {
+                    _featureLoggingService.LogException(e);
+                    TryToReturnToVillageView();
+                    throw;
+                }
             }
         }
 
@@ -223,8 +285,18 @@ namespace Plemiona.Core.Features
             }
             catch (Exception e)
             {
-                _featureLoggingService.LogException(e);
-                throw;
+                if ((bool)_stepProviderService.GetStep("IsErrorMessagePresent").Execute())
+                {
+                    string errorMessage = (string)_stepProviderService.GetStep("GetErrorMessage").Execute();
+                    TryToReturnToVillageView();
+                    throw new FeatureException(errorMessage);
+                }
+                else
+                {
+                    _featureLoggingService.LogException(e);
+                    TryToReturnToVillageView();
+                    throw;
+                }
             }
         }
 
@@ -260,8 +332,18 @@ namespace Plemiona.Core.Features
             }
             catch (Exception e)
             {
-                _featureLoggingService.LogException(e);
-                throw;
+                if ((bool)_stepProviderService.GetStep("IsErrorMessagePresent").Execute())
+                {
+                    string errorMessage = (string)_stepProviderService.GetStep("GetErrorMessage").Execute();
+                    TryToReturnToVillageView();
+                    throw new FeatureException(errorMessage);
+                }
+                else
+                {
+                    _featureLoggingService.LogException(e);
+                    TryToReturnToVillageView();
+                    throw;
+                }
             }
         }
 
@@ -277,8 +359,18 @@ namespace Plemiona.Core.Features
             }
             catch (Exception e)
             {
-                _featureLoggingService.LogException(e);
-                throw;
+                if ((bool)_stepProviderService.GetStep("IsErrorMessagePresent").Execute())
+                {
+                    string errorMessage = (string)_stepProviderService.GetStep("GetErrorMessage").Execute();
+                    TryToReturnToVillageView();
+                    throw new FeatureException(errorMessage);
+                }
+                else
+                {
+                    _featureLoggingService.LogException(e);
+                    TryToReturnToVillageView();
+                    throw;
+                }
             }
         }
 
@@ -295,7 +387,18 @@ namespace Plemiona.Core.Features
             }
             catch (Exception e)
             {
-                throw;
+                if ((bool)_stepProviderService.GetStep("IsErrorMessagePresent").Execute())
+                {
+                    string errorMessage = (string)_stepProviderService.GetStep("GetErrorMessage").Execute();
+                    TryToReturnToVillageView();
+                    throw new FeatureException(errorMessage);
+                }
+                else
+                {
+                    _featureLoggingService.LogException(e);
+                    TryToReturnToVillageView();
+                    throw;
+                }
             }
         }
 
@@ -306,14 +409,26 @@ namespace Plemiona.Core.Features
             {
                 var village = new Village();
 
+                _stepProviderService.GetStep("ClickMapButton").Execute();
+
                 throw new NotImplementedException();
 
                 return village;
             }
             catch (Exception e)
             {
-                _featureLoggingService.LogException(e);
-                throw;
+                if ((bool)_stepProviderService.GetStep("IsErrorMessagePresent").Execute())
+                {
+                    string errorMessage = (string)_stepProviderService.GetStep("GetErrorMessage").Execute();
+                    TryToReturnToVillageView();
+                    throw new FeatureException(errorMessage);
+                }
+                else
+                {
+                    _featureLoggingService.LogException(e);
+                    TryToReturnToVillageView();
+                    throw;
+                }
             }
         }
 
@@ -327,8 +442,18 @@ namespace Plemiona.Core.Features
             }
             catch (Exception e)
             {
-                _featureLoggingService.LogException(e);
-                throw;
+                if ((bool)_stepProviderService.GetStep("IsErrorMessagePresent").Execute())
+                {
+                    string errorMessage = (string)_stepProviderService.GetStep("GetErrorMessage").Execute();
+                    TryToReturnToVillageView();
+                    throw new FeatureException(errorMessage);
+                }
+                else
+                {
+                    _featureLoggingService.LogException(e);
+                    TryToReturnToVillageView();
+                    throw;
+                }
             }
         }
 
@@ -348,8 +473,18 @@ namespace Plemiona.Core.Features
             }
             catch (Exception e)
             {
-                _featureLoggingService.LogException(e);
-                throw;
+                if ((bool)_stepProviderService.GetStep("IsErrorMessagePresent").Execute())
+                {
+                    string errorMessage = (string)_stepProviderService.GetStep("GetErrorMessage").Execute();
+                    TryToReturnToVillageView();
+                    throw new FeatureException(errorMessage);
+                }
+                else
+                {
+                    _featureLoggingService.LogException(e);
+                    TryToReturnToVillageView();
+                    throw;
+                }
             }
         }
 
@@ -363,8 +498,29 @@ namespace Plemiona.Core.Features
             }
             catch (Exception e)
             {
-                _featureLoggingService.LogException(e);
-                throw;
+                if ((bool)_stepProviderService.GetStep("IsErrorMessagePresent").Execute())
+                {
+                    string errorMessage = (string)_stepProviderService.GetStep("GetErrorMessage").Execute();
+                    TryToReturnToVillageView();
+                    throw new FeatureException(errorMessage);
+                }
+                else
+                {
+                    _featureLoggingService.LogException(e);
+                    TryToReturnToVillageView();
+                    throw;
+                }
+            }
+        }
+
+        private void TryToReturnToVillageView()
+        {
+            try
+            {
+                _stepProviderService.GetStep("ClickVillageViewButton").Execute();
+            }
+            catch
+            {
             }
         }
     }
