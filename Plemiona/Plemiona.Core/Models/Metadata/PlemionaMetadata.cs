@@ -6,6 +6,8 @@
 
         public string PlayerId { get; set; }
 
+        public string PlayerName { get; set; }
+
         public string VillageId { get;set; }
 
         public string CsrfToken { get; set; }

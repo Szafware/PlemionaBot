@@ -33,6 +33,7 @@ namespace Plemiona.Core.Services.PlemionaMetadataProvider
             {
                 PlemionaVersion = GetJsPropertyValue(metadataJson, null, "majorVersion"),
                 PlayerId = GetJsPropertyValue(metadataJson, "player", "id"),
+                PlayerName = GetJsPropertyValue(metadataJson, "player", "name"),
                 VillageId = GetJsPropertyValue(metadataJson, "village", "id"),
                 CsrfToken = GetJsPropertyValue(metadataJson, null, "csrf")
             };
