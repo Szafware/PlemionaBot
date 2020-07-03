@@ -2,12 +2,15 @@
 using Plemiona.Core.Exceptions;
 using Plemiona.Core.Interfaces.Features;
 using Plemiona.Core.Models;
+using Plemiona.Core.Models.Gui;
 using Plemiona.Core.Models.Steps;
 using Plemiona.Core.Services.FeatureLogging;
 using Plemiona.Core.Steps.Services.StepProvider;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
+using System.Reflection;
 
 namespace Plemiona.Core.Features
 {
@@ -15,14 +18,17 @@ namespace Plemiona.Core.Features
     {
         private readonly IStepProviderService _stepProviderService;
         private readonly IFeatureLoggingService _featureLoggingService;
+        private readonly PlemionaMetadata _plemionaMetadata;
 
         public PlemionaDefaultFeatures(
             IStepProviderService stepProviderService,
-            IFeatureLoggingService featureLoggingService
+            IFeatureLoggingService featureLoggingService,
+            PlemionaMetadata plemionaMetadata
             )
         {
             _stepProviderService = stepProviderService;
             _featureLoggingService = featureLoggingService;
+            _plemionaMetadata = plemionaMetadata;
         }
 
         public void SignIn(string username, string password, int worldNumber)
@@ -40,20 +46,30 @@ namespace Plemiona.Core.Features
                     _stepProviderService.GetStep("ClickDailySignInGiftReceiveButton").Execute();
                 _stepProviderService.GetStep("ClickHideChatButton").Execute();
             }
+            catch (BotCheckException bce)
+            {
+                _featureLoggingService.LogBotCheck(MethodBase.GetCurrentMethod().Name, bce.CurrentStep);
+                throw;
+            }
             catch (Exception e)
             {
+                string errorMessage = string.Empty;
+                bool plemionaError = false;
+
                 if ((bool)_stepProviderService.GetStep("IsErrorMessagePresent").Execute())
                 {
-                    string errorMessage = (string)_stepProviderService.GetStep("GetErrorMessage").Execute();
+                    plemionaError = true;
+                    errorMessage = (string)_stepProviderService.GetStep("GetErrorMessage").Execute();
                     TryToReturnToVillageView();
-                    throw new FeatureException(errorMessage);
                 }
                 else
                 {
-                    _featureLoggingService.LogException(e);
+                    errorMessage = e.Message;
+                    _featureLoggingService.LogException(e, MethodBase.GetCurrentMethod().Name);
                     TryToReturnToVillageView();
-                    throw;
                 }
+
+                throw new FeatureException(plemionaError, errorMessage);
             }
         }
 
@@ -64,20 +80,30 @@ namespace Plemiona.Core.Features
             {
                 throw new NotImplementedException();
             }
+            catch (BotCheckException bce)
+            {
+                _featureLoggingService.LogBotCheck(MethodBase.GetCurrentMethod().Name, bce.CurrentStep);
+                throw;
+            }
             catch (Exception e)
             {
+                string errorMessage = string.Empty;
+                bool plemionaError = false;
+
                 if ((bool)_stepProviderService.GetStep("IsErrorMessagePresent").Execute())
                 {
-                    string errorMessage = (string)_stepProviderService.GetStep("GetErrorMessage").Execute();
+                    plemionaError = true;
+                    errorMessage = (string)_stepProviderService.GetStep("GetErrorMessage").Execute();
                     TryToReturnToVillageView();
-                    throw new FeatureException(errorMessage);
                 }
                 else
                 {
-                    _featureLoggingService.LogException(e);
+                    errorMessage = e.Message;
+                    _featureLoggingService.LogException(e, MethodBase.GetCurrentMethod().Name);
                     TryToReturnToVillageView();
-                    throw;
                 }
+
+                throw new FeatureException(plemionaError, errorMessage);
             }
         }
 
@@ -135,20 +161,30 @@ namespace Plemiona.Core.Features
 
                 _stepProviderService.GetStep("ClickVillageViewButton").Execute();
             }
+            catch (BotCheckException bce)
+            {
+                _featureLoggingService.LogBotCheck(MethodBase.GetCurrentMethod().Name, bce.CurrentStep);
+                throw;
+            }
             catch (Exception e)
             {
+                string errorMessage = string.Empty;
+                bool plemionaError = false;
+
                 if ((bool)_stepProviderService.GetStep("IsErrorMessagePresent").Execute())
                 {
-                    string errorMessage = (string)_stepProviderService.GetStep("GetErrorMessage").Execute();
+                    plemionaError = true;
+                    errorMessage = (string)_stepProviderService.GetStep("GetErrorMessage").Execute();
                     TryToReturnToVillageView();
-                    throw new FeatureException(errorMessage);
                 }
                 else
                 {
-                    _featureLoggingService.LogException(e);
+                    errorMessage = e.Message;
+                    _featureLoggingService.LogException(e, MethodBase.GetCurrentMethod().Name);
                     TryToReturnToVillageView();
-                    throw;
                 }
+
+                throw new FeatureException(plemionaError, errorMessage);
             }
         }
 
@@ -165,20 +201,30 @@ namespace Plemiona.Core.Features
                     _stepProviderService.GetStep("ClickKnightRecruitmentSkipButton").Execute();
                 _stepProviderService.GetStep("ClickVillageViewButton").Execute();
             }
+            catch (BotCheckException bce)
+            {
+                _featureLoggingService.LogBotCheck(MethodBase.GetCurrentMethod().Name, bce.CurrentStep);
+                throw;
+            }
             catch (Exception e)
             {
+                string errorMessage = string.Empty;
+                bool plemionaError = false;
+
                 if ((bool)_stepProviderService.GetStep("IsErrorMessagePresent").Execute())
                 {
-                    string errorMessage = (string)_stepProviderService.GetStep("GetErrorMessage").Execute();
+                    plemionaError = true;
+                    errorMessage = (string)_stepProviderService.GetStep("GetErrorMessage").Execute();
                     TryToReturnToVillageView();
-                    throw new FeatureException(errorMessage);
                 }
                 else
                 {
-                    _featureLoggingService.LogException(e);
+                    errorMessage = e.Message;
+                    _featureLoggingService.LogException(e, MethodBase.GetCurrentMethod().Name);
                     TryToReturnToVillageView();
-                    throw;
                 }
+
+                throw new FeatureException(plemionaError, errorMessage);
             }
         }
 
@@ -191,20 +237,30 @@ namespace Plemiona.Core.Features
                 _stepProviderService.GetStep("ClickKnightRevivalConfirmationButton").Execute();
                 _stepProviderService.GetStep("ClickVillageViewButton").Execute();
             }
+            catch (BotCheckException bce)
+            {
+                _featureLoggingService.LogBotCheck(MethodBase.GetCurrentMethod().Name, bce.CurrentStep);
+                throw;
+            }
             catch (Exception e)
             {
+                string errorMessage = string.Empty;
+                bool plemionaError = false;
+
                 if ((bool)_stepProviderService.GetStep("IsErrorMessagePresent").Execute())
                 {
-                    string errorMessage = (string)_stepProviderService.GetStep("GetErrorMessage").Execute();
+                    plemionaError = true;
+                    errorMessage = (string)_stepProviderService.GetStep("GetErrorMessage").Execute();
                     TryToReturnToVillageView();
-                    throw new FeatureException(errorMessage);
                 }
                 else
                 {
-                    _featureLoggingService.LogException(e);
+                    errorMessage = e.Message;
+                    _featureLoggingService.LogException(e, MethodBase.GetCurrentMethod().Name);
                     TryToReturnToVillageView();
-                    throw;
                 }
+
+                throw new FeatureException(plemionaError, errorMessage);
             }
         }
 
@@ -253,20 +309,30 @@ namespace Plemiona.Core.Features
 
                 _stepProviderService.GetStep("ClickVillageViewButton").Execute();
             }
+            catch (BotCheckException bce)
+            {
+                _featureLoggingService.LogBotCheck(MethodBase.GetCurrentMethod().Name, bce.CurrentStep);
+                throw;
+            }
             catch (Exception e)
             {
+                string errorMessage = string.Empty;
+                bool plemionaError = false;
+
                 if ((bool)_stepProviderService.GetStep("IsErrorMessagePresent").Execute())
                 {
-                    string errorMessage = (string)_stepProviderService.GetStep("GetErrorMessage").Execute();
+                    plemionaError = true;
+                    errorMessage = (string)_stepProviderService.GetStep("GetErrorMessage").Execute();
                     TryToReturnToVillageView();
-                    throw new FeatureException(errorMessage);
                 }
                 else
                 {
-                    _featureLoggingService.LogException(e);
+                    errorMessage = e.Message;
+                    _featureLoggingService.LogException(e, MethodBase.GetCurrentMethod().Name);
                     TryToReturnToVillageView();
-                    throw;
                 }
+
+                throw new FeatureException(plemionaError, errorMessage);
             }
         }
 
@@ -283,20 +349,30 @@ namespace Plemiona.Core.Features
 
                 return resources;
             }
+            catch (BotCheckException bce)
+            {
+                _featureLoggingService.LogBotCheck(MethodBase.GetCurrentMethod().Name, bce.CurrentStep);
+                throw;
+            }
             catch (Exception e)
             {
+                string errorMessage = string.Empty;
+                bool plemionaError = false;
+
                 if ((bool)_stepProviderService.GetStep("IsErrorMessagePresent").Execute())
                 {
-                    string errorMessage = (string)_stepProviderService.GetStep("GetErrorMessage").Execute();
+                    plemionaError = true;
+                    errorMessage = (string)_stepProviderService.GetStep("GetErrorMessage").Execute();
                     TryToReturnToVillageView();
-                    throw new FeatureException(errorMessage);
                 }
                 else
                 {
-                    _featureLoggingService.LogException(e);
+                    errorMessage = e.Message;
+                    _featureLoggingService.LogException(e, MethodBase.GetCurrentMethod().Name);
                     TryToReturnToVillageView();
-                    throw;
                 }
+
+                throw new FeatureException(plemionaError, errorMessage);
             }
         }
 
@@ -330,20 +406,30 @@ namespace Plemiona.Core.Features
 
                 return buildings;
             }
+            catch (BotCheckException bce)
+            {
+                _featureLoggingService.LogBotCheck(MethodBase.GetCurrentMethod().Name, bce.CurrentStep);
+                throw;
+            }
             catch (Exception e)
             {
+                string errorMessage = string.Empty;
+                bool plemionaError = false;
+
                 if ((bool)_stepProviderService.GetStep("IsErrorMessagePresent").Execute())
                 {
-                    string errorMessage = (string)_stepProviderService.GetStep("GetErrorMessage").Execute();
+                    plemionaError = true;
+                    errorMessage = (string)_stepProviderService.GetStep("GetErrorMessage").Execute();
                     TryToReturnToVillageView();
-                    throw new FeatureException(errorMessage);
                 }
                 else
                 {
-                    _featureLoggingService.LogException(e);
+                    errorMessage = e.Message;
+                    _featureLoggingService.LogException(e, MethodBase.GetCurrentMethod().Name);
                     TryToReturnToVillageView();
-                    throw;
                 }
+
+                throw new FeatureException(plemionaError, errorMessage);
             }
         }
 
@@ -357,20 +443,30 @@ namespace Plemiona.Core.Features
                 _stepProviderService.GetStep("ClickVillageNameChangeButton").Execute();
                 _stepProviderService.GetStep("ClickVillageViewButton").Execute();
             }
+            catch (BotCheckException bce)
+            {
+                _featureLoggingService.LogBotCheck(MethodBase.GetCurrentMethod().Name, bce.CurrentStep);
+                throw;
+            }
             catch (Exception e)
             {
+                string errorMessage = string.Empty;
+                bool plemionaError = false;
+
                 if ((bool)_stepProviderService.GetStep("IsErrorMessagePresent").Execute())
                 {
-                    string errorMessage = (string)_stepProviderService.GetStep("GetErrorMessage").Execute();
+                    plemionaError = true;
+                    errorMessage = (string)_stepProviderService.GetStep("GetErrorMessage").Execute();
                     TryToReturnToVillageView();
-                    throw new FeatureException(errorMessage);
                 }
                 else
                 {
-                    _featureLoggingService.LogException(e);
+                    errorMessage = e.Message;
+                    _featureLoggingService.LogException(e, MethodBase.GetCurrentMethod().Name);
                     TryToReturnToVillageView();
-                    throw;
                 }
+
+                throw new FeatureException(plemionaError, errorMessage);
             }
         }
 
@@ -385,20 +481,30 @@ namespace Plemiona.Core.Features
 
                 return new List<Village>();
             }
+            catch (BotCheckException bce)
+            {
+                _featureLoggingService.LogBotCheck(MethodBase.GetCurrentMethod().Name, bce.CurrentStep);
+                throw;
+            }
             catch (Exception e)
             {
+                string errorMessage = string.Empty;
+                bool plemionaError = false;
+
                 if ((bool)_stepProviderService.GetStep("IsErrorMessagePresent").Execute())
                 {
-                    string errorMessage = (string)_stepProviderService.GetStep("GetErrorMessage").Execute();
+                    plemionaError = true;
+                    errorMessage = (string)_stepProviderService.GetStep("GetErrorMessage").Execute();
                     TryToReturnToVillageView();
-                    throw new FeatureException(errorMessage);
                 }
                 else
                 {
-                    _featureLoggingService.LogException(e);
+                    errorMessage = e.Message;
+                    _featureLoggingService.LogException(e, MethodBase.GetCurrentMethod().Name);
                     TryToReturnToVillageView();
-                    throw;
                 }
+
+                throw new FeatureException(plemionaError, errorMessage);
             }
         }
 
@@ -415,20 +521,30 @@ namespace Plemiona.Core.Features
 
                 return village;
             }
+            catch (BotCheckException bce)
+            {
+                _featureLoggingService.LogBotCheck(MethodBase.GetCurrentMethod().Name, bce.CurrentStep);
+                throw;
+            }
             catch (Exception e)
             {
+                string errorMessage = string.Empty;
+                bool plemionaError = false;
+
                 if ((bool)_stepProviderService.GetStep("IsErrorMessagePresent").Execute())
                 {
-                    string errorMessage = (string)_stepProviderService.GetStep("GetErrorMessage").Execute();
+                    plemionaError = true;
+                    errorMessage = (string)_stepProviderService.GetStep("GetErrorMessage").Execute();
                     TryToReturnToVillageView();
-                    throw new FeatureException(errorMessage);
                 }
                 else
                 {
-                    _featureLoggingService.LogException(e);
+                    errorMessage = e.Message;
+                    _featureLoggingService.LogException(e, MethodBase.GetCurrentMethod().Name);
                     TryToReturnToVillageView();
-                    throw;
                 }
+
+                throw new FeatureException(plemionaError, errorMessage);
             }
         }
 
@@ -440,51 +556,112 @@ namespace Plemiona.Core.Features
                 _stepProviderService.GetStep("ClickAddBuildingToBuildQueueButton").Execute(building);
                 _stepProviderService.GetStep("ClickVillageViewButton").Execute();
             }
+            catch (BotCheckException bce)
+            {
+                _featureLoggingService.LogBotCheck(MethodBase.GetCurrentMethod().Name, bce.CurrentStep);
+                throw;
+            }
             catch (Exception e)
             {
+                string errorMessage = string.Empty;
+                bool plemionaError = false;
+
                 if ((bool)_stepProviderService.GetStep("IsErrorMessagePresent").Execute())
                 {
-                    string errorMessage = (string)_stepProviderService.GetStep("GetErrorMessage").Execute();
+                    plemionaError = true;
+                    errorMessage = (string)_stepProviderService.GetStep("GetErrorMessage").Execute();
                     TryToReturnToVillageView();
-                    throw new FeatureException(errorMessage);
                 }
                 else
                 {
-                    _featureLoggingService.LogException(e);
+                    errorMessage = e.Message;
+                    _featureLoggingService.LogException(e, MethodBase.GetCurrentMethod().Name);
                     TryToReturnToVillageView();
-                    throw;
                 }
+
+                throw new FeatureException(plemionaError, errorMessage);
             }
         }
 
         // TODO: Implementation
-        public Player GetSelfInformation()
+        public OwnPlayer GetOwnPlayer()
         {
             try
             {
-                var player = new Player();
-                _stepProviderService.GetStep("ClickPlayerInformationButtonStep").Execute();
-                string playerName = (string)_stepProviderService.GetStep("GetPlayerButtonTextFromProfileButtons").Execute();
-                var villageRows = _stepProviderService.GetStep("GetVillageRows").Execute();
-
-                throw new NotImplementedException();
-
-                return player;
-            }
-            catch (Exception e)
-            {
-                if ((bool)_stepProviderService.GetStep("IsErrorMessagePresent").Execute())
+                var ownPlayer = new OwnPlayer { Name = (string)_stepProviderService.GetStep("GetPlayerName").Execute() };
+                _stepProviderService.GetStep("ClickPlayerInformationButton").Execute();
+                var villageRows = (IEnumerable<ProfileVillageRow>)_stepProviderService.GetStep("GetVillageRows").Execute();
+                if (villageRows.Count() == 1)
                 {
-                    string errorMessage = (string)_stepProviderService.GetStep("GetErrorMessage").Execute();
-                    TryToReturnToVillageView();
-                    throw new FeatureException(errorMessage);
+                    var x = new OwnVillage { };
                 }
                 else
                 {
-                    _featureLoggingService.LogException(e);
-                    TryToReturnToVillageView();
-                    throw;
+
                 }
+
+                throw new NotImplementedException();
+
+                return ownPlayer;
+            }
+            catch (BotCheckException bce)
+            {
+                _featureLoggingService.LogBotCheck(MethodBase.GetCurrentMethod().Name, bce.CurrentStep);
+                throw;
+            }
+            catch (Exception e)
+            {
+                string errorMessage = string.Empty;
+                bool plemionaError = false;
+
+                if ((bool)_stepProviderService.GetStep("IsErrorMessagePresent").Execute())
+                {
+                    plemionaError = true;
+                    errorMessage = (string)_stepProviderService.GetStep("GetErrorMessage").Execute();
+                    TryToReturnToVillageView();
+                }
+                else
+                {
+                    errorMessage = e.Message;
+                    _featureLoggingService.LogException(e, MethodBase.GetCurrentMethod().Name);
+                    TryToReturnToVillageView();
+                }
+
+                throw new FeatureException(plemionaError, errorMessage);
+            }
+        }
+
+        // TODO: Implement
+        public Player GetPlayer(string playerName)
+        {
+            try
+            {
+                throw new NotImplementedException();
+            }
+            catch (BotCheckException bce)
+            {
+                _featureLoggingService.LogBotCheck(MethodBase.GetCurrentMethod().Name, bce.CurrentStep);
+                throw;
+            }
+            catch (Exception e)
+            {
+                string errorMessage = string.Empty;
+                bool plemionaError = false;
+
+                if ((bool)_stepProviderService.GetStep("IsErrorMessagePresent").Execute())
+                {
+                    plemionaError = true;
+                    errorMessage = (string)_stepProviderService.GetStep("GetErrorMessage").Execute();
+                    TryToReturnToVillageView();
+                }
+                else
+                {
+                    errorMessage = e.Message;
+                    _featureLoggingService.LogException(e, MethodBase.GetCurrentMethod().Name);
+                    TryToReturnToVillageView();
+                }
+
+                throw new FeatureException(plemionaError, errorMessage);
             }
         }
 
@@ -496,20 +673,30 @@ namespace Plemiona.Core.Features
                 _stepProviderService.GetStep("ClickReturnToMainPageButton").Execute();
                 _stepProviderService.GetStep("ClickSignOutFromAccountButton").Execute();
             }
+            catch (BotCheckException bce)
+            {
+                _featureLoggingService.LogBotCheck(MethodBase.GetCurrentMethod().Name, bce.CurrentStep);
+                throw;
+            }
             catch (Exception e)
             {
+                string errorMessage = string.Empty;
+                bool plemionaError = false;
+
                 if ((bool)_stepProviderService.GetStep("IsErrorMessagePresent").Execute())
                 {
-                    string errorMessage = (string)_stepProviderService.GetStep("GetErrorMessage").Execute();
+                    plemionaError = true;
+                    errorMessage = (string)_stepProviderService.GetStep("GetErrorMessage").Execute();
                     TryToReturnToVillageView();
-                    throw new FeatureException(errorMessage);
                 }
                 else
                 {
-                    _featureLoggingService.LogException(e);
+                    errorMessage = e.Message;
+                    _featureLoggingService.LogException(e, MethodBase.GetCurrentMethod().Name);
                     TryToReturnToVillageView();
-                    throw;
                 }
+
+                throw new FeatureException(plemionaError, errorMessage);
             }
         }
 

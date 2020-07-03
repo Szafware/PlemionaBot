@@ -1,11 +1,11 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Remote;
 using OpenQA.Selenium.Support.UI;
+using Plemiona.Core.Services.Delay.Step;
 using Plemiona.Core.Services.WebDriverProvider;
-using Plemiona.Core.Steps.Services.Delay.Step;
 using System;
 
-namespace Plemiona.Core.Steps.WebDriverBase
+namespace Plemiona.Core.Services.WebDriverBase
 {
     public class WebDriverBaseMethodsService : IWebDriverBaseMethodsService
     {

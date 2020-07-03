@@ -4,9 +4,9 @@ using Plemiona.Core.Interfaces.Features;
 using Plemiona.Core.Services.FeatureLogging;
 using Plemiona.Core.Services.PlemionaMetadataProvider;
 using Plemiona.Core.Services.WebDriverProvider;
-using Plemiona.Core.Steps.Services.Delay.Step;
+using Plemiona.Core.Services.Delay.Step;
 using Plemiona.Core.Steps.Services.StepProvider;
-using Plemiona.Core.Steps.WebDriverBase;
+using Plemiona.Core.Services.WebDriverBase;
 using Plemiona.DependencyInjection;
 using Plemiona.DestopApp.Forms;
 using Plemiona.Logic.Services.PlemionaSettingsInitialization;
@@ -14,6 +14,7 @@ using Plemiona.Logic.Services.WindowsPosition;
 using System;
 using System.Configuration;
 using System.Windows.Forms;
+using Plemiona.Core.Services.BotCheckDetect;
 
 namespace Plemiona.DestopApp
 {
@@ -48,7 +49,7 @@ namespace Plemiona.DestopApp
             _container.BindToSelfAsSingleton<PlemionaSettings>();
             _container.BindAsSingleton<IWebDriverProviderService, SeleniumWebDriverProviderService>();
             _container.Bind<IPlemionaFeatures, PlemionaDefaultFeatures>();
-            _container.Bind<IWebDriverBaseMethodsService, WebDriverBaseMethodsService>();
+            _container.BindAsSingleton<IWebDriverBaseMethodsService, WebDriverBaseMethodsService>();
             _container.Bind<IPlemionaMetadataProviderService, PlemionaMetadataProviderService>();
 
             _container.Bind<IStepProviderService, StepProviderService>();
@@ -71,6 +72,7 @@ namespace Plemiona.DestopApp
 
             _container.BindAsSingleton<IStepDelayService>(stepDelayServiceType);
             _container.BindAsSingleton<ITypingDelayService>(typingDelayServiceType);
+            _container.Bind<IBotCheckDetectService, BotCheckDetectService>();
             _container.Bind<IFeatureLoggingService, FeatureLoggingService>();
 
             _container.Bind<IWindowsPositionService, WindowsPositionService>();

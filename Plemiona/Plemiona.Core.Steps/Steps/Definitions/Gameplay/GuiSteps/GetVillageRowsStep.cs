@@ -1,12 +1,13 @@
 ﻿using OpenQA.Selenium;
 using Plemiona.Core.Interfaces.Steps;
 using Plemiona.Core.Models.Gui;
-using Plemiona.Core.Steps.Services.Delay.Step;
+using Plemiona.Core.Services.Delay.Step;
 using Plemiona.Core.Steps.Steps.Base;
-using Plemiona.Core.Steps.WebDriverBase;
+using Plemiona.Core.Services.WebDriverBase;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using Plemiona.Core.Services.BotCheckDetect;
 
 namespace Plemiona.Core.Steps.Steps.Definitions.Gameplay.GuiSteps
 {
@@ -14,8 +15,9 @@ namespace Plemiona.Core.Steps.Steps.Definitions.Gameplay.GuiSteps
     {
         public GetVillageRowsStep(
             IWebDriverBaseMethodsService webDriverBaseMethodsService,
-            IStepDelayService stepDelayService)
-            : base(webDriverBaseMethodsService, stepDelayService)
+            IStepDelayService stepDelayService,
+            IBotCheckDetectService botCheckDetectService)
+            : base(webDriverBaseMethodsService, stepDelayService, botCheckDetectService)
         {
         }
 

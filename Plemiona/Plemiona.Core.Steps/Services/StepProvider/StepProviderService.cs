@@ -1,13 +1,14 @@
 ﻿using Plemiona.Core.Interfaces.Steps;
 using Plemiona.Core.Services.PlemionaMetadataProvider;
 using Plemiona.Core.Services.WebDriverProvider;
-using Plemiona.Core.Steps.Services.Delay.Step;
+using Plemiona.Core.Services.Delay.Step;
 using Plemiona.Core.Steps.Steps.Base;
-using Plemiona.Core.Steps.WebDriverBase;
+using Plemiona.Core.Services.WebDriverBase;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Plemiona.Core.Services.BotCheckDetect;
 
 namespace Plemiona.Core.Steps.Services.StepProvider
 {
@@ -19,9 +20,15 @@ namespace Plemiona.Core.Steps.Services.StepProvider
             IWebDriverProviderService webDriverProviderService,
             IPlemionaMetadataProviderService plemionaMetadataProviderService,
             IWebDriverBaseMethodsService webDriverBaseMethodsService,
-            IStepDelayService stepDelayService)
+            IStepDelayService stepDelayService,
+            IBotCheckDetectService botCheckDetectService)
         {
-            LoadSteps(webDriverProviderService, plemionaMetadataProviderService, webDriverBaseMethodsService, stepDelayService);
+            LoadSteps(
+                webDriverProviderService,
+                plemionaMetadataProviderService,
+                webDriverBaseMethodsService,
+                stepDelayService,
+                botCheckDetectService);
         }
 
         public IStep GetStep(string stepKey)
@@ -42,7 +49,8 @@ namespace Plemiona.Core.Steps.Services.StepProvider
             IWebDriverProviderService webDriverProviderService,
             IPlemionaMetadataProviderService plemionaMetadataProviderService,
             IWebDriverBaseMethodsService webDriverBaseMethodsService,
-            IStepDelayService stepDelayService)
+            IStepDelayService stepDelayService,
+            IBotCheckDetectService botCheckDetectService)
         {
             var executingAssembly = Assembly.GetExecutingAssembly();
 
@@ -56,11 +64,11 @@ namespace Plemiona.Core.Steps.Services.StepProvider
 
                 if (stepType.IsSubclassOf(typeof(ComplexStepBase)))
                 {
-                    stepInstance = (IStep)Activator.CreateInstance(stepType, webDriverProviderService, plemionaMetadataProviderService, webDriverBaseMethodsService, stepDelayService);
+                    stepInstance = (IStep)Activator.CreateInstance(stepType, webDriverProviderService, plemionaMetadataProviderService, webDriverBaseMethodsService, stepDelayService, botCheckDetectService);
                 }
                 else if (stepType.IsSubclassOf(typeof(StandardStepBase)))
                 {
-                    stepInstance = (IStep)Activator.CreateInstance(stepType, webDriverBaseMethodsService, stepDelayService);
+                    stepInstance = (IStep)Activator.CreateInstance(stepType, webDriverBaseMethodsService, stepDelayService, botCheckDetectService);
                 }
 
                 else

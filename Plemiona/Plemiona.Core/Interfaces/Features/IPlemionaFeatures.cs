@@ -26,7 +26,9 @@ namespace Plemiona.Core.Interfaces.Features
 
         void AddBuildingToQueue(BuildingTypes Building);
 
-        Player GetSelfInformation();
+        OwnPlayer GetOwnPlayer();
+
+        Player GetPlayer(string playerName);
 
         IEnumerable<Village> GetNerbaryVillages(int radiusFields);
 

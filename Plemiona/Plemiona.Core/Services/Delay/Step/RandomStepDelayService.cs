@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading;
 
-namespace Plemiona.Core.Steps.Services.Delay.Step
+namespace Plemiona.Core.Services.Delay.Step
 {
     public class RandomStepDelayService : IStepDelayService
     {

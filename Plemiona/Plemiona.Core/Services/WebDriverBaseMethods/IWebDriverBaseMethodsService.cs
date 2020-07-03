@@ -1,7 +1,7 @@
 ﻿using OpenQA.Selenium;
 using System;
 
-namespace Plemiona.Core.Steps.WebDriverBase
+namespace Plemiona.Core.Services.WebDriverBase
 {
     public interface IWebDriverBaseMethodsService
     {

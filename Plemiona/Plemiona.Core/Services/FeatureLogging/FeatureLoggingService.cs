@@ -15,27 +15,29 @@ namespace Plemiona.Core.Services.FeatureLogging
                 .CreateLogger();
         }
 
-        public void LogException(Exception e)
+        public void LogException(Exception exception, string featureName)
         {
+            string stepName = null;
+
             try
             {
-                var stackTrace = new StackTrace(e);
-
+                var stackTrace = new StackTrace(exception);
+                
                 var stepFrame = stackTrace.GetFrame(3);
                 var stepMethod = stepFrame.GetMethod();
                 var stepClassType = stepMethod.DeclaringType;
-                string stepClassName = stepClassType.Name;
-
-                var featureFrame = stackTrace.GetFrame(4);
-                var featureMethod = featureFrame.GetMethod();
-                string featureName = featureMethod.Name;
-
-                Log.Error(e, "Feature: {featureName}  |  Step: {stepClassName}", featureName, stepClassName);
+                stepName = stepClassType.Name;
             }
-            catch (Exception ex)
+            catch
             {
-                Log.Error(ex, "Non feature exception");
             }
+
+            Log.Error(exception, "Feature:{featureName}  Step:{stepClassName}", featureName ?? "unknown", stepName ?? "unknown");
+        }
+
+        public void LogBotCheck(string featureName, string stepName)
+        {
+            Log.Warning("BOT CHECK  Feature:{featureName}  Step:{stepName}", featureName ?? "unknown", stepName ?? "unknown");
         }
     }
 }

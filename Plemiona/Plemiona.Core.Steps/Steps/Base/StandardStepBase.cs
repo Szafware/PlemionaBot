@@ -1,14 +1,16 @@
 ﻿using Plemiona.Core.Models;
-using Plemiona.Core.Steps.Services.Delay.Step;
-using Plemiona.Core.Steps.WebDriverBase;
+using Plemiona.Core.Services.BotCheckDetect;
+using Plemiona.Core.Services.Delay.Step;
+using Plemiona.Core.Services.WebDriverBase;
 using System;
 
 namespace Plemiona.Core.Steps.Steps.Base
 {
     public abstract class StandardStepBase
     {
-        private protected IWebDriverBaseMethodsService _webDriverBaseMethodsService;
-        private static protected IStepDelayService _stepDelayService;
+        protected IWebDriverBaseMethodsService _webDriverBaseMethodsService;
+        protected static IStepDelayService _stepDelayService;
+        protected IBotCheckDetectService _botCheckDetectService;
 
         protected readonly TimeSpan _timeoutForExpectedElements = TimeSpan.FromSeconds(5);
         protected readonly TimeSpan _timeoutForChceckingElementsExistence = TimeSpan.FromSeconds(2);
@@ -17,10 +19,12 @@ namespace Plemiona.Core.Steps.Steps.Base
 
         public StandardStepBase(
             IWebDriverBaseMethodsService webDriverBaseMethodsService,
-            IStepDelayService stepDelayService)
+            IStepDelayService stepDelayService,
+            IBotCheckDetectService botCheckDetectService)
         {
             _webDriverBaseMethodsService = webDriverBaseMethodsService;
             _stepDelayService = stepDelayService;
+            _botCheckDetectService = botCheckDetectService;
         }
     }
 }

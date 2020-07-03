@@ -3,7 +3,7 @@ using Plemiona.Core.Enums;
 using Plemiona.Core.Exceptions;
 using Plemiona.Core.Interfaces.Features;
 using Plemiona.Core.Services.WebDriverProvider;
-using Plemiona.Core.Steps.Services.Delay.Step;
+using Plemiona.Core.Services.Delay.Step;
 using Plemiona.DestopApp.Models;
 using Plemiona.DestopApp.Services;
 using Plemiona.Logic.Services.PlemionaSettingsInitialization;
@@ -301,7 +301,19 @@ namespace Plemiona.DestopApp.Forms
                     {
                         foreach (var villageCoordinates in clickedTroopAction.VillagesCoordinates)
                         {
-                            _plemionaFeatures.SendTroops(clickedTroopAction.TroopsTemplate.Troops, villageCoordinates.X, villageCoordinates.Y, TroopsIntentions.Attack);
+                            try
+                            {
+                                _plemionaFeatures.SendTroops(clickedTroopAction.TroopsTemplate.Troops, villageCoordinates.X, villageCoordinates.Y, TroopsIntentions.Attack);
+                            }
+                            catch (BotCheckException)
+                            {
+                                MessageBox.Show("Bot check detected, action stopped", "Bot check", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                return;
+                            }
+                            catch (FeatureException fe)
+                            {
+                                MessageBox.Show($"{villageCoordinates.X}|{villageCoordinates.Y}\n" + fe.PlemionaErrorMessage, $"{(fe.PlemionaError ? "Plemiona" : "Unexpected")} Error", MessageBoxButtons.OK, fe.PlemionaError ? MessageBoxIcon.Warning: MessageBoxIcon.Error);
+                            }
                         }
                     });
                 }
@@ -336,7 +348,8 @@ namespace Plemiona.DestopApp.Forms
         {
             try
             {
-                _plemionaFeatures.SendTroops(new Core.Models.Troops { Scouts = 1 }, 692, 517, TroopsIntentions.Attack);
+                //_plemionaFeatures.SendTroops(new Core.Models.Troops { Scouts = 1 }, 692, 517, TroopsIntentions.Attack);
+                var player = _plemionaFeatures.GetOwnPlayer();
             }
             catch (FeatureException ex)
             {

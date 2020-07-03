@@ -2,10 +2,11 @@
 using Plemiona.Core.Enums;
 using Plemiona.Core.Interfaces.Steps;
 using Plemiona.Core.Models.Steps;
-using Plemiona.Core.Steps.Services.Delay.Step;
+using Plemiona.Core.Services.Delay.Step;
 using Plemiona.Core.Steps.Steps.Base;
-using Plemiona.Core.Steps.WebDriverBase;
+using Plemiona.Core.Services.WebDriverBase;
 using System;
+using Plemiona.Core.Services.BotCheckDetect;
 
 namespace Plemiona.Core.Steps.Steps.Definitions.Gameplay.TroopSteps
 {
@@ -13,13 +14,15 @@ namespace Plemiona.Core.Steps.Steps.Definitions.Gameplay.TroopSteps
     {
         public FillRecruitmentTroopsCountTextBoxStep(
             IWebDriverBaseMethodsService webDriverBaseMethodsService,
-            IStepDelayService stepDelayService)
-            : base(webDriverBaseMethodsService, stepDelayService)
+            IStepDelayService stepDelayService,
+            IBotCheckDetectService botCheckDetectService)
+            : base(webDriverBaseMethodsService, stepDelayService, botCheckDetectService)
         {
         }
 
         public object Execute(object troopRecruitmentObject)
         {
+            _botCheckDetectService.Validate(nameof(FillRecruitmentTroopsCountTextBoxStep));
             _stepDelayService.Delay();
 
             var troopRecruitment = (TroopsRecruitment)troopRecruitmentObject;
