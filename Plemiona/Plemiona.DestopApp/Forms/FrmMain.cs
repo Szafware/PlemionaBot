@@ -2,19 +2,19 @@
 using Plemiona.Core.Enums;
 using Plemiona.Core.Exceptions;
 using Plemiona.Core.Interfaces.Features;
-using Plemiona.Core.Services.WebDriverProvider;
+using Plemiona.Core.Models.Features;
 using Plemiona.Core.Services.Delay.Step;
+using Plemiona.Core.Services.WebDriverProvider;
 using Plemiona.DestopApp.Models;
 using Plemiona.DestopApp.Services;
 using Plemiona.Logic.Services.PlemionaSettingsInitialization;
+using Plemiona.Logic.Services.Registration;
 using Plemiona.Logic.Services.WindowsPosition;
 using System;
 using System.Configuration;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Plemiona.Core.Models.Features;
 
 namespace Plemiona.DestopApp.Forms
 {
@@ -22,11 +22,11 @@ namespace Plemiona.DestopApp.Forms
     {
         private readonly IPlemionaFeatures _plemionaFeatures;
         private readonly IWebDriverProviderService _webDriverProviderService;
+        private readonly IStepDelayService _stepDelayService;
         private readonly RemoteWebDriver _webDriver;
 
         private readonly IWindowsPositionService _windowsPositionService;
         private readonly IPlemionaSettingsInitializationService _plemionaSettingsInitializationService;
-        private readonly IStepDelayService _stepDelayService;
 
         private readonly PlemionaToolLocalDataService _plemionaToolLocalDataService = new PlemionaToolLocalDataService();
         private readonly PlemionaToolLocalData _plemionaToolLocalData;
@@ -37,17 +37,25 @@ namespace Plemiona.DestopApp.Forms
         public FrmMain(
             IPlemionaFeatures plemionaFeatures,
             IWebDriverProviderService webDriverProviderService,
+            IStepDelayService stepDelayService,
             IWindowsPositionService windowsPositionService,
             IPlemionaSettingsInitializationService plemionaSettingsInitializationService,
-            IStepDelayService stepDelayService)
+            IRegistrationService registrationService
+            )
         {
+            if (!registrationService.IsCurrentMachineRegistrated())
+            {
+                MessageBox.Show("Your machine has not been registered.", "Registration Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                Environment.Exit(0);
+            }
+
             InitializeComponent();
 
             _plemionaFeatures = plemionaFeatures;
             _webDriverProviderService = webDriverProviderService;
+            _stepDelayService = stepDelayService;
             _windowsPositionService = windowsPositionService;
             _plemionaSettingsInitializationService = plemionaSettingsInitializationService;
-            _stepDelayService = stepDelayService;
 
             _plemionaToolLocalData = _plemionaToolLocalDataService.Load();
 

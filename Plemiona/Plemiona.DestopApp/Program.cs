@@ -1,20 +1,23 @@
 ﻿using Plemiona.Core.Configuration;
 using Plemiona.Core.Features;
 using Plemiona.Core.Interfaces.Features;
+using Plemiona.Core.Services.BotCheckDetect;
+using Plemiona.Core.Services.Delay.Step;
 using Plemiona.Core.Services.FeatureLogging;
 using Plemiona.Core.Services.PlemionaMetadataProvider;
-using Plemiona.Core.Services.WebDriverProvider;
-using Plemiona.Core.Services.Delay.Step;
-using Plemiona.Core.Steps.Services.StepProvider;
 using Plemiona.Core.Services.WebDriverBase;
+using Plemiona.Core.Services.WebDriverProvider;
+using Plemiona.Core.Steps.Services.StepProvider;
 using Plemiona.DependencyInjection;
 using Plemiona.DestopApp.Forms;
 using Plemiona.Logic.Services.PlemionaSettingsInitialization;
+using Plemiona.Logic.Services.Registration;
+using Plemiona.Logic.Services.Registration.RegistrationKeyProvider;
+using Plemiona.Logic.Services.Registration.UniqueMachineKey;
 using Plemiona.Logic.Services.WindowsPosition;
 using System;
 using System.Configuration;
 using System.Windows.Forms;
-using Plemiona.Core.Services.BotCheckDetect;
 
 namespace Plemiona.DestopApp
 {
@@ -77,6 +80,9 @@ namespace Plemiona.DestopApp
 
             _container.Bind<IWindowsPositionService, WindowsPositionService>();
             _container.Bind<IPlemionaSettingsInitializationService, PlemionaSettingsInitializationService>();
+            _container.Bind<IUniqueMachineKeyService, UniqueProcessorKeyService>();
+            _container.Bind<IRegistrationService, RegistrationService>();
+            _container.Bind<IRegistrationKeyProviderService, ConstantRegistrationKeyProviderService>();
         }
     }
 }
