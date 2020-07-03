@@ -2,6 +2,7 @@
 using Plemiona.Core.Exceptions;
 using Plemiona.Core.Interfaces.Features;
 using Plemiona.Core.Models;
+using Plemiona.Core.Models.Features;
 using Plemiona.Core.Models.Gui;
 using Plemiona.Core.Models.Steps;
 using Plemiona.Core.Services.FeatureLogging;
@@ -264,11 +265,12 @@ namespace Plemiona.Core.Features
             }
         }
 
-        public void SendTroops(Troops troops, int coordinateX, int coordinateY, TroopsIntentions troopsIntentions)
+        public void SendTroops(Troops troops, int coordinateX, int coordinateY, TroopsIntentions troopsIntentions, SendingTroopsInfo sendingTroopsInfo = null)
         {
             try
             {
-                _stepProviderService.GetStep("ClickBuildingPicture").Execute(BuildingTypes.Yard);
+                if ((sendingTroopsInfo == null) || (sendingTroopsInfo.CurrentActionNumber == 1))
+                    _stepProviderService.GetStep("ClickBuildingPicture").Execute(BuildingTypes.Yard);
 
                 if (troops.Spearmen > 0)
                     _stepProviderService.GetStep("FillYardSpearmenCountTextBox").Execute(troops.Spearmen);
@@ -307,7 +309,8 @@ namespace Plemiona.Core.Features
 
                 _stepProviderService.GetStep("ClickSendTroopsConfirmationButton").Execute();
 
-                _stepProviderService.GetStep("ClickVillageViewButton").Execute();
+                if ((sendingTroopsInfo == null) || sendingTroopsInfo.IsLastActionInSequence)
+                    _stepProviderService.GetStep("ClickVillageViewButton").Execute();
             }
             catch (BotCheckException bce)
             {

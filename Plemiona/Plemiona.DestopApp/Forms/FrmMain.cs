@@ -14,6 +14,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Plemiona.Core.Models.Features;
 
 namespace Plemiona.DestopApp.Forms
 {
@@ -299,11 +300,15 @@ namespace Plemiona.DestopApp.Forms
                 {
                     await Task.Run(() =>
                     {
-                        foreach (var villageCoordinates in clickedTroopAction.VillagesCoordinates)
+                        int actionCount = clickedTroopAction.VillagesCoordinates.Count();
+
+                        for (int i = 0; i < actionCount; i++)
                         {
+                            var coordinates = clickedTroopAction.VillagesCoordinates[i];
+
                             try
                             {
-                                _plemionaFeatures.SendTroops(clickedTroopAction.TroopsTemplate.Troops, villageCoordinates.X, villageCoordinates.Y, TroopsIntentions.Attack);
+                                _plemionaFeatures.SendTroops(clickedTroopAction.TroopsTemplate.Troops, coordinates.X, coordinates.Y, TroopsIntentions.Attack, SendingTroopsInfo.Create(i + 1, actionCount));
                             }
                             catch (BotCheckException)
                             {
@@ -312,7 +317,7 @@ namespace Plemiona.DestopApp.Forms
                             }
                             catch (FeatureException fe)
                             {
-                                MessageBox.Show($"{villageCoordinates.X}|{villageCoordinates.Y}\n" + fe.PlemionaErrorMessage, $"{(fe.PlemionaError ? "Plemiona" : "Unexpected")} Error", MessageBoxButtons.OK, fe.PlemionaError ? MessageBoxIcon.Warning: MessageBoxIcon.Error);
+                                MessageBox.Show($"{coordinates.X}|{coordinates.Y}\n" + fe.PlemionaErrorMessage, $"{(fe.PlemionaError ? "Plemiona" : "Unexpected")} Error", MessageBoxButtons.OK, fe.PlemionaError ? MessageBoxIcon.Warning: MessageBoxIcon.Error);
                             }
                         }
                     });

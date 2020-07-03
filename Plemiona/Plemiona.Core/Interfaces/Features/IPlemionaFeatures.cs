@@ -1,5 +1,6 @@
 ﻿using Plemiona.Core.Enums;
 using Plemiona.Core.Models;
+using Plemiona.Core.Models.Features;
 using System.Collections.Generic;
 
 namespace Plemiona.Core.Interfaces.Features
@@ -16,7 +17,7 @@ namespace Plemiona.Core.Interfaces.Features
 
         void ReviveKnight();
 
-        void SendTroops(Troops troops, int coordinateX, int coordinateY, TroopsIntentions troopsIntentions);
+        void SendTroops(Troops troops, int coordinateX, int coordinateY, TroopsIntentions troopsIntentions, SendingTroopsInfo sendingTroopsInfo = null);
 
         Resources GetResources();
 
