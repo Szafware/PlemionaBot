@@ -58,23 +58,26 @@ namespace Plemiona.Core.Steps.Services.StepProvider
 
             var stepTypes = types.Where(t => t.GetInterfaces().Contains(typeof(IStep)));
 
-            foreach (var stepType in stepTypes)
+            var nonAbstractStepTypes = stepTypes.Where(st => !st.IsAbstract);
+
+            foreach (var stepType in nonAbstractStepTypes)
             {
-                IStep stepInstance = null;
+                object[] stepArguments = null;
 
                 if (stepType.IsSubclassOf(typeof(ComplexStepBase)))
                 {
-                    stepInstance = (IStep)Activator.CreateInstance(stepType, webDriverProviderService, plemionaMetadataProviderService, webDriverBaseMethodsService, stepDelayService, botCheckDetectService);
+                    stepArguments = new object[] { webDriverProviderService, plemionaMetadataProviderService, webDriverBaseMethodsService, stepDelayService, botCheckDetectService };
                 }
                 else if (stepType.IsSubclassOf(typeof(StandardStepBase)))
                 {
-                    stepInstance = (IStep)Activator.CreateInstance(stepType, webDriverBaseMethodsService, stepDelayService, botCheckDetectService);
+                    stepArguments = new object[] { webDriverBaseMethodsService, stepDelayService, botCheckDetectService };
                 }
-
                 else
                 {
                     throw new Exception($"Step \"{stepType.Name}\" does not inherit any of known step base classes.");
                 }
+
+                var stepInstance = (IStep)Activator.CreateInstance(stepType, stepArguments);
 
                 string stepName = GetStepName(stepType);
 
