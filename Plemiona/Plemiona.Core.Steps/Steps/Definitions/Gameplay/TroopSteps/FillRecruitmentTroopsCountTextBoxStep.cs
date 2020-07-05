@@ -1,16 +1,15 @@
 ﻿using OpenQA.Selenium;
 using Plemiona.Core.Enums;
-using Plemiona.Core.Interfaces.Steps;
 using Plemiona.Core.Models.Steps;
-using Plemiona.Core.Services.Delay.Step;
-using Plemiona.Core.Steps.Steps.Base;
-using Plemiona.Core.Services.WebDriverBase;
-using System;
 using Plemiona.Core.Services.BotCheckDetect;
+using Plemiona.Core.Services.Delay.Step;
+using Plemiona.Core.Services.WebDriverBase;
+using Plemiona.Core.Steps.Steps.Base;
+using System;
 
 namespace Plemiona.Core.Steps.Steps.Definitions.Gameplay.TroopSteps
 {
-    public class FillRecruitmentTroopsCountTextBoxStep : StandardStepBase, IStep
+    public class FillRecruitmentTroopsCountTextBoxStep : StandardStepBase
     {
         public FillRecruitmentTroopsCountTextBoxStep(
             IWebDriverBaseMethodsService webDriverBaseMethodsService,
@@ -20,10 +19,9 @@ namespace Plemiona.Core.Steps.Steps.Definitions.Gameplay.TroopSteps
         {
         }
 
-        public object Execute(object troopRecruitmentObject)
+        public override object Execute(object troopRecruitmentObject)
         {
-            _botCheckDetectService.Validate(nameof(FillRecruitmentTroopsCountTextBoxStep));
-            _stepDelayService.Delay();
+            base.Execute(GetType().Name);
 
             var troopRecruitment = (TroopsRecruitment)troopRecruitmentObject;
 

@@ -1,13 +1,12 @@
 ﻿using OpenQA.Selenium;
-using Plemiona.Core.Interfaces.Steps;
-using Plemiona.Core.Services.Delay.Step;
-using Plemiona.Core.Steps.Steps.Base;
-using Plemiona.Core.Services.WebDriverBase;
 using Plemiona.Core.Services.BotCheckDetect;
+using Plemiona.Core.Services.Delay.Step;
+using Plemiona.Core.Services.WebDriverBase;
+using Plemiona.Core.Steps.Steps.Base;
 
 namespace Plemiona.Core.Steps.Steps.Definitions.Gameplay.GuiSteps
 {
-    public class ClickMapButtonStep : StandardStepBase, IStep
+    public class ClickMapButtonStep : StandardStepBase
     {
         public ClickMapButtonStep(
             IWebDriverBaseMethodsService webDriverBaseMethodsService,
@@ -17,10 +16,9 @@ namespace Plemiona.Core.Steps.Steps.Definitions.Gameplay.GuiSteps
         {
         }
 
-        public object Execute(object parameter)
+        public override object Execute(object parameter)
         {
-            _botCheckDetectService.Validate(nameof(ClickMapButtonStep));
-            _stepDelayService.Delay();
+            base.Execute(GetType().Name);
 
             _webDriverBaseMethodsService.ClickBy(By.XPath($"//*[@href='/game.php?village={_plemionaMetadata.VillageId}&screen=map']"));
 

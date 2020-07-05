@@ -6,11 +6,9 @@ using System;
 
 namespace Plemiona.Core.Steps.Steps.Base
 {
-    public abstract class StandardStepBase
+    public abstract class StandardStepBase : Step
     {
-        protected IWebDriverBaseMethodsService _webDriverBaseMethodsService;
-        protected static IStepDelayService _stepDelayService;
-        protected IBotCheckDetectService _botCheckDetectService;
+        protected readonly IWebDriverBaseMethodsService _webDriverBaseMethodsService;
 
         protected readonly TimeSpan _timeoutForExpectedElements = TimeSpan.FromSeconds(5);
         protected readonly TimeSpan _timeoutForChceckingElementsExistence = TimeSpan.FromSeconds(2);
@@ -21,10 +19,9 @@ namespace Plemiona.Core.Steps.Steps.Base
             IWebDriverBaseMethodsService webDriverBaseMethodsService,
             IStepDelayService stepDelayService,
             IBotCheckDetectService botCheckDetectService)
+            : base(stepDelayService, botCheckDetectService)
         {
             _webDriverBaseMethodsService = webDriverBaseMethodsService;
-            _stepDelayService = stepDelayService;
-            _botCheckDetectService = botCheckDetectService;
         }
     }
 }

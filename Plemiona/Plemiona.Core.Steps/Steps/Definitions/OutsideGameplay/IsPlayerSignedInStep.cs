@@ -1,13 +1,12 @@
 ﻿using OpenQA.Selenium;
-using Plemiona.Core.Interfaces.Steps;
-using Plemiona.Core.Services.Delay.Step;
-using Plemiona.Core.Steps.Steps.Base;
-using Plemiona.Core.Services.WebDriverBase;
 using Plemiona.Core.Services.BotCheckDetect;
+using Plemiona.Core.Services.Delay.Step;
+using Plemiona.Core.Services.WebDriverBase;
+using Plemiona.Core.Steps.Steps.Base;
 
 namespace Plemiona.Core.Steps.Steps.Definitions.OutsideGameplay
 {
-    public class IsPlayerSignedInStep : StandardStepBase, IStep
+    public class IsPlayerSignedInStep : StandardStepBase
     {
         public IsPlayerSignedInStep(
             IWebDriverBaseMethodsService webDriverBaseMethodsService,
@@ -17,7 +16,7 @@ namespace Plemiona.Core.Steps.Steps.Definitions.OutsideGameplay
         {
         }
 
-        public object Execute(object parameter)
+        public override object Execute(object parameter)
         {
             bool isPlayerSignedIn = _webDriverBaseMethodsService.ExistsBy(By.XPath("//*[@href='/page/logout']"));
 

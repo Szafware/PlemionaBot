@@ -5,9 +5,9 @@ using Plemiona.Core.Steps.Steps.Base;
 using Plemiona.Core.Services.WebDriverBase;
 using Plemiona.Core.Services.BotCheckDetect;
 
-namespace Plemiona.Core.Steps.Steps.Definitions.Gameplay.GuiSteps
+namespace Plemiona.Core.Steps.Steps.Definitions.Gameplay.GuiSteps.VillageInformation
 {
-    public class ClickVillageViewButtonStep : StandardStepBase, IStep
+    public class ClickVillageViewButtonStep : StandardStepBase
     {
         public ClickVillageViewButtonStep(
             IWebDriverBaseMethodsService webDriverBaseMethodsService,
@@ -17,10 +17,10 @@ namespace Plemiona.Core.Steps.Steps.Definitions.Gameplay.GuiSteps
         {
         }
 
-        public object Execute(object parameter)
+        public override object Execute(object parameter)
         {
             _botCheckDetectService.Validate(nameof(ClickVillageViewButtonStep));
-            _stepDelayService.Delay();
+            base.Execute(GetType().Name);
 
             _webDriverBaseMethodsService.ClickBy(By.XPath($"//*[@href='/game.php?village={_plemionaMetadata.VillageId}&screen=overview']"));
 

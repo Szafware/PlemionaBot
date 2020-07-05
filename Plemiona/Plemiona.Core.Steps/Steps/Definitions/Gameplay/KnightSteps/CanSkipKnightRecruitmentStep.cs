@@ -1,14 +1,13 @@
 ﻿using OpenQA.Selenium;
-using Plemiona.Core.Interfaces.Steps;
-using Plemiona.Core.Services.Delay.Step;
-using Plemiona.Core.Steps.Steps.Base;
-using Plemiona.Core.Services.WebDriverBase;
-using SeleniumExtras.WaitHelpers;
 using Plemiona.Core.Services.BotCheckDetect;
+using Plemiona.Core.Services.Delay.Step;
+using Plemiona.Core.Services.WebDriverBase;
+using Plemiona.Core.Steps.Steps.Base;
+using SeleniumExtras.WaitHelpers;
 
 namespace Plemiona.Core.Steps.Steps.Definitions.Gameplay.GuiSteps
 {
-    public class CanSkipKnightRecruitmentStep : StandardStepBase, IStep
+    public class CanSkipKnightRecruitmentStep : StandardStepBase
     {
         public CanSkipKnightRecruitmentStep(
             IWebDriverBaseMethodsService webDriverBaseMethodsService,
@@ -18,7 +17,7 @@ namespace Plemiona.Core.Steps.Steps.Definitions.Gameplay.GuiSteps
         {
         }
 
-        public object Execute(object parameter)
+        public override object Execute(object parameter)
         {
             bool canSkipKnightRecruitment = _webDriverBaseMethodsService.ExistsByAndCondition(ExpectedConditions.ElementExists(By.ClassName("knight_recruit_rush")), _timeoutForChceckingElementsExistence);
 

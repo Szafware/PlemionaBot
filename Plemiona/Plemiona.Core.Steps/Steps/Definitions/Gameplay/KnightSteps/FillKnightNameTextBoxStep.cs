@@ -1,14 +1,13 @@
 ﻿using OpenQA.Selenium;
-using Plemiona.Core.Interfaces.Steps;
-using Plemiona.Core.Services.Delay.Step;
-using Plemiona.Core.Steps.Steps.Base;
-using Plemiona.Core.Services.WebDriverBase;
-using SeleniumExtras.WaitHelpers;
 using Plemiona.Core.Services.BotCheckDetect;
+using Plemiona.Core.Services.Delay.Step;
+using Plemiona.Core.Services.WebDriverBase;
+using Plemiona.Core.Steps.Steps.Base;
+using SeleniumExtras.WaitHelpers;
 
 namespace Plemiona.Core.Steps.Steps.Definitions.Gameplay.TroopSteps
 {
-    public class FillKnightNameTextBoxStep : StandardStepBase, IStep
+    public class FillKnightNameTextBoxStep : StandardStepBase
     {
         public FillKnightNameTextBoxStep(
             IWebDriverBaseMethodsService webDriverBaseMethodsService,
@@ -18,10 +17,9 @@ namespace Plemiona.Core.Steps.Steps.Definitions.Gameplay.TroopSteps
         {
         }
 
-        public object Execute(object knightName)
+        public override object Execute(object knightName)
         {
-            _botCheckDetectService.Validate(nameof(FillKnightNameTextBoxStep));
-            _stepDelayService.Delay();
+            base.Execute(GetType().Name);
 
             var elementIndicator = ExpectedConditions.ElementExists(By.Id("knight_recruit_name"));
 

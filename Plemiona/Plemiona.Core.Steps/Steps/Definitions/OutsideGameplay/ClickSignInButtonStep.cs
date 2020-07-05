@@ -1,13 +1,12 @@
 ﻿using OpenQA.Selenium;
-using Plemiona.Core.Interfaces.Steps;
-using Plemiona.Core.Services.Delay.Step;
-using Plemiona.Core.Steps.Steps.Base;
-using Plemiona.Core.Services.WebDriverBase;
 using Plemiona.Core.Services.BotCheckDetect;
+using Plemiona.Core.Services.Delay.Step;
+using Plemiona.Core.Services.WebDriverBase;
+using Plemiona.Core.Steps.Steps.Base;
 
 namespace Plemiona.Core.Steps.Steps.Definitions.OutsideGameplay
 {
-    public class ClickSignInButtonStep : StandardStepBase, IStep
+    public class ClickSignInButtonStep : StandardStepBase
     {
         public ClickSignInButtonStep(
             IWebDriverBaseMethodsService webDriverBaseMethodsService,
@@ -17,10 +16,9 @@ namespace Plemiona.Core.Steps.Steps.Definitions.OutsideGameplay
         {
         }
 
-        public object Execute(object parameter)
+        public override object Execute(object parameter)
         {
-            _botCheckDetectService.Validate(nameof(ClickSignInButtonStep));
-            _stepDelayService.Delay();
+            base.Execute(GetType().Name);
 
             _webDriverBaseMethodsService.ClickBy(By.ClassName("btn-login"));
 

@@ -1,18 +1,17 @@
 ﻿using OpenQA.Selenium;
 using Plemiona.Core.Enums;
-using Plemiona.Core.Interfaces.Steps;
-using Plemiona.Core.Services.PlemionaMetadataProvider;
-using Plemiona.Core.Services.WebDriverProvider;
+using Plemiona.Core.Services.BotCheckDetect;
 using Plemiona.Core.Services.Delay.Step;
-using Plemiona.Core.Steps.Steps.Base;
+using Plemiona.Core.Services.PlemionaMetadataProvider;
 using Plemiona.Core.Services.WebDriverBase;
+using Plemiona.Core.Services.WebDriverProvider;
+using Plemiona.Core.Steps.Steps.Base;
 using System;
 using System.Linq;
-using Plemiona.Core.Services.BotCheckDetect;
 
 namespace Plemiona.Core.Steps.Steps.Definitions.Gameplay.BuildingSteps
 {
-    public class GetBuildingLevelStep : ComplexStepBase, IStep
+    public class GetBuildingLevelStep : ComplexStepBase
     {
         public GetBuildingLevelStep(
             IWebDriverProviderService webDriverProviderService,
@@ -29,7 +28,7 @@ namespace Plemiona.Core.Steps.Steps.Definitions.Gameplay.BuildingSteps
         {
         }
 
-        public object Execute(object buildingType)
+        public override object Execute(object buildingType)
         {
             string buildingXPath = null;
 

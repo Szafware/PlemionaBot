@@ -1,13 +1,12 @@
 ﻿using OpenQA.Selenium;
-using Plemiona.Core.Interfaces.Steps;
-using Plemiona.Core.Services.Delay.Step;
-using Plemiona.Core.Steps.Steps.Base;
-using Plemiona.Core.Services.WebDriverBase;
 using Plemiona.Core.Services.BotCheckDetect;
+using Plemiona.Core.Services.Delay.Step;
+using Plemiona.Core.Services.WebDriverBase;
+using Plemiona.Core.Steps.Steps.Base;
 
 namespace Plemiona.Core.Steps.Steps.Definitions.OutsideGameplay
 {
-    public class FillUsernameTextBoxStep : StandardStepBase, IStep
+    public class FillUsernameTextBoxStep : StandardStepBase
     {
         public FillUsernameTextBoxStep(
             IWebDriverBaseMethodsService webDriverBaseMethodsService,
@@ -17,10 +16,9 @@ namespace Plemiona.Core.Steps.Steps.Definitions.OutsideGameplay
         {
         }
 
-        public object Execute(object username)
+        public override object Execute(object username)
         {
-            _botCheckDetectService.Validate(nameof(FillUsernameTextBoxStep));
-            _stepDelayService.Delay();
+            base.Execute(GetType().Name);
 
             _webDriverBaseMethodsService.FillBy(By.Id("user"), (string)username);
 

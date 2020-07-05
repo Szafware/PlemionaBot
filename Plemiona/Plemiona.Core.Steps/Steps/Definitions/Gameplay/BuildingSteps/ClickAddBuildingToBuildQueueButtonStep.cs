@@ -1,15 +1,14 @@
 ﻿using OpenQA.Selenium;
 using Plemiona.Core.Enums;
-using Plemiona.Core.Interfaces.Steps;
-using Plemiona.Core.Services.Delay.Step;
-using Plemiona.Core.Steps.Steps.Base;
-using Plemiona.Core.Services.WebDriverBase;
-using System;
 using Plemiona.Core.Services.BotCheckDetect;
+using Plemiona.Core.Services.Delay.Step;
+using Plemiona.Core.Services.WebDriverBase;
+using Plemiona.Core.Steps.Steps.Base;
+using System;
 
 namespace Plemiona.Core.Steps.Steps.Definitions.Gameplay.BuildingSteps
 {
-    public class ClickAddBuildingToBuildQueueButtonStep : StandardStepBase, IStep
+    public class ClickAddBuildingToBuildQueueButtonStep : StandardStepBase
     {
         public ClickAddBuildingToBuildQueueButtonStep(
             IWebDriverBaseMethodsService webDriverBaseMethodsService,
@@ -19,10 +18,9 @@ namespace Plemiona.Core.Steps.Steps.Definitions.Gameplay.BuildingSteps
         {
         }
 
-        public object Execute(object buildingType)
+        public override object Execute(object buildingType)
         {
-            _botCheckDetectService.Validate(nameof(ClickAddBuildingToBuildQueueButtonStep));
-            _stepDelayService.Delay();
+            base.Execute(GetType().Name);
 
             string addBuildingToBuildQueueButtonXPath = null;
 

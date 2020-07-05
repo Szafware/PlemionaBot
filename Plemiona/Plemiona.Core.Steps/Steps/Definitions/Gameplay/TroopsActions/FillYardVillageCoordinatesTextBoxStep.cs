@@ -1,14 +1,13 @@
 ﻿using OpenQA.Selenium;
-using Plemiona.Core.Interfaces.Steps;
-using Plemiona.Core.Services.Delay.Step;
-using Plemiona.Core.Steps.Steps.Base;
-using Plemiona.Core.Services.WebDriverBase;
-using System.Drawing;
 using Plemiona.Core.Services.BotCheckDetect;
+using Plemiona.Core.Services.Delay.Step;
+using Plemiona.Core.Services.WebDriverBase;
+using Plemiona.Core.Steps.Steps.Base;
+using System.Drawing;
 
 namespace Plemiona.Core.Steps.Steps.Definitions.Gameplay.VillageName
 {
-    public class FillYardVillageCoordinatesTextBoxStep : StandardStepBase, IStep
+    public class FillYardVillageCoordinatesTextBoxStep : StandardStepBase
     {
         public FillYardVillageCoordinatesTextBoxStep(
             IWebDriverBaseMethodsService webDriverBaseMethodsService,
@@ -18,10 +17,9 @@ namespace Plemiona.Core.Steps.Steps.Definitions.Gameplay.VillageName
         {
         }
 
-        public object Execute(object coordinates)
+        public override object Execute(object coordinates)
         {
-            _botCheckDetectService.Validate(nameof(FillYardSwordmenCountTextBoxStep));
-            _stepDelayService.Delay();
+            base.Execute(GetType().Name);
 
             var villageCoordinates = (Point)coordinates;
 

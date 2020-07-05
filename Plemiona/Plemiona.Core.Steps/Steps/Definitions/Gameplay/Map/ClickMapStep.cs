@@ -1,5 +1,4 @@
 ﻿using OpenQA.Selenium;
-using Plemiona.Core.Interfaces.Steps;
 using Plemiona.Core.Services.BotCheckDetect;
 using Plemiona.Core.Services.Delay.Step;
 using Plemiona.Core.Services.WebDriverBase;
@@ -7,7 +6,7 @@ using Plemiona.Core.Steps.Steps.Base;
 
 namespace Plemiona.Core.Steps.Steps.Definitions.Gameplay.TroopSteps
 {
-    public class ClickMapStep : StandardStepBase, IStep
+    public class ClickMapStep : StandardStepBase
     {
         public ClickMapStep(
             IWebDriverBaseMethodsService webDriverBaseMethodsService,
@@ -17,10 +16,9 @@ namespace Plemiona.Core.Steps.Steps.Definitions.Gameplay.TroopSteps
         {
         }
 
-        public object Execute(object parameter)
+        public override object Execute(object parameter)
         {
-            _botCheckDetectService.Validate(nameof(ClickKnightRevivalButtonStep));
-            _stepDelayService.Delay();
+            base.Execute(GetType().Name);
 
             var mapElement = _webDriverBaseMethodsService.GetBy(By.Id("map_mover"));
 
