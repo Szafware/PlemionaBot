@@ -15,6 +15,7 @@ namespace Plemiona.Core.Services.WebDriverBase
         void ClearBy(By by);
         string GetTextBy(By by);
         bool ExistsBy(By by);
+        void MoveMouseOver(IWebElement element);
 
         void ClickByAndCondition(Func<IWebDriver, IWebElement> expectedCondition, TimeSpan timeout);
         void FillByAndCondition(Func<IWebDriver, IWebElement> expectedCondition, TimeSpan timeout, string text);

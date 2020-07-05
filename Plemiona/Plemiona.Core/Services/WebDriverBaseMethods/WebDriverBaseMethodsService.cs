@@ -1,4 +1,5 @@
 ﻿using OpenQA.Selenium;
+using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Remote;
 using OpenQA.Selenium.Support.UI;
 using Plemiona.Core.Services.Delay.Step;
@@ -50,6 +51,8 @@ namespace Plemiona.Core.Services.WebDriverBase
         {
             var element = _remoteWebDriver.FindElement(by);
 
+            element.Clear();
+
             foreach (char character in text)
             {
                 _typingDelayService.Delay();
@@ -83,6 +86,12 @@ namespace Plemiona.Core.Services.WebDriverBase
             }
         }
 
+        public void MoveMouseOver(IWebElement element)
+        {
+            var action = new Actions(_remoteWebDriver);
+            action.MoveToElement(element).Perform();
+        }
+
         public void ClickByAndCondition(Func<IWebDriver, IWebElement> expectedCondition, TimeSpan timeout)
         {
             var webDriverWait = new WebDriverWait(_remoteWebDriver, timeout);
@@ -94,6 +103,8 @@ namespace Plemiona.Core.Services.WebDriverBase
         {
             var webDriverWait = new WebDriverWait(_remoteWebDriver, timeout);
             var element = webDriverWait.Until(expectedCondition);
+
+            element.Clear();
 
             foreach (char character in text)
             {

@@ -13,6 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Steps\Definitions\Gameplay\GuiSteps\PlayerProfile\" />
     <Folder Include="Steps\Definitions\Gameplay\TribeSteps\" />
   </ItemGroup>
 

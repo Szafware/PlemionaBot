@@ -511,16 +511,26 @@ namespace Plemiona.Core.Features
             }
         }
 
-        // TODO: Implement
         public Village GetVillage(int coordinateX, int coordinateY)
         {
             try
             {
-                var village = new Village();
+                var village = new Village
+                {
+                    Location = new Point(coordinateX, coordinateY)
+                };
 
                 _stepProviderService.GetStep("ClickMapButton").Execute();
+                _stepProviderService.GetStep("FillVillageCoordinateXMapCenter").Execute(coordinateX);
+                _stepProviderService.GetStep("FillVillageCoordinateYMapCenter").Execute(coordinateY);
+                _stepProviderService.GetStep("ClickCenterVillageInMapButton").Execute();
+                _stepProviderService.GetStep("MoveMouseToMapCenter").Execute();
+                _stepProviderService.GetStep("ClickMap").Execute();
+                _stepProviderService.GetStep("ClickVillageInformationButton").Execute();
 
-                throw new NotImplementedException();
+                village.Name = (string)_stepProviderService.GetStep("GetVillageName").Execute();
+                village.Points = (int)_stepProviderService.GetStep("GetVillagePoints").Execute();
+                village.IsNomadOrBarbarian = (bool)_stepProviderService.GetStep("IsNomadOrBarbarianVillage").Execute();
 
                 return village;
             }
@@ -602,7 +612,7 @@ namespace Plemiona.Core.Features
                 {
 
                 }
-
+               
                 throw new NotImplementedException();
 
                 return ownPlayer;

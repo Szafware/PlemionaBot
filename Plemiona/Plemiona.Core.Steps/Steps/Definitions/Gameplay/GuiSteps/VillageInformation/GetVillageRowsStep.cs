@@ -8,8 +8,9 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using Plemiona.Core.Services.BotCheckDetect;
+using System.Linq;
 
-namespace Plemiona.Core.Steps.Steps.Definitions.Gameplay.GuiSteps
+namespace Plemiona.Core.Steps.Steps.Definitions.Gameplay.GuiSteps.VillageInformation
 {
     public class GetVillageRowsStep : StandardStepBase, IStep
     {
@@ -44,7 +45,9 @@ namespace Plemiona.Core.Steps.Steps.Definitions.Gameplay.GuiSteps
                 int villageLocationY = Convert.ToInt32(villageLocationCell.Text.Substring(4, 3));
                 var villageLocation = new Point(villageLocationX, villageLocationY);
 
-                int villagePoints = Convert.ToInt32(villagePointsCell.Text);
+                string villagePointsNummber = string.Join(string.Empty, villagePointsCell.Text.Where(c => char.IsNumber(c)));
+
+                int villagePoints = Convert.ToInt32(villagePointsNummber);
 
                 profileVillageRow.Name = villageName;
                 profileVillageRow.Location = villageLocation;
