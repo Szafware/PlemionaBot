@@ -14,7 +14,7 @@ namespace Plemiona.DestopApp.Forms
         private readonly bool _editionMode;
 
         public TroopsTemplate TroopsTemplate { get; private set; }
-        
+
         public bool Deletetion { get; private set; }
 
         public FrmTroopsTemplate(IEnumerable<string> invalidNames, TroopsTemplate troopsTemplateToEdition = null)
@@ -87,7 +87,7 @@ namespace Plemiona.DestopApp.Forms
             {
                 if (!_editionMode)
                 {
-                    TroopsTemplate = new TroopsTemplate(); 
+                    TroopsTemplate = new TroopsTemplate();
                 }
 
                 if (string.IsNullOrEmpty(TbxName.Text))
@@ -104,9 +104,11 @@ namespace Plemiona.DestopApp.Forms
                     return;
                 }
 
+                Troops troops = null;
+
                 try
                 {
-                    TroopsTemplate.Troops = new Troops
+                    troops = new Troops
                     {
                         Spearmen = Convert.ToInt32(TbxSpearmen.Text),
                         Swordmen = Convert.ToInt32(TbxSwordmen.Text),
@@ -124,9 +126,20 @@ namespace Plemiona.DestopApp.Forms
                 }
                 catch
                 {
+                    MessageBox.Show("Some values are incorrect.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                if (troops.Spearmen < 0 || (troops.Swordmen < 0) || (troops.Axemen < 0) || (troops.Bowmen < 0) ||
+                    (troops.Scouts < 0) || (troops.LightCavalary < 0) || (troops.HorseArchers < 0) || (troops.HeavyCavalary < 0) ||
+                    (troops.Rams < 0) || (troops.Catapultes < 0) ||
+                    (troops.Knights < 0) || (troops.Noblemen < 0))
+                {
                     MessageBox.Show("Incorrect troops numbers.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
+
+                TroopsTemplate.Troops = troops;
 
                 TroopsTemplate.Name = TbxName.Text;
 
