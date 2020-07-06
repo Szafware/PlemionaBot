@@ -190,6 +190,8 @@ namespace Plemiona.DestopApp.Forms
                             {
                                 GridTroopsTemplates.Rows[e.RowIndex].Cells[1].Value = troopsTemplate.Name;
                             }
+
+                            _plemionaToolLocalDataService.Save(_plemionaToolLocalData);
                         }
                     }
                 }
@@ -290,6 +292,8 @@ namespace Plemiona.DestopApp.Forms
                                 GridTroopsOrders.Rows[e.RowIndex].Cells[3].Value = troopsOrder.ExecutionDate.ToLongDateString();
                                 GridTroopsOrders.Rows[e.RowIndex].Cells[4].Value = troopsOrder.Everyday;
                             }
+
+                            _plemionaToolLocalDataService.Save(_plemionaToolLocalData);
                         }
                     }
                 }
