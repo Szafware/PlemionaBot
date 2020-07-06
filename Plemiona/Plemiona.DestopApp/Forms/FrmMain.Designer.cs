@@ -52,6 +52,9 @@
             this.ColumnTroopsActionsEveryday = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.ColumnTroopsActionExecute = new System.Windows.Forms.DataGridViewButtonColumn();
             this.TbxDiagnostics = new System.Windows.Forms.RichTextBox();
+            this.PnlStatus = new System.Windows.Forms.TableLayoutPanel();
+            this.LblStatus = new System.Windows.Forms.Label();
+            this.PctbxStatus = new System.Windows.Forms.PictureBox();
             this.PnlMain.SuspendLayout();
             this.PnlTabs.SuspendLayout();
             this.TabTroopsTemplates.SuspendLayout();
@@ -60,6 +63,8 @@
             this.TabTroopsOrders.SuspendLayout();
             this.PnlTroopsOrders.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.GridTroopsOrders)).BeginInit();
+            this.PnlStatus.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PctbxStatus)).BeginInit();
             this.SuspendLayout();
             // 
             // PnlMain
@@ -68,6 +73,7 @@
             this.PnlMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.PnlMain.Controls.Add(this.PnlTabs, 0, 1);
             this.PnlMain.Controls.Add(this.TbxDiagnostics, 0, 2);
+            this.PnlMain.Controls.Add(this.PnlStatus, 0, 0);
             this.PnlMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.PnlMain.Location = new System.Drawing.Point(0, 0);
             this.PnlMain.Name = "PnlMain";
@@ -138,6 +144,7 @@
             this.GridTroopsTemplates.Dock = System.Windows.Forms.DockStyle.Fill;
             this.GridTroopsTemplates.EnableHeadersVisualStyles = false;
             this.GridTroopsTemplates.Location = new System.Drawing.Point(3, 42);
+            this.GridTroopsTemplates.MultiSelect = false;
             this.GridTroopsTemplates.Name = "GridTroopsTemplates";
             this.GridTroopsTemplates.ReadOnly = true;
             this.GridTroopsTemplates.RowHeadersVisible = false;
@@ -239,6 +246,7 @@
             this.GridTroopsOrders.Dock = System.Windows.Forms.DockStyle.Fill;
             this.GridTroopsOrders.EnableHeadersVisualStyles = false;
             this.GridTroopsOrders.Location = new System.Drawing.Point(3, 42);
+            this.GridTroopsOrders.MultiSelect = false;
             this.GridTroopsOrders.Name = "GridTroopsOrders";
             this.GridTroopsOrders.ReadOnly = true;
             this.GridTroopsOrders.RowHeadersVisible = false;
@@ -304,6 +312,43 @@
             this.TbxDiagnostics.TabIndex = 6;
             this.TbxDiagnostics.Text = "";
             // 
+            // PnlStatus
+            // 
+            this.PnlStatus.ColumnCount = 2;
+            this.PnlStatus.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.PnlStatus.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.PnlStatus.Controls.Add(this.PctbxStatus, 0, 0);
+            this.PnlStatus.Controls.Add(this.LblStatus, 1, 0);
+            this.PnlStatus.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.PnlStatus.Location = new System.Drawing.Point(3, 3);
+            this.PnlStatus.Name = "PnlStatus";
+            this.PnlStatus.RowCount = 1;
+            this.PnlStatus.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.PnlStatus.Size = new System.Drawing.Size(719, 44);
+            this.PnlStatus.TabIndex = 7;
+            // 
+            // LblStatus
+            // 
+            this.LblStatus.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.LblStatus.AutoSize = true;
+            this.LblStatus.Font = new System.Drawing.Font("Verdana", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.LblStatus.Location = new System.Drawing.Point(47, 9);
+            this.LblStatus.Name = "LblStatus";
+            this.LblStatus.Size = new System.Drawing.Size(77, 25);
+            this.LblStatus.TabIndex = 1;
+            this.LblStatus.Text = "Ready";
+            // 
+            // PctbxStatus
+            // 
+            this.PctbxStatus.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.PctbxStatus.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.PctbxStatus.Location = new System.Drawing.Point(0, 0);
+            this.PctbxStatus.Margin = new System.Windows.Forms.Padding(0);
+            this.PctbxStatus.Name = "PctbxStatus";
+            this.PctbxStatus.Size = new System.Drawing.Size(44, 44);
+            this.PctbxStatus.TabIndex = 0;
+            this.PctbxStatus.TabStop = false;
+            // 
             // FrmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -326,6 +371,9 @@
             this.TabTroopsOrders.ResumeLayout(false);
             this.PnlTroopsOrders.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.GridTroopsOrders)).EndInit();
+            this.PnlStatus.ResumeLayout(false);
+            this.PnlStatus.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PctbxStatus)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -351,5 +399,8 @@
         private System.Windows.Forms.DataGridViewCheckBoxColumn ColumnTroopsActionsEveryday;
         private System.Windows.Forms.DataGridViewButtonColumn ColumnTroopsActionExecute;
         private System.Windows.Forms.RichTextBox TbxDiagnostics;
+        private System.Windows.Forms.TableLayoutPanel PnlStatus;
+        private System.Windows.Forms.PictureBox PctbxStatus;
+        private System.Windows.Forms.Label LblStatus;
     }
 }

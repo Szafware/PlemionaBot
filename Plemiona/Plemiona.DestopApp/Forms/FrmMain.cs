@@ -6,6 +6,7 @@ using Plemiona.Core.Models.Features;
 using Plemiona.Core.Services.Delay.Step;
 using Plemiona.Core.Services.WebDriverProvider;
 using Plemiona.DestopApp.Models;
+using Plemiona.DestopApp.Properties;
 using Plemiona.DestopApp.Services;
 using Plemiona.Logic.Services.PlemionaSettingsInitialization;
 using Plemiona.Logic.Services.Registration;
@@ -100,6 +101,8 @@ namespace Plemiona.DestopApp.Forms
 
             GridTroopsOrders.ClearSelection();
 
+            SetReady(false);
+
             await Task.Run(() =>
             {
                 _plemionaSettingsInitializationService.Initialize();
@@ -110,6 +113,8 @@ namespace Plemiona.DestopApp.Forms
 
                 _plemionaFeaturesDiagnostics.SignIn(username, password, worldNumber);
             });
+
+            SetReady(true);
         }
 
         #region TroopsTemplates
@@ -319,6 +324,8 @@ namespace Plemiona.DestopApp.Forms
 
                 if (dialogResult == DialogResult.Yes)
                 {
+                    SetReady(false);
+
                     await Task.Run(() =>
                     {
                         int actionCount = clickedTroopAction.VillagesCoordinates.Count();
@@ -342,6 +349,8 @@ namespace Plemiona.DestopApp.Forms
                             }
                         }
                     });
+
+                    SetReady(true);
                 }
             }
         }
@@ -387,6 +396,19 @@ namespace Plemiona.DestopApp.Forms
             {
                 MessageBox.Show(fe.PlemionaErrorMessage, $"{(fe.PlemionaError ? "Plemiona" : "Unexpected")} Error", MessageBoxButtons.OK, fe.PlemionaError ? MessageBoxIcon.Warning : MessageBoxIcon.Error);
             }
+        }
+
+        private void SetReady(bool ready)
+        {
+            PctbxStatus.Image = ready ? null : Resources.GifLoading;
+            PctbxStatus.BackgroundImage = ready ? Resources.PictureReady : null;
+            LblStatus.Text = ready ? "Ready" : "Processing...";
+
+            BtnAddTroopsTemplate.Enabled = ready;
+            GridTroopsTemplates.Enabled = ready;
+
+            BtnAddTroopsOrders.Enabled = ready;
+            GridTroopsOrders.Enabled = ready;
         }
     }
 }
