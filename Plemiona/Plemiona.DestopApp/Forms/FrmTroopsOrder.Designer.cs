@@ -1,6 +1,6 @@
 ﻿namespace Plemiona.DestopApp.Forms
 {
-    partial class FrmTroopsAction
+    partial class FrmTroopsOrder
     {
         /// <summary>
         /// Required designer variable.
@@ -28,8 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmTroopsAction));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmTroopsOrder));
             this.PnlMain = new System.Windows.Forms.TableLayoutPanel();
+            this.LblCoordinates = new System.Windows.Forms.Label();
             this.LblEveryday = new System.Windows.Forms.Label();
             this.LblExecutionDate = new System.Windows.Forms.Label();
             this.LblTroopsTemplate = new System.Windows.Forms.Label();
@@ -41,14 +42,13 @@
             this.BtnOk = new System.Windows.Forms.Button();
             this.BtnCancel = new System.Windows.Forms.Button();
             this.LbxCoordinates = new System.Windows.Forms.ListBox();
+            this.DtpckExecutionDate = new System.Windows.Forms.DateTimePicker();
             this.CkbxEveryday = new System.Windows.Forms.CheckBox();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.TbxCoordinateX = new System.Windows.Forms.TextBox();
-            this.TbxCoordinateY = new System.Windows.Forms.TextBox();
-            this.BtnAddCoordinate = new System.Windows.Forms.Button();
             this.BtnDeleteCoordinates = new System.Windows.Forms.Button();
-            this.LblCoordinates = new System.Windows.Forms.Label();
-            this.DtpckExecutionDate = new System.Windows.Forms.DateTimePicker();
+            this.BtnAddCoordinate = new System.Windows.Forms.Button();
+            this.TbxCoordinateY = new System.Windows.Forms.TextBox();
+            this.TbxCoordinateX = new System.Windows.Forms.TextBox();
             this.PnlMain.SuspendLayout();
             this.PnlButtons.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
@@ -84,6 +84,17 @@
             this.PnlMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 11.11111F));
             this.PnlMain.Size = new System.Drawing.Size(390, 354);
             this.PnlMain.TabIndex = 0;
+            // 
+            // LblCoordinates
+            // 
+            this.LblCoordinates.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.LblCoordinates.AutoSize = true;
+            this.LblCoordinates.Location = new System.Drawing.Point(33, 93);
+            this.LblCoordinates.Margin = new System.Windows.Forms.Padding(3, 4, 3, 0);
+            this.LblCoordinates.Name = "LblCoordinates";
+            this.LblCoordinates.Size = new System.Drawing.Size(120, 13);
+            this.LblCoordinates.TabIndex = 12;
+            this.LblCoordinates.Text = "Add/Delete coordinates";
             // 
             // LblEveryday
             // 
@@ -204,6 +215,16 @@
             this.LbxCoordinates.Size = new System.Drawing.Size(228, 112);
             this.LbxCoordinates.TabIndex = 6;
             // 
+            // DtpckExecutionDate
+            // 
+            this.DtpckExecutionDate.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.DtpckExecutionDate.CustomFormat = "";
+            this.DtpckExecutionDate.Format = System.Windows.Forms.DateTimePickerFormat.Time;
+            this.DtpckExecutionDate.Location = new System.Drawing.Point(159, 244);
+            this.DtpckExecutionDate.Name = "DtpckExecutionDate";
+            this.DtpckExecutionDate.Size = new System.Drawing.Size(207, 20);
+            this.DtpckExecutionDate.TabIndex = 7;
+            // 
             // CkbxEveryday
             // 
             this.CkbxEveryday.Anchor = System.Windows.Forms.AnchorStyles.Left;
@@ -234,25 +255,16 @@
             this.tableLayoutPanel1.Size = new System.Drawing.Size(234, 39);
             this.tableLayoutPanel1.TabIndex = 12;
             // 
-            // TbxCoordinateX
+            // BtnDeleteCoordinates
             // 
-            this.TbxCoordinateX.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.TbxCoordinateX.Location = new System.Drawing.Point(111, 9);
-            this.TbxCoordinateX.MaxLength = 3;
-            this.TbxCoordinateX.Name = "TbxCoordinateX";
-            this.TbxCoordinateX.Size = new System.Drawing.Size(42, 20);
-            this.TbxCoordinateX.TabIndex = 2;
-            this.TbxCoordinateX.Text = "X";
-            // 
-            // TbxCoordinateY
-            // 
-            this.TbxCoordinateY.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.TbxCoordinateY.Location = new System.Drawing.Point(159, 9);
-            this.TbxCoordinateY.MaxLength = 3;
-            this.TbxCoordinateY.Name = "TbxCoordinateY";
-            this.TbxCoordinateY.Size = new System.Drawing.Size(42, 20);
-            this.TbxCoordinateY.TabIndex = 3;
-            this.TbxCoordinateY.Text = "Y";
+            this.BtnDeleteCoordinates.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.BtnDeleteCoordinates.Location = new System.Drawing.Point(3, 8);
+            this.BtnDeleteCoordinates.Name = "BtnDeleteCoordinates";
+            this.BtnDeleteCoordinates.Size = new System.Drawing.Size(48, 23);
+            this.BtnDeleteCoordinates.TabIndex = 5;
+            this.BtnDeleteCoordinates.Text = "Delete";
+            this.BtnDeleteCoordinates.UseVisualStyleBackColor = true;
+            this.BtnDeleteCoordinates.MouseClick += new System.Windows.Forms.MouseEventHandler(this.BtnDeleteCoordinates_MouseClick);
             // 
             // BtnAddCoordinate
             // 
@@ -265,39 +277,27 @@
             this.BtnAddCoordinate.UseVisualStyleBackColor = true;
             this.BtnAddCoordinate.MouseClick += new System.Windows.Forms.MouseEventHandler(this.BtnAddCoordinate_MouseClick);
             // 
-            // BtnDeleteCoordinates
+            // TbxCoordinateY
             // 
-            this.BtnDeleteCoordinates.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.BtnDeleteCoordinates.Location = new System.Drawing.Point(3, 8);
-            this.BtnDeleteCoordinates.Name = "BtnDeleteCoordinates";
-            this.BtnDeleteCoordinates.Size = new System.Drawing.Size(48, 23);
-            this.BtnDeleteCoordinates.TabIndex = 5;
-            this.BtnDeleteCoordinates.Text = "Delete";
-            this.BtnDeleteCoordinates.UseVisualStyleBackColor = true;
-            this.BtnDeleteCoordinates.MouseClick += new System.Windows.Forms.MouseEventHandler(this.BtnDeleteCoordinates_MouseClick);
+            this.TbxCoordinateY.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.TbxCoordinateY.Location = new System.Drawing.Point(159, 9);
+            this.TbxCoordinateY.MaxLength = 3;
+            this.TbxCoordinateY.Name = "TbxCoordinateY";
+            this.TbxCoordinateY.Size = new System.Drawing.Size(42, 20);
+            this.TbxCoordinateY.TabIndex = 3;
+            this.TbxCoordinateY.Text = "Y";
             // 
-            // LblCoordinates
+            // TbxCoordinateX
             // 
-            this.LblCoordinates.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.LblCoordinates.AutoSize = true;
-            this.LblCoordinates.Location = new System.Drawing.Point(33, 93);
-            this.LblCoordinates.Margin = new System.Windows.Forms.Padding(3, 4, 3, 0);
-            this.LblCoordinates.Name = "LblCoordinates";
-            this.LblCoordinates.Size = new System.Drawing.Size(120, 13);
-            this.LblCoordinates.TabIndex = 12;
-            this.LblCoordinates.Text = "Add/Delete coordinates";
+            this.TbxCoordinateX.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.TbxCoordinateX.Location = new System.Drawing.Point(111, 9);
+            this.TbxCoordinateX.MaxLength = 3;
+            this.TbxCoordinateX.Name = "TbxCoordinateX";
+            this.TbxCoordinateX.Size = new System.Drawing.Size(42, 20);
+            this.TbxCoordinateX.TabIndex = 2;
+            this.TbxCoordinateX.Text = "X";
             // 
-            // DtpckExecutionDate
-            // 
-            this.DtpckExecutionDate.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.DtpckExecutionDate.CustomFormat = "";
-            this.DtpckExecutionDate.Format = System.Windows.Forms.DateTimePickerFormat.Time;
-            this.DtpckExecutionDate.Location = new System.Drawing.Point(159, 244);
-            this.DtpckExecutionDate.Name = "DtpckExecutionDate";
-            this.DtpckExecutionDate.Size = new System.Drawing.Size(207, 20);
-            this.DtpckExecutionDate.TabIndex = 7;
-            // 
-            // FrmTroopsAction
+            // FrmTroopsOrder
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -306,10 +306,10 @@
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "FrmTroopsAction";
+            this.Name = "FrmTroopsOrder";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "FrmTroopsAction";
-            this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.FrmTroopsAction_KeyPress);
+            this.Text = "Troops Orders";
+            this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.FrmTroopsOrder_KeyPress);
             this.PnlMain.ResumeLayout(false);
             this.PnlMain.PerformLayout();
             this.PnlButtons.ResumeLayout(false);

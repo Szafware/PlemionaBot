@@ -2,12 +2,12 @@
 {
     public class SendingTroopsInfo
     {
-        public int CurrentActionNumber { get; set; }
+        public int CurrentOrderNumber { get; set; }
         
-        public int ActionsSequenceCount { get; set; }
+        public int OrderSequenceCount { get; set; }
 
-        public bool IsLastActionInSequence => CurrentActionNumber == ActionsSequenceCount;
+        public bool IsLastOrderInSequence => CurrentOrderNumber == OrderSequenceCount;
 
-        public static SendingTroopsInfo Create(int currentActionNumber, int actionsSequenceCount) => new SendingTroopsInfo { CurrentActionNumber = currentActionNumber, ActionsSequenceCount = actionsSequenceCount };
+        public static SendingTroopsInfo Create(int currentOrderNumber, int orderSequenceCount) => new SendingTroopsInfo { CurrentOrderNumber = currentOrderNumber, OrderSequenceCount = orderSequenceCount };
     }
 }

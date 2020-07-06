@@ -13,6 +13,7 @@ using Plemiona.Logic.Services.Registration;
 using Plemiona.Logic.Services.WindowsPosition;
 using System;
 using System.Configuration;
+using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -34,7 +35,7 @@ namespace Plemiona.DestopApp.Forms
         private PlemionaToolLocalData _plemionaToolLocalData;
 
         private TroopsTemplate _selectedTroopsTemplate;
-        private TroopsAction _selectedTroopsAction;
+        private TroopsOrder _selectedTroopsOrder;
 
         public FrmMain(
             IPlemionaFeaturesDiagnostics plemionaFeaturesDiagnostics,
@@ -83,6 +84,10 @@ namespace Plemiona.DestopApp.Forms
             _plemionaFeaturesDiagnostics.OnStepEnd += _plemionaFeaturesDiagnosticsService.LogStepEnd;
             _plemionaFeaturesDiagnostics.OnFeatureStart += _plemionaFeaturesDiagnosticsService.LogFeatureStart;
             _plemionaFeaturesDiagnostics.OnFeatureEnd += _plemionaFeaturesDiagnosticsService.LogFeatureEnd;
+
+            //BackColor = Color.FromArgb(205, 189, 155);
+            //TabTroopsTemplates.BackColor = Color.FromArgb(205, 189, 155);
+            //TabTroopsOrders.BackColor = Color.FromArgb(205, 189, 155);
         }
 
         private async void FrmMain_Shown(object sender, EventArgs e)
@@ -94,9 +99,9 @@ namespace Plemiona.DestopApp.Forms
 
             GridTroopsTemplates.ClearSelection();
 
-            foreach (var troopsAction in _plemionaToolLocalData.TroopsActions)
+            foreach (var troopsOrder in _plemionaToolLocalData.TroopsOrders)
             {
-                GridTroopsOrders.Rows.Add(GridTroopsOrders.RowCount + 1, troopsAction.Name, string.Join("..", troopsAction.VillagesCoordinates.Select(vc => $"{vc.X}|{vc.Y}")), troopsAction.ExecutionDate, troopsAction.Everyday);
+                GridTroopsOrders.Rows.Add(GridTroopsOrders.RowCount + 1, troopsOrder.Name, string.Join("..", troopsOrder.VillagesCoordinates.Select(vc => $"{vc.X}|{vc.Y}")), troopsOrder.ExecutionDate, troopsOrder.Everyday);
             }
 
             GridTroopsOrders.ClearSelection();
@@ -163,7 +168,7 @@ namespace Plemiona.DestopApp.Forms
         {
             if (e.Button == MouseButtons.Left)
             {
-                if (e.ColumnIndex > 0)
+                if (e.RowIndex >= 0)
                 {
                     var troopsTemplateName = GridTroopsTemplates.Rows[e.RowIndex].Cells[1].Value.ToString();
 
@@ -214,76 +219,76 @@ namespace Plemiona.DestopApp.Forms
 
         #endregion
 
-        #region TroopsActions
+        #region TroopsOrders
 
-        private void BtnAddTroopsAction_MouseClick(object sender, MouseEventArgs e)
+        private void BtnAddTroopsOrder_MouseClick(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
             {
-                using (var frmTroopsAction = new FrmTroopsAction(_plemionaToolLocalData.TroopsActions.Select(tt => tt.Name), _plemionaToolLocalData.TroopsTemplates))
+                using (var frmTroopsOrder = new FrmTroopsOrder(_plemionaToolLocalData.TroopsOrders.Select(tt => tt.Name), _plemionaToolLocalData.TroopsTemplates))
                 {
-                    var dialogResult = frmTroopsAction.ShowDialog();
+                    var dialogResult = frmTroopsOrder.ShowDialog();
 
                     if (dialogResult == DialogResult.OK)
                     {
-                        var troopsAction = frmTroopsAction.TroopsAction;
+                        var troopsOrder = frmTroopsOrder.TroopsOrder;
 
-                        _plemionaToolLocalData.TroopsActions.Add(troopsAction);
+                        _plemionaToolLocalData.TroopsOrders.Add(troopsOrder);
 
-                        GridTroopsOrders.Rows.Add(GridTroopsTemplates.RowCount + 1, troopsAction.Name, string.Join("..", troopsAction.VillagesCoordinates.Select(vc => $"{vc.X}|{vc.Y}")), troopsAction.ExecutionDate, troopsAction.Everyday);
+                        GridTroopsOrders.Rows.Add(GridTroopsOrders.RowCount + 1, troopsOrder.Name, string.Join("..", troopsOrder.VillagesCoordinates.Select(vc => $"{vc.X}|{vc.Y}")), troopsOrder.ExecutionDate, troopsOrder.Everyday);
                     }
                 }
             }
         }
 
-        private void GridTroopsActions_CellClick(object sender, DataGridViewCellEventArgs e)
+        private void GridTroopsOrders_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex >= 0)
             {
-                string clickedTroopsActionName = GridTroopsOrders.Rows[e.RowIndex].Cells[1].Value.ToString();
+                string clickedTroopsOrderName = GridTroopsOrders.Rows[e.RowIndex].Cells[1].Value.ToString();
 
-                var clickedTroopAction = _plemionaToolLocalData.TroopsActions.Single(ta => ta.Name == clickedTroopsActionName);
+                var clickedTroopOrder = _plemionaToolLocalData.TroopsOrders.Single(to => to.Name == clickedTroopsOrderName);
 
-                if (clickedTroopAction == _selectedTroopsAction)
+                if (clickedTroopOrder == _selectedTroopsOrder)
                 {
-                    _selectedTroopsAction = null;
-                    GridTroopsTemplates.ClearSelection();
+                    _selectedTroopsOrder = null;
+                    GridTroopsOrders.ClearSelection();
                 }
                 else
                 {
-                    _selectedTroopsAction = clickedTroopAction;
+                    _selectedTroopsOrder = clickedTroopOrder;
                 }
             }
         }
 
-        private void GridTroopsActions_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
+        private void GridTroopsOrders_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
             {
-                if (e.ColumnIndex > 0)
+                if (e.RowIndex >= 0)
                 {
-                    var troopsActionName = GridTroopsOrders.Rows[e.RowIndex].Cells[1].Value.ToString();
+                    var troopsOrderName = GridTroopsOrders.Rows[e.RowIndex].Cells[1].Value.ToString();
 
-                    var troopsAction = _plemionaToolLocalData.TroopsActions.Single(ta => ta.Name == troopsActionName);
+                    var troopsOrder = _plemionaToolLocalData.TroopsOrders.Single(ta => ta.Name == troopsOrderName);
 
-                    using (var frmTroopsAction = new FrmTroopsAction(_plemionaToolLocalData.TroopsActions.Select(tt => tt.Name), _plemionaToolLocalData.TroopsTemplates, troopsAction))
+                    using (var frmTroopsOrder = new FrmTroopsOrder(_plemionaToolLocalData.TroopsOrders.Select(tt => tt.Name), _plemionaToolLocalData.TroopsTemplates, troopsOrder))
                     {
-                        var dialogResult = frmTroopsAction.ShowDialog();
+                        var dialogResult = frmTroopsOrder.ShowDialog();
 
                         if (dialogResult == DialogResult.OK)
                         {
-                            if (frmTroopsAction.Deletetion)
+                            if (frmTroopsOrder.Deletetion)
                             {
-                                _plemionaToolLocalData.TroopsActions.Remove(troopsAction);
+                                _plemionaToolLocalData.TroopsOrders.Remove(troopsOrder);
                                 GridTroopsOrders.Rows.RemoveAt(e.RowIndex);
                                 FixGridNumbers(GridTroopsOrders);
                             }
                             else
                             {
-                                GridTroopsOrders.Rows[e.RowIndex].Cells[1].Value = troopsAction.Name;
-                                GridTroopsOrders.Rows[e.RowIndex].Cells[2].Value = string.Join("..", troopsAction.VillagesCoordinates.Select(vc => $"{vc.X}|{vc.Y}"));
-                                GridTroopsOrders.Rows[e.RowIndex].Cells[3].Value = troopsAction.ExecutionDate.ToLongDateString();
-                                GridTroopsOrders.Rows[e.RowIndex].Cells[4].Value = troopsAction.Everyday;
+                                GridTroopsOrders.Rows[e.RowIndex].Cells[1].Value = troopsOrder.Name;
+                                GridTroopsOrders.Rows[e.RowIndex].Cells[2].Value = string.Join("..", troopsOrder.VillagesCoordinates.Select(vc => $"{vc.X}|{vc.Y}"));
+                                GridTroopsOrders.Rows[e.RowIndex].Cells[3].Value = troopsOrder.ExecutionDate.ToLongDateString();
+                                GridTroopsOrders.Rows[e.RowIndex].Cells[4].Value = troopsOrder.Everyday;
                             }
                         }
                     }
@@ -291,15 +296,15 @@ namespace Plemiona.DestopApp.Forms
             }
         }
 
-        private void GridTroopsActions_KeyDown(object sender, KeyEventArgs e)
+        private void GridTroopsOrders_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Delete)
             {
-                if (_selectedTroopsAction != null)
+                if (_selectedTroopsOrder != null)
                 {
-                    _plemionaToolLocalData.TroopsActions.Remove(_selectedTroopsAction);
+                    _plemionaToolLocalData.TroopsOrders.Remove(_selectedTroopsOrder);
 
-                    var selectedRow = GridTroopsOrders.Rows.Cast<DataGridViewRow>().Single(r => r.Cells[1].Value.ToString() == _selectedTroopsAction.Name);
+                    var selectedRow = GridTroopsOrders.Rows.Cast<DataGridViewRow>().Single(r => r.Cells[1].Value.ToString() == _selectedTroopsOrder.Name);
 
                     GridTroopsOrders.Rows.RemoveAt(selectedRow.Index);
 
@@ -307,20 +312,20 @@ namespace Plemiona.DestopApp.Forms
 
                     GridTroopsOrders.ClearSelection();
 
-                    _selectedTroopsAction = null;
+                    _selectedTroopsOrder = null;
                 }
             }
         }
 
-        private async void GridTroopsActions_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        private async void GridTroopsOrders_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             if (GridTroopsOrders.Columns[e.ColumnIndex] is DataGridViewButtonColumn && e.RowIndex >= 0)
             {
-                string clickedTroopsActionName = GridTroopsOrders.Rows[e.RowIndex].Cells[1].Value.ToString();
+                string clickedTroopsOrderName = GridTroopsOrders.Rows[e.RowIndex].Cells[1].Value.ToString();
 
-                var clickedTroopAction = _plemionaToolLocalData.TroopsActions.Single(ta => ta.Name == clickedTroopsActionName);
+                var clickedTroopOrder = _plemionaToolLocalData.TroopsOrders.Single(ta => ta.Name == clickedTroopsOrderName);
 
-                var dialogResult = MessageBox.Show($"Are you sure that you want to perform action \"{clickedTroopAction.Name}\"?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                var dialogResult = MessageBox.Show($"Are you sure that you want to perform order \"{clickedTroopOrder.Name}\"?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
                 if (dialogResult == DialogResult.Yes)
                 {
@@ -328,19 +333,24 @@ namespace Plemiona.DestopApp.Forms
 
                     await Task.Run(() =>
                     {
-                        int actionCount = clickedTroopAction.VillagesCoordinates.Count();
+                        int orderCount = clickedTroopOrder.VillagesCoordinates.Count();
 
-                        for (int i = 0; i < actionCount; i++)
+                        int currentOrderNumber = 0;
+
+                        for (int i = 0; i < orderCount; i++)
                         {
-                            var coordinates = clickedTroopAction.VillagesCoordinates[i];
+                            var coordinates = clickedTroopOrder.VillagesCoordinates[i];
 
                             try
                             {
-                                _plemionaFeaturesDiagnostics.SendTroops(clickedTroopAction.TroopsTemplate.Troops, coordinates.X, coordinates.Y, TroopsIntentions.Attack, SendingTroopsInfo.Create(i + 1, actionCount));
+                                currentOrderNumber++;
+
+                                _plemionaFeaturesDiagnostics.SendTroops(clickedTroopOrder.TroopsTemplate.Troops, coordinates.X, coordinates.Y, TroopsIntentions.Attack, SendingTroopsInfo.Create(currentOrderNumber, orderCount));
                             }
                             catch (BotCheckException)
                             {
-                                MessageBox.Show("Bot check detected, action stopped", "Bot check", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                MessageBox.Show("Bot check detected, order stopped.", "Bot check", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                SetReady(true);
                                 return;
                             }
                             catch (FeatureException fe)
@@ -359,7 +369,7 @@ namespace Plemiona.DestopApp.Forms
 
         private void FixGridNumbers(DataGridView grid)
         {
-            for (int i = 0; i < GridTroopsTemplates.RowCount - 1; i++)
+            for (int i = 0; i < grid.RowCount - 1; i++)
             {
                 grid.Rows[i].Cells[0].Value = i + 1;
             }
@@ -389,7 +399,7 @@ namespace Plemiona.DestopApp.Forms
             }
             catch (BotCheckException)
             {
-                MessageBox.Show("Bot check detected, action stopped", "Bot check", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Bot check detected, feature stopped", "Bot check", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
             catch (FeatureException fe)
@@ -404,11 +414,11 @@ namespace Plemiona.DestopApp.Forms
             PctbxStatus.BackgroundImage = ready ? Resources.PictureReady : null;
             LblStatus.Text = ready ? "Ready" : "Processing...";
 
-            BtnAddTroopsTemplate.Enabled = ready;
             GridTroopsTemplates.Enabled = ready;
 
-            BtnAddTroopsOrders.Enabled = ready;
             GridTroopsOrders.Enabled = ready;
+
+            PnlStatus.BackColor = ready ? Color.Transparent : Color.Goldenrod;
         }
     }
 }

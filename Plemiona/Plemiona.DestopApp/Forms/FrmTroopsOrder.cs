@@ -7,49 +7,49 @@ using System.Windows.Forms;
 
 namespace Plemiona.DestopApp.Forms
 {
-    public partial class FrmTroopsAction : Form
+    public partial class FrmTroopsOrder : Form
     {
         private readonly IEnumerable<string> _invalidNames;
         private readonly IEnumerable<TroopsTemplate> _troopsTemplates;
 
         private readonly bool _editionMode;
 
-        public TroopsAction TroopsAction { get; private set; }
+        public TroopsOrder TroopsOrder { get; private set; }
 
         public bool Deletetion { get; private set; }
 
-        public FrmTroopsAction(IEnumerable<string> invalidNames, IEnumerable<TroopsTemplate> troopsTemplates, TroopsAction troopsActionToEdition = null)
+        public FrmTroopsOrder(IEnumerable<string> invalidNames, IEnumerable<TroopsTemplate> troopsTemplates, TroopsOrder troopsOrderToEdition = null)
         {
             InitializeComponent();
 
             _invalidNames = invalidNames;
             _troopsTemplates = troopsTemplates;
-            TroopsAction = troopsActionToEdition;
+            TroopsOrder = troopsOrderToEdition;
 
-            _editionMode = troopsActionToEdition != null;
+            _editionMode = troopsOrderToEdition != null;
 
             CbxTroopsTemplate.Items.AddRange(_troopsTemplates.Select(tt => tt.Name).ToArray());
             CbxTroopsTemplate.SelectedIndex = 0;
 
-            if (troopsActionToEdition != null)
+            if (troopsOrderToEdition != null)
             {
                 BtnDeletion.Visible = true;
 
-                TbxName.Text = troopsActionToEdition.Name;
+                TbxName.Text = troopsOrderToEdition.Name;
 
-                CbxTroopsTemplate.SelectedItem = troopsActionToEdition.TroopsTemplate.Name;
+                CbxTroopsTemplate.SelectedItem = troopsOrderToEdition.TroopsTemplate.Name;
 
-                LbxCoordinates.Items.AddRange(troopsActionToEdition.VillagesCoordinates.Select(vc => $"{vc.X}|{vc.Y}").ToArray());
+                LbxCoordinates.Items.AddRange(troopsOrderToEdition.VillagesCoordinates.Select(vc => $"{vc.X}|{vc.Y}").ToArray());
 
-                DtpckExecutionDate.Value = troopsActionToEdition.ExecutionDate;
+                DtpckExecutionDate.Value = troopsOrderToEdition.ExecutionDate;
 
-                CkbxEveryday.Checked = troopsActionToEdition.Everyday;
+                CkbxEveryday.Checked = troopsOrderToEdition.Everyday;
             }
 
-            BtnOk.Text = troopsActionToEdition != null ? "Edit" : "Add";
+            BtnOk.Text = troopsOrderToEdition != null ? "Edit" : "Add";
         }
 
-        private void FrmTroopsAction_KeyPress(object sender, KeyPressEventArgs e)
+        private void FrmTroopsOrder_KeyPress(object sender, KeyPressEventArgs e)
         {
             var key = (Keys)e.KeyChar;
 
@@ -87,20 +87,20 @@ namespace Plemiona.DestopApp.Forms
             {
                 if (!_editionMode)
                 {
-                    TroopsAction = new TroopsAction();
+                    TroopsOrder = new TroopsOrder();
                 }
 
                 if (string.IsNullOrEmpty(TbxName.Text))
                 {
                     MessageBox.Show("Incorrect name.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    TroopsAction = null;
+                    TroopsOrder = null;
                     return;
                 }
 
                 if ((!_editionMode) && _invalidNames.Contains(TbxName.Text))
                 {
-                    MessageBox.Show($"Troops action with name of \"{TbxName.Text}\" already exists.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    TroopsAction = null;
+                    MessageBox.Show($"Troops order with name of \"{TbxName.Text}\" already exists.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    TroopsOrder = null;
                     return;
                 }
 
@@ -125,11 +125,11 @@ namespace Plemiona.DestopApp.Forms
                     return;
                 }
 
-                TroopsAction.Name = TbxName.Text;
-                TroopsAction.TroopsTemplate = _troopsTemplates.Single(tt => tt.Name == CbxTroopsTemplate.Text);
-                TroopsAction.VillagesCoordinates = coordinates;
-                TroopsAction.ExecutionDate = DtpckExecutionDate.Value;
-                TroopsAction.Everyday = CkbxEveryday.Checked;
+                TroopsOrder.Name = TbxName.Text;
+                TroopsOrder.TroopsTemplate = _troopsTemplates.Single(tt => tt.Name == CbxTroopsTemplate.Text);
+                TroopsOrder.VillagesCoordinates = coordinates;
+                TroopsOrder.ExecutionDate = DtpckExecutionDate.Value;
+                TroopsOrder.Everyday = CkbxEveryday.Checked;
 
                 DialogResult = DialogResult.OK;
             }

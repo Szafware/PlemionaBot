@@ -9,14 +9,14 @@ namespace Plemiona.DestopApp.Models
     {
         public List<TroopsTemplate> TroopsTemplates { get; set; }
 
-        public List<TroopsAction> TroopsActions { get; set; }
+        public List<TroopsOrder> TroopsOrders { get; set; }
 
         public List<Village> TargetVillages { get; set; }
 
         public PlemionaToolLocalData()
         {
             TroopsTemplates = new List<TroopsTemplate>();
-            TroopsActions = new List<TroopsAction>();
+            TroopsOrders = new List<TroopsOrder>();
         }
     }
 }

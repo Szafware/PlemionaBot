@@ -1,12 +1,11 @@
-﻿using Plemiona.Core.Enums;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
 
 namespace Plemiona.DestopApp.Models
 {
     [Serializable]
-    public class TroopsAction
+    public class TroopsOrder
     {
         public string Name { get; set; }
 
@@ -18,7 +17,7 @@ namespace Plemiona.DestopApp.Models
 
         public bool Everyday { get; set; }
 
-        public TroopsAction()
+        public TroopsOrder()
         {
             VillagesCoordinates = new List<Point>();
         }

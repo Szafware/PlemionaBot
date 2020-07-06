@@ -457,7 +457,7 @@
             this.KeyPreview = true;
             this.Name = "FrmTroopsTemplate";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Troops Template";
+            this.Text = "Troops Templates";
             this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.FrmTroopsTemplate_KeyPress);
             this.PnlMain.ResumeLayout(false);
             this.PnlMain.PerformLayout();

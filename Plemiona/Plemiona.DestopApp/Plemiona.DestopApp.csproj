@@ -88,11 +88,11 @@
     <Compile Include="Forms\FrmMain.Designer.cs">
       <DependentUpon>FrmMain.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\FrmTroopsAction.cs">
+    <Compile Include="Forms\FrmTroopsOrder.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\FrmTroopsAction.Designer.cs">
-      <DependentUpon>FrmTroopsAction.cs</DependentUpon>
+    <Compile Include="Forms\FrmTroopsOrder.Designer.cs">
+      <DependentUpon>FrmTroopsOrder.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\FrmTroopsTemplate.cs">
       <SubType>Form</SubType>
@@ -100,7 +100,7 @@
     <Compile Include="Forms\FrmTroopsTemplate.Designer.cs">
       <DependentUpon>FrmTroopsTemplate.cs</DependentUpon>
     </Compile>
-    <Compile Include="Models\TroopsAction.cs" />
+    <Compile Include="Models\TroopsOrder.cs" />
     <Compile Include="Models\PlemionaToolLocalData.cs" />
     <Compile Include="Models\TroopsTemplate.cs" />
     <Compile Include="Program.cs" />
@@ -110,8 +110,8 @@
     <EmbeddedResource Include="Forms\FrmMain.resx">
       <DependentUpon>FrmMain.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\FrmTroopsAction.resx">
-      <DependentUpon>FrmTroopsAction.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\FrmTroopsOrder.resx">
+      <DependentUpon>FrmTroopsOrder.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FrmTroopsTemplate.resx">
       <DependentUpon>FrmTroopsTemplate.cs</DependentUpon>
@@ -178,7 +178,6 @@
     <Content Include="Images\Swordmen.png" />
     <Content Include="Plemiona.ico" />
     <None Include="Resources\GifLoading.gif" />
-    <None Include="Resources\GifLoadingSmall.gif" />
     <None Include="Resources\PictureReady.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

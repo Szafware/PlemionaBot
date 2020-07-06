@@ -266,7 +266,7 @@ namespace Plemiona.Core.Features
         {
             try
             {
-                if ((sendingTroopsInfo == null) || (sendingTroopsInfo.CurrentActionNumber == 1))
+                if ((sendingTroopsInfo == null) || (sendingTroopsInfo.CurrentOrderNumber == 1))
                     _stepExecutionService.Execute("ClickBuildingPicture", BuildingTypes.Yard);
 
                 if (troops.Spearmen > 0)
@@ -306,7 +306,7 @@ namespace Plemiona.Core.Features
 
                 _stepExecutionService.Execute("ClickSendTroopsConfirmationButton");
 
-                if ((sendingTroopsInfo == null) || sendingTroopsInfo.IsLastActionInSequence)
+                if ((sendingTroopsInfo == null) || sendingTroopsInfo.IsLastOrderInSequence)
                     _stepExecutionService.Execute("ClickVillageViewButton");
             }
             catch (BotCheckException bce)
