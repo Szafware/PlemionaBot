@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Plemiona.Core.Services.BotCheckDetect;
+using System.Net;
 
 namespace Plemiona.Core.Steps.Services.StepProvider
 {
@@ -36,6 +37,13 @@ namespace Plemiona.Core.Steps.Services.StepProvider
             var step = _steps[stepKey];
 
             return step;
+        }
+
+        public IEnumerable<IStep> GetAllStep()
+        {
+            var steps = _steps.Values;
+
+            return steps;
         }
 
         public IEnumerable<string> GetStepKeys()

@@ -7,6 +7,8 @@ namespace Plemiona.Core.Steps.Services.StepProvider
     {
         IStep GetStep(string stepKey);
 
+        IEnumerable<IStep> GetAllStep();
+
         IEnumerable<string> GetStepKeys();
     }
 }

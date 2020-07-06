@@ -6,7 +6,7 @@ using Plemiona.Core.Models.Features;
 using Plemiona.Core.Models.Gui;
 using Plemiona.Core.Models.Steps;
 using Plemiona.Core.Services.FeatureLogging;
-using Plemiona.Core.Steps.Services.StepProvider;
+using Plemiona.Core.Steps.Services.StepExecution;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -17,35 +17,32 @@ namespace Plemiona.Core.Features
 {
     public class PlemionaDefaultFeatures : IPlemionaFeatures
     {
-        private readonly IStepProviderService _stepProviderService;
-        private readonly IFeatureLoggingService _featureLoggingService;
-        private readonly PlemionaMetadata _plemionaMetadata;
+        protected readonly IStepExecutionService _stepExecutionService;
+        protected readonly IFeatureLoggingService _featureLoggingService;
 
         public PlemionaDefaultFeatures(
-            IStepProviderService stepProviderService,
-            IFeatureLoggingService featureLoggingService,
-            PlemionaMetadata plemionaMetadata
+            IStepExecutionService stepExecutionService,
+            IFeatureLoggingService featureLoggingService
             )
         {
-            _stepProviderService = stepProviderService;
+            _stepExecutionService = stepExecutionService;
             _featureLoggingService = featureLoggingService;
-            _plemionaMetadata = plemionaMetadata;
         }
 
         public void SignIn(string username, string password, int worldNumber)
         {
             try
             {
-                _stepProviderService.GetStep("LoadPlemionaWebsite").Execute();
-                if ((bool)_stepProviderService.GetStep("IsPlayerSignedIn").Execute())
-                    _stepProviderService.GetStep("ClickSignOutFromAccountButton").Execute();
-                _stepProviderService.GetStep("FillUsernameTextBox").Execute("Dziaczakra");
-                _stepProviderService.GetStep("FillPasswordTextBox").Execute(password);
-                _stepProviderService.GetStep("ClickSignInButton").Execute();
-                _stepProviderService.GetStep("ClickWorldButton").Execute(worldNumber);
-                if ((bool)_stepProviderService.GetStep("IsDailySignInGiftWindowPresent").Execute())
-                    _stepProviderService.GetStep("ClickDailySignInGiftReceiveButton").Execute();
-                _stepProviderService.GetStep("ClickHideChatButton").Execute();
+                _stepExecutionService.Execute("LoadPlemionaWebsite");
+                if (_stepExecutionService.Execute<bool>("IsPlayerSignedIn"))
+                    _stepExecutionService.Execute("ClickSignOutFromAccountButton");
+                _stepExecutionService.Execute("FillUsernameTextBox", "Dziaczakra");
+                _stepExecutionService.Execute("FillPasswordTextBox", password);
+                _stepExecutionService.Execute("ClickSignInButton");
+                _stepExecutionService.Execute("ClickWorldButton", worldNumber);
+                if (_stepExecutionService.Execute<bool>("IsDailySignInGiftWindowPresent"))
+                    _stepExecutionService.Execute("ClickDailySignInGiftReceiveButton");
+                _stepExecutionService.Execute("ClickHideChatButton");
             }
             catch (BotCheckException bce)
             {
@@ -57,18 +54,18 @@ namespace Plemiona.Core.Features
                 string errorMessage = string.Empty;
                 bool plemionaError = false;
 
-                if ((bool)_stepProviderService.GetStep("IsErrorMessagePresent").Execute())
+                if (_stepExecutionService.Execute<bool>("IsErrorMessagePresent"))
                 {
                     plemionaError = true;
-                    errorMessage = (string)_stepProviderService.GetStep("GetErrorMessage").Execute();
-                    TryToReturnToVillageView();
+                    errorMessage = _stepExecutionService.Execute<string>("GetErrorMessage");
                 }
                 else
                 {
                     errorMessage = e.Message;
                     _featureLoggingService.LogException(e, MethodBase.GetCurrentMethod().Name);
-                    TryToReturnToVillageView();
                 }
+
+                TryToReturnToVillageView();
 
                 throw new FeatureException(plemionaError, errorMessage);
             }
@@ -91,18 +88,18 @@ namespace Plemiona.Core.Features
                 string errorMessage = string.Empty;
                 bool plemionaError = false;
 
-                if ((bool)_stepProviderService.GetStep("IsErrorMessagePresent").Execute())
+                if (_stepExecutionService.Execute<bool>("IsErrorMessagePresent"))
                 {
                     plemionaError = true;
-                    errorMessage = (string)_stepProviderService.GetStep("GetErrorMessage").Execute();
-                    TryToReturnToVillageView();
+                    errorMessage = _stepExecutionService.Execute<string>("GetErrorMessage");
                 }
                 else
                 {
                     errorMessage = e.Message;
                     _featureLoggingService.LogException(e, MethodBase.GetCurrentMethod().Name);
-                    TryToReturnToVillageView();
                 }
+
+                TryToReturnToVillageView();
 
                 throw new FeatureException(plemionaError, errorMessage);
             }
@@ -114,53 +111,53 @@ namespace Plemiona.Core.Features
             {
                 if (troops.AreUnsaddledTroopsPresent)
                 {
-                    _stepProviderService.GetStep("ClickBuildingPicture").Execute(BuildingTypes.Barracks);
+                    _stepExecutionService.Execute("ClickBuildingPicture", BuildingTypes.Barracks);
                     if (troops.Spearmen > 0)
-                        _stepProviderService.GetStep("FillRecruitmentTroopsCountTextBox").Execute(TroopsRecruitment.Create(TroopTypes.Spearman, troops.Spearmen));
+                        _stepExecutionService.Execute("FillRecruitmentTroopsCountTextBox", TroopsRecruitment.Create(TroopTypes.Spearman, troops.Spearmen));
                     if (troops.Swordmen > 0)
-                        _stepProviderService.GetStep("FillRecruitmentTroopsCountTextBox").Execute(TroopsRecruitment.Create(TroopTypes.Swordman, troops.Swordmen));
+                        _stepExecutionService.Execute("FillRecruitmentTroopsCountTextBox", TroopsRecruitment.Create(TroopTypes.Swordman, troops.Swordmen));
                     if (troops.Axemen > 0)
-                        _stepProviderService.GetStep("FillRecruitmentTroopsCountTextBox").Execute(TroopsRecruitment.Create(TroopTypes.Axeman, troops.Axemen));
+                        _stepExecutionService.Execute("FillRecruitmentTroopsCountTextBox", TroopsRecruitment.Create(TroopTypes.Axeman, troops.Axemen));
                     if (troops.Bowmen > 0)
-                        _stepProviderService.GetStep("FillRecruitmentTroopsCountTextBox").Execute(TroopsRecruitment.Create(TroopTypes.Bowman, troops.Bowmen));
-                    _stepProviderService.GetStep("ClickUnsaddledTroopsRecruitmentButton").Execute();
+                        _stepExecutionService.Execute("FillRecruitmentTroopsCountTextBox", TroopsRecruitment.Create(TroopTypes.Bowman, troops.Bowmen));
+                    _stepExecutionService.Execute("ClickUnsaddledTroopsRecruitmentButton");
                 }
 
                 if (troops.AreSaddledTroopsPresent)
                 {
-                    _stepProviderService.GetStep("ClickVillageViewButton").Execute();
-                    _stepProviderService.GetStep("ClickBuildingPicture").Execute(BuildingTypes.Stable);
+                    _stepExecutionService.Execute("ClickVillageViewButton");
+                    _stepExecutionService.Execute("ClickBuildingPicture", BuildingTypes.Stable);
                     if (troops.Scouts > 0)
-                        _stepProviderService.GetStep("FillRecruitmentTroopsCountTextBox").Execute(TroopsRecruitment.Create(TroopTypes.Scout, troops.Scouts));
+                        _stepExecutionService.Execute("FillRecruitmentTroopsCountTextBox", TroopsRecruitment.Create(TroopTypes.Scout, troops.Scouts));
                     if (troops.LightCavalary > 0)
-                        _stepProviderService.GetStep("FillRecruitmentTroopsCountTextBox").Execute(TroopsRecruitment.Create(TroopTypes.LightCavalryman, troops.LightCavalary));
+                        _stepExecutionService.Execute("FillRecruitmentTroopsCountTextBox", TroopsRecruitment.Create(TroopTypes.LightCavalryman, troops.LightCavalary));
                     if (troops.HorseArchers > 0)
-                        _stepProviderService.GetStep("FillRecruitmentTroopsCountTextBox").Execute(TroopsRecruitment.Create(TroopTypes.HorseArcher, troops.HorseArchers));
+                        _stepExecutionService.Execute("FillRecruitmentTroopsCountTextBox", TroopsRecruitment.Create(TroopTypes.HorseArcher, troops.HorseArchers));
                     if (troops.HeavyCavalary > 0)
-                        _stepProviderService.GetStep("FillRecruitmentTroopsCountTextBox").Execute(TroopsRecruitment.Create(TroopTypes.HeavyCavalryman, troops.HeavyCavalary));
-                    _stepProviderService.GetStep("ClickSaddledTroopsRecruitmentButton").Execute();
+                        _stepExecutionService.Execute("FillRecruitmentTroopsCountTextBox", TroopsRecruitment.Create(TroopTypes.HeavyCavalryman, troops.HeavyCavalary));
+                    _stepExecutionService.Execute("ClickSaddledTroopsRecruitmentButton");
                 }
 
                 if (troops.AreWarMachinesTroopsPresent)
                 {
-                    _stepProviderService.GetStep("ClickVillageViewButton").Execute();
-                    _stepProviderService.GetStep("ClickBuildingPicture").Execute(BuildingTypes.Workshop);
+                    _stepExecutionService.Execute("ClickVillageViewButton");
+                    _stepExecutionService.Execute("ClickBuildingPicture", BuildingTypes.Workshop);
                     if (troops.Rams > 0)
-                        _stepProviderService.GetStep("FillRecruitmentTroopsCountTextBox").Execute(TroopsRecruitment.Create(TroopTypes.Ram, troops.Rams));
+                        _stepExecutionService.Execute("FillRecruitmentTroopsCountTextBox", TroopsRecruitment.Create(TroopTypes.Ram, troops.Rams));
                     if (troops.Catapultes > 0)
-                        _stepProviderService.GetStep("FillRecruitmentTroopsCountTextBox").Execute(TroopsRecruitment.Create(TroopTypes.Catapulte, troops.Catapultes));
-                    _stepProviderService.GetStep("ClickWarMachinesRecruitmentButton").Execute();
+                        _stepExecutionService.Execute("FillRecruitmentTroopsCountTextBox", TroopsRecruitment.Create(TroopTypes.Catapulte, troops.Catapultes));
+                    _stepExecutionService.Execute("ClickWarMachinesRecruitmentButton");
                 }
 
                 if (troops.Noblemen > 0)
                 {
-                    _stepProviderService.GetStep("ClickVillageViewButton").Execute();
-                    _stepProviderService.GetStep("ClickBuildingPicture").Execute(BuildingTypes.Palace);
-                    _stepProviderService.GetStep("FillRecruitmentTroopsCountTextBox").Execute(TroopsRecruitment.Create(TroopTypes.Nobleman, troops.Noblemen));
-                    _stepProviderService.GetStep("ClickNoblemenRecruitmentButton").Execute();
+                    _stepExecutionService.Execute("ClickVillageViewButton");
+                    _stepExecutionService.Execute("ClickBuildingPicture", BuildingTypes.Palace);
+                    _stepExecutionService.Execute("FillRecruitmentTroopsCountTextBox", TroopsRecruitment.Create(TroopTypes.Nobleman, troops.Noblemen));
+                    _stepExecutionService.Execute("ClickNoblemenRecruitmentButton");
                 }
 
-                _stepProviderService.GetStep("ClickVillageViewButton").Execute();
+                _stepExecutionService.Execute("ClickVillageViewButton");
             }
             catch (BotCheckException bce)
             {
@@ -172,18 +169,18 @@ namespace Plemiona.Core.Features
                 string errorMessage = string.Empty;
                 bool plemionaError = false;
 
-                if ((bool)_stepProviderService.GetStep("IsErrorMessagePresent").Execute())
+                if (_stepExecutionService.Execute<bool>("IsErrorMessagePresent"))
                 {
                     plemionaError = true;
-                    errorMessage = (string)_stepProviderService.GetStep("GetErrorMessage").Execute();
-                    TryToReturnToVillageView();
+                    errorMessage = _stepExecutionService.Execute<string>("GetErrorMessage");
                 }
                 else
                 {
                     errorMessage = e.Message;
                     _featureLoggingService.LogException(e, MethodBase.GetCurrentMethod().Name);
-                    TryToReturnToVillageView();
                 }
+
+                TryToReturnToVillageView();
 
                 throw new FeatureException(plemionaError, errorMessage);
             }
@@ -193,14 +190,14 @@ namespace Plemiona.Core.Features
         {
             try
             {
-                _stepProviderService.GetStep("ClickBuildingPicture").Execute(BuildingTypes.Statue);
-                _stepProviderService.GetStep("ClickKnightRecruitmentButton").Execute();
-                _stepProviderService.GetStep("ClearKnightNameTextBox").Execute();
-                _stepProviderService.GetStep("FillKnightNameTextBox").Execute(knightName);
-                _stepProviderService.GetStep("ClickKnightRecruitmentConfirmationButton").Execute();
-                if ((bool)_stepProviderService.GetStep("CanSkipKnightRecruitment").Execute())
-                    _stepProviderService.GetStep("ClickKnightRecruitmentSkipButton").Execute();
-                _stepProviderService.GetStep("ClickVillageViewButton").Execute();
+                _stepExecutionService.Execute("ClickBuildingPicture", BuildingTypes.Statue);
+                _stepExecutionService.Execute("ClickKnightRecruitmentButton");
+                _stepExecutionService.Execute("ClearKnightNameTextBox");
+                _stepExecutionService.Execute("FillKnightNameTextBox", knightName);
+                _stepExecutionService.Execute("ClickKnightRecruitmentConfirmationButton");
+                if (_stepExecutionService.Execute<bool>("CanSkipKnightRecruitment"))
+                    _stepExecutionService.Execute("ClickKnightRecruitmentSkipButton");
+                _stepExecutionService.Execute("ClickVillageViewButton");
             }
             catch (BotCheckException bce)
             {
@@ -212,18 +209,18 @@ namespace Plemiona.Core.Features
                 string errorMessage = string.Empty;
                 bool plemionaError = false;
 
-                if ((bool)_stepProviderService.GetStep("IsErrorMessagePresent").Execute())
+                if (_stepExecutionService.Execute<bool>("IsErrorMessagePresent"))
                 {
                     plemionaError = true;
-                    errorMessage = (string)_stepProviderService.GetStep("GetErrorMessage").Execute();
-                    TryToReturnToVillageView();
+                    errorMessage = _stepExecutionService.Execute<string>("GetErrorMessage");
                 }
                 else
                 {
                     errorMessage = e.Message;
                     _featureLoggingService.LogException(e, MethodBase.GetCurrentMethod().Name);
-                    TryToReturnToVillageView();
                 }
+
+                TryToReturnToVillageView();
 
                 throw new FeatureException(plemionaError, errorMessage);
             }
@@ -233,10 +230,10 @@ namespace Plemiona.Core.Features
         {
             try
             {
-                _stepProviderService.GetStep("ClickBuildingPicture").Execute(BuildingTypes.Statue);
-                _stepProviderService.GetStep("ClickKnightRevivalButton").Execute();
-                _stepProviderService.GetStep("ClickKnightRevivalConfirmationButton").Execute();
-                _stepProviderService.GetStep("ClickVillageViewButton").Execute();
+                _stepExecutionService.Execute("ClickBuildingPicture", BuildingTypes.Statue);
+                _stepExecutionService.Execute("ClickKnightRevivalButton");
+                _stepExecutionService.Execute("ClickKnightRevivalConfirmationButton");
+                _stepExecutionService.Execute("ClickVillageViewButton");
             }
             catch (BotCheckException bce)
             {
@@ -248,18 +245,18 @@ namespace Plemiona.Core.Features
                 string errorMessage = string.Empty;
                 bool plemionaError = false;
 
-                if ((bool)_stepProviderService.GetStep("IsErrorMessagePresent").Execute())
+                if (_stepExecutionService.Execute<bool>("IsErrorMessagePresent"))
                 {
                     plemionaError = true;
-                    errorMessage = (string)_stepProviderService.GetStep("GetErrorMessage").Execute();
-                    TryToReturnToVillageView();
+                    errorMessage = _stepExecutionService.Execute<string>("GetErrorMessage");
                 }
                 else
                 {
                     errorMessage = e.Message;
                     _featureLoggingService.LogException(e, MethodBase.GetCurrentMethod().Name);
-                    TryToReturnToVillageView();
                 }
+
+                TryToReturnToVillageView();
 
                 throw new FeatureException(plemionaError, errorMessage);
             }
@@ -270,47 +267,47 @@ namespace Plemiona.Core.Features
             try
             {
                 if ((sendingTroopsInfo == null) || (sendingTroopsInfo.CurrentActionNumber == 1))
-                    _stepProviderService.GetStep("ClickBuildingPicture").Execute(BuildingTypes.Yard);
+                    _stepExecutionService.Execute("ClickBuildingPicture", BuildingTypes.Yard);
 
                 if (troops.Spearmen > 0)
-                    _stepProviderService.GetStep("FillYardSpearmenCountTextBox").Execute(troops.Spearmen);
+                    _stepExecutionService.Execute("FillYardSpearmenCountTextBox", troops.Spearmen);
                 if (troops.Swordmen > 0)
-                    _stepProviderService.GetStep("FillYardSwordmenCountTextBox").Execute(troops.Swordmen);
+                    _stepExecutionService.Execute("FillYardSwordmenCountTextBox", troops.Swordmen);
                 if (troops.Axemen > 0)
-                    _stepProviderService.GetStep("FillYardAxemenCountTextBox").Execute(troops.Axemen);
+                    _stepExecutionService.Execute("FillYardAxemenCountTextBox", troops.Axemen);
                 if (troops.Bowmen > 0)
-                    _stepProviderService.GetStep("FillYardBowmenCountTextBox").Execute(troops.Bowmen);
+                    _stepExecutionService.Execute("FillYardBowmenCountTextBox", troops.Bowmen);
 
                 if (troops.Scouts > 0)
-                    _stepProviderService.GetStep("FillYardScoutCountTextBox").Execute(troops.Scouts);
+                    _stepExecutionService.Execute("FillYardScoutCountTextBox", troops.Scouts);
                 if (troops.LightCavalary > 0)
-                    _stepProviderService.GetStep("FillYardLightCavalaryCountTextBox").Execute(troops.LightCavalary);
+                    _stepExecutionService.Execute("FillYardLightCavalaryCountTextBox", troops.LightCavalary);
                 if (troops.HorseArchers > 0)
-                    _stepProviderService.GetStep("FillYardHorseArchersCountTextBox").Execute(troops.HorseArchers);
+                    _stepExecutionService.Execute("FillYardHorseArchersCountTextBox", troops.HorseArchers);
                 if (troops.HeavyCavalary > 0)
-                    _stepProviderService.GetStep("FillYardHeavyCavalaryCountTextBox").Execute(troops.HeavyCavalary);
+                    _stepExecutionService.Execute("FillYardHeavyCavalaryCountTextBox", troops.HeavyCavalary);
 
                 if (troops.Rams > 0)
-                    _stepProviderService.GetStep("FillYardRamsCountTextBox").Execute(troops.Rams);
+                    _stepExecutionService.Execute("FillYardRamsCountTextBox", troops.Rams);
                 if (troops.Catapultes > 0)
-                    _stepProviderService.GetStep("FillYardCatapultesCountTextBox").Execute(troops.Catapultes);
+                    _stepExecutionService.Execute("FillYardCatapultesCountTextBox", troops.Catapultes);
 
                 if (troops.Knights > 0)
-                    _stepProviderService.GetStep("FillYardKnightsCountTextBox").Execute(troops.Knights);
+                    _stepExecutionService.Execute("FillYardKnightsCountTextBox", troops.Knights);
                 if (troops.Noblemen > 0)
-                    _stepProviderService.GetStep("FillYardNobelmenCountTextBox").Execute(troops.Noblemen);
+                    _stepExecutionService.Execute("FillYardNobelmenCountTextBox", troops.Noblemen);
 
-                _stepProviderService.GetStep("FillYardVillageCoordinatesTextBox").Execute(new Point(coordinateX, coordinateY));
+                _stepExecutionService.Execute("FillYardVillageCoordinatesTextBox", new Point(coordinateX, coordinateY));
 
                 if (troopsIntentions == TroopsIntentions.Attack)
-                    _stepProviderService.GetStep("ClickSendAttackButton").Execute();
+                    _stepExecutionService.Execute("ClickSendAttackButton");
                 else
-                    _stepProviderService.GetStep("ClickSendHelpButton").Execute();
+                    _stepExecutionService.Execute("ClickSendHelpButton");
 
-                _stepProviderService.GetStep("ClickSendTroopsConfirmationButton").Execute();
+                _stepExecutionService.Execute("ClickSendTroopsConfirmationButton");
 
                 if ((sendingTroopsInfo == null) || sendingTroopsInfo.IsLastActionInSequence)
-                    _stepProviderService.GetStep("ClickVillageViewButton").Execute();
+                    _stepExecutionService.Execute("ClickVillageViewButton");
             }
             catch (BotCheckException bce)
             {
@@ -322,18 +319,18 @@ namespace Plemiona.Core.Features
                 string errorMessage = string.Empty;
                 bool plemionaError = false;
 
-                if ((bool)_stepProviderService.GetStep("IsErrorMessagePresent").Execute())
+                if (_stepExecutionService.Execute<bool>("IsErrorMessagePresent"))
                 {
                     plemionaError = true;
-                    errorMessage = (string)_stepProviderService.GetStep("GetErrorMessage").Execute();
-                    TryToReturnToVillageView();
+                    errorMessage = _stepExecutionService.Execute<string>("GetErrorMessage");
                 }
                 else
                 {
                     errorMessage = e.Message;
                     _featureLoggingService.LogException(e, MethodBase.GetCurrentMethod().Name);
-                    TryToReturnToVillageView();
                 }
+
+                TryToReturnToVillageView();
 
                 throw new FeatureException(plemionaError, errorMessage);
             }
@@ -345,9 +342,9 @@ namespace Plemiona.Core.Features
             {
                 var resources = new Resources
                 {
-                    Wood = (int)_stepProviderService.GetStep("GetWood").Execute(),
-                    Clay = (int)_stepProviderService.GetStep("GetClay").Execute(),
-                    Iron = (int)_stepProviderService.GetStep("GetIron").Execute(),
+                    Wood = _stepExecutionService.Execute<int>("GetWood"),
+                    Clay = _stepExecutionService.Execute<int>("GetClay"),
+                    Iron = _stepExecutionService.Execute<int>("GetIron"),
                 };
 
                 return resources;
@@ -362,18 +359,18 @@ namespace Plemiona.Core.Features
                 string errorMessage = string.Empty;
                 bool plemionaError = false;
 
-                if ((bool)_stepProviderService.GetStep("IsErrorMessagePresent").Execute())
+                if (_stepExecutionService.Execute<bool>("IsErrorMessagePresent"))
                 {
                     plemionaError = true;
-                    errorMessage = (string)_stepProviderService.GetStep("GetErrorMessage").Execute();
-                    TryToReturnToVillageView();
+                    errorMessage = _stepExecutionService.Execute<string>("GetErrorMessage");
                 }
                 else
                 {
                     errorMessage = e.Message;
                     _featureLoggingService.LogException(e, MethodBase.GetCurrentMethod().Name);
-                    TryToReturnToVillageView();
                 }
+
+                TryToReturnToVillageView();
 
                 throw new FeatureException(plemionaError, errorMessage);
             }
@@ -383,29 +380,29 @@ namespace Plemiona.Core.Features
         {
             try
             {
-                _stepProviderService.GetStep("ClickBuildingPicture").Execute(BuildingTypes.Townhall);
+                _stepExecutionService.Execute("ClickBuildingPicture", BuildingTypes.Townhall);
 
                 var buildings = new Buildings
                 {
-                    Townhall = (int)_stepProviderService.GetStep("GetBuildingLevel").Execute(BuildingTypes.Townhall),
-                    Barracks = (int)_stepProviderService.GetStep("GetBuildingLevel").Execute(BuildingTypes.Barracks),
-                    Stable = (int)_stepProviderService.GetStep("GetBuildingLevel").Execute(BuildingTypes.Stable),
-                    Workshop = (int)_stepProviderService.GetStep("GetBuildingLevel").Execute(BuildingTypes.Workshop),
-                    Palace = (int)_stepProviderService.GetStep("GetBuildingLevel").Execute(BuildingTypes.Palace),
-                    Forge = (int)_stepProviderService.GetStep("GetBuildingLevel").Execute(BuildingTypes.Forge),
-                    Yard = (int)_stepProviderService.GetStep("GetBuildingLevel").Execute(BuildingTypes.Yard),
-                    Statue = (int)_stepProviderService.GetStep("GetBuildingLevel").Execute(BuildingTypes.Statue),
-                    Market = (int)_stepProviderService.GetStep("GetBuildingLevel").Execute(BuildingTypes.Market),
-                    Sawmill = (int)_stepProviderService.GetStep("GetBuildingLevel").Execute(BuildingTypes.Sawmill),
-                    Brickyard = (int)_stepProviderService.GetStep("GetBuildingLevel").Execute(BuildingTypes.Brickyard),
-                    Ironworks = (int)_stepProviderService.GetStep("GetBuildingLevel").Execute(BuildingTypes.Ironworks),
-                    Farm = (int)_stepProviderService.GetStep("GetBuildingLevel").Execute(BuildingTypes.Farm),
-                    Storage = (int)_stepProviderService.GetStep("GetBuildingLevel").Execute(BuildingTypes.Storage),
-                    Clipboard = (int)_stepProviderService.GetStep("GetBuildingLevel").Execute(BuildingTypes.Clipboard),
-                    Wall = (int)_stepProviderService.GetStep("GetBuildingLevel").Execute(BuildingTypes.Wall)
+                    Townhall = _stepExecutionService.Execute<int>("GetBuildingLevel", BuildingTypes.Townhall),
+                    Barracks = _stepExecutionService.Execute<int>("GetBuildingLevel", BuildingTypes.Barracks),
+                    Stable = _stepExecutionService.Execute<int>("GetBuildingLevel", BuildingTypes.Stable),
+                    Workshop = _stepExecutionService.Execute<int>("GetBuildingLevel", BuildingTypes.Workshop),
+                    Palace = _stepExecutionService.Execute<int>("GetBuildingLevel", BuildingTypes.Palace),
+                    Forge = _stepExecutionService.Execute<int>("GetBuildingLevel", BuildingTypes.Forge),
+                    Yard = _stepExecutionService.Execute<int>("GetBuildingLevel", BuildingTypes.Yard),
+                    Statue = _stepExecutionService.Execute<int>("GetBuildingLevel", BuildingTypes.Statue),
+                    Market = _stepExecutionService.Execute<int>("GetBuildingLevel", BuildingTypes.Market),
+                    Sawmill = _stepExecutionService.Execute<int>("GetBuildingLevel", BuildingTypes.Sawmill),
+                    Brickyard = _stepExecutionService.Execute<int>("GetBuildingLevel", BuildingTypes.Brickyard),
+                    Ironworks = _stepExecutionService.Execute<int>("GetBuildingLevel", BuildingTypes.Ironworks),
+                    Farm = _stepExecutionService.Execute<int>("GetBuildingLevel", BuildingTypes.Farm),
+                    Storage = _stepExecutionService.Execute<int>("GetBuildingLevel", BuildingTypes.Storage),
+                    Clipboard = _stepExecutionService.Execute<int>("GetBuildingLevel", BuildingTypes.Clipboard),
+                    Wall = _stepExecutionService.Execute<int>("GetBuildingLevel", BuildingTypes.Wall)
                 };
 
-                _stepProviderService.GetStep("ClickVillageViewButton").Execute();
+                _stepExecutionService.Execute("ClickVillageViewButton");
 
                 return buildings;
             }
@@ -419,18 +416,18 @@ namespace Plemiona.Core.Features
                 string errorMessage = string.Empty;
                 bool plemionaError = false;
 
-                if ((bool)_stepProviderService.GetStep("IsErrorMessagePresent").Execute())
+                if (_stepExecutionService.Execute<bool>("IsErrorMessagePresent"))
                 {
                     plemionaError = true;
-                    errorMessage = (string)_stepProviderService.GetStep("GetErrorMessage").Execute();
-                    TryToReturnToVillageView();
+                    errorMessage = _stepExecutionService.Execute<string>("GetErrorMessage");
                 }
                 else
                 {
                     errorMessage = e.Message;
                     _featureLoggingService.LogException(e, MethodBase.GetCurrentMethod().Name);
-                    TryToReturnToVillageView();
                 }
+
+                TryToReturnToVillageView();
 
                 throw new FeatureException(plemionaError, errorMessage);
             }
@@ -440,11 +437,11 @@ namespace Plemiona.Core.Features
         {
             try
             {
-                _stepProviderService.GetStep("ClickBuildingPicture").Execute(BuildingTypes.Townhall);
-                _stepProviderService.GetStep("ClearVillageNameTextBox").Execute();
-                _stepProviderService.GetStep("FillVillageNameTextBox").Execute(villageName);
-                _stepProviderService.GetStep("ClickVillageNameChangeButton").Execute();
-                _stepProviderService.GetStep("ClickVillageViewButton").Execute();
+                _stepExecutionService.Execute("ClickBuildingPicture", BuildingTypes.Townhall);
+                _stepExecutionService.Execute("ClearVillageNameTextBox");
+                _stepExecutionService.Execute("FillVillageNameTextBox", villageName);
+                _stepExecutionService.Execute("ClickVillageNameChangeButton");
+                _stepExecutionService.Execute("ClickVillageViewButton");
             }
             catch (BotCheckException bce)
             {
@@ -456,18 +453,18 @@ namespace Plemiona.Core.Features
                 string errorMessage = string.Empty;
                 bool plemionaError = false;
 
-                if ((bool)_stepProviderService.GetStep("IsErrorMessagePresent").Execute())
+                if (_stepExecutionService.Execute<bool>("IsErrorMessagePresent"))
                 {
                     plemionaError = true;
-                    errorMessage = (string)_stepProviderService.GetStep("GetErrorMessage").Execute();
-                    TryToReturnToVillageView();
+                    errorMessage = _stepExecutionService.Execute<string>("GetErrorMessage");
                 }
                 else
                 {
                     errorMessage = e.Message;
                     _featureLoggingService.LogException(e, MethodBase.GetCurrentMethod().Name);
-                    TryToReturnToVillageView();
                 }
+
+                TryToReturnToVillageView();
 
                 throw new FeatureException(plemionaError, errorMessage);
             }
@@ -478,7 +475,7 @@ namespace Plemiona.Core.Features
         {
             try
             {
-                _stepProviderService.GetStep("ClickBuildingPicture").Execute(BuildingTypes.Yard);
+                _stepExecutionService.Execute("ClickBuildingPicture", BuildingTypes.Yard);
 
                 throw new NotImplementedException();
 
@@ -494,18 +491,18 @@ namespace Plemiona.Core.Features
                 string errorMessage = string.Empty;
                 bool plemionaError = false;
 
-                if ((bool)_stepProviderService.GetStep("IsErrorMessagePresent").Execute())
+                if (_stepExecutionService.Execute<bool>("IsErrorMessagePresent"))
                 {
                     plemionaError = true;
-                    errorMessage = (string)_stepProviderService.GetStep("GetErrorMessage").Execute();
-                    TryToReturnToVillageView();
+                    errorMessage = _stepExecutionService.Execute<string>("GetErrorMessage");
                 }
                 else
                 {
                     errorMessage = e.Message;
                     _featureLoggingService.LogException(e, MethodBase.GetCurrentMethod().Name);
-                    TryToReturnToVillageView();
                 }
+
+                TryToReturnToVillageView();
 
                 throw new FeatureException(plemionaError, errorMessage);
             }
@@ -520,17 +517,17 @@ namespace Plemiona.Core.Features
                     Location = new Point(coordinateX, coordinateY)
                 };
 
-                _stepProviderService.GetStep("ClickMapButton").Execute();
-                _stepProviderService.GetStep("FillVillageCoordinateXMapCenter").Execute(coordinateX);
-                _stepProviderService.GetStep("FillVillageCoordinateYMapCenter").Execute(coordinateY);
-                _stepProviderService.GetStep("ClickCenterVillageInMapButton").Execute();
-                _stepProviderService.GetStep("MoveMouseToMapCenter").Execute();
-                _stepProviderService.GetStep("ClickMap").Execute();
-                _stepProviderService.GetStep("ClickVillageInformationButton").Execute();
+                _stepExecutionService.Execute("ClickMapButton");
+                _stepExecutionService.Execute("FillVillageCoordinateXMapCenter", coordinateX);
+                _stepExecutionService.Execute("FillVillageCoordinateYMapCenter", coordinateY);
+                _stepExecutionService.Execute("ClickCenterVillageInMapButton");
+                _stepExecutionService.Execute("MoveMouseToMapCenter");
+                _stepExecutionService.Execute("ClickMap");
+                _stepExecutionService.Execute("ClickVillageInformationButton");
 
-                village.Name = (string)_stepProviderService.GetStep("GetVillageName").Execute();
-                village.Points = (int)_stepProviderService.GetStep("GetVillagePoints").Execute();
-                village.IsNomadOrBarbarian = (bool)_stepProviderService.GetStep("IsNomadOrBarbarianVillage").Execute();
+                village.Name = _stepExecutionService.Execute<string>("GetVillageName");
+                village.Points = _stepExecutionService.Execute<int>("GetVillagePoints");
+                village.IsNomadOrBarbarian = _stepExecutionService.Execute<bool>("IsNomadOrBarbarianVillage");
 
                 return village;
             }
@@ -544,18 +541,18 @@ namespace Plemiona.Core.Features
                 string errorMessage = string.Empty;
                 bool plemionaError = false;
 
-                if ((bool)_stepProviderService.GetStep("IsErrorMessagePresent").Execute())
+                if (_stepExecutionService.Execute<bool>("IsErrorMessagePresent"))
                 {
                     plemionaError = true;
-                    errorMessage = (string)_stepProviderService.GetStep("GetErrorMessage").Execute();
-                    TryToReturnToVillageView();
+                    errorMessage = _stepExecutionService.Execute<string>("GetErrorMessage");
                 }
                 else
                 {
                     errorMessage = e.Message;
                     _featureLoggingService.LogException(e, MethodBase.GetCurrentMethod().Name);
-                    TryToReturnToVillageView();
                 }
+
+                TryToReturnToVillageView();
 
                 throw new FeatureException(plemionaError, errorMessage);
             }
@@ -565,9 +562,9 @@ namespace Plemiona.Core.Features
         {
             try
             {
-                _stepProviderService.GetStep("ClickBuildingPicture").Execute(BuildingTypes.Townhall);
-                _stepProviderService.GetStep("ClickAddBuildingToBuildQueueButton").Execute(building);
-                _stepProviderService.GetStep("ClickVillageViewButton").Execute();
+                _stepExecutionService.Execute("ClickBuildingPicture", BuildingTypes.Townhall);
+                _stepExecutionService.Execute("ClickAddBuildingToBuildQueueButton", building);
+                _stepExecutionService.Execute("ClickVillageViewButton");
             }
             catch (BotCheckException bce)
             {
@@ -579,18 +576,18 @@ namespace Plemiona.Core.Features
                 string errorMessage = string.Empty;
                 bool plemionaError = false;
 
-                if ((bool)_stepProviderService.GetStep("IsErrorMessagePresent").Execute())
+                if (_stepExecutionService.Execute<bool>("IsErrorMessagePresent"))
                 {
                     plemionaError = true;
-                    errorMessage = (string)_stepProviderService.GetStep("GetErrorMessage").Execute();
-                    TryToReturnToVillageView();
+                    errorMessage = _stepExecutionService.Execute<string>("GetErrorMessage");
                 }
                 else
                 {
                     errorMessage = e.Message;
                     _featureLoggingService.LogException(e, MethodBase.GetCurrentMethod().Name);
-                    TryToReturnToVillageView();
                 }
+
+                TryToReturnToVillageView();
 
                 throw new FeatureException(plemionaError, errorMessage);
             }
@@ -601,9 +598,9 @@ namespace Plemiona.Core.Features
         {
             try
             {
-                var ownPlayer = new OwnPlayer { Name = (string)_stepProviderService.GetStep("GetPlayerName").Execute() };
-                _stepProviderService.GetStep("ClickPlayerInformationButton").Execute();
-                var villageRows = (IEnumerable<ProfileVillageRow>)_stepProviderService.GetStep("GetVillageRows").Execute();
+                var ownPlayer = new OwnPlayer { Name = _stepExecutionService.Execute<string>("GetPlayerName") };
+                _stepExecutionService.Execute("ClickPlayerInformationButton");
+                var villageRows = (IEnumerable<ProfileVillageRow>)_stepExecutionService.Execute("GetVillageRows");
                 if (villageRows.Count() == 1)
                 {
                     var x = new OwnVillage { };
@@ -612,7 +609,7 @@ namespace Plemiona.Core.Features
                 {
 
                 }
-               
+
                 throw new NotImplementedException();
 
                 return ownPlayer;
@@ -627,18 +624,18 @@ namespace Plemiona.Core.Features
                 string errorMessage = string.Empty;
                 bool plemionaError = false;
 
-                if ((bool)_stepProviderService.GetStep("IsErrorMessagePresent").Execute())
+                if (_stepExecutionService.Execute<bool>("IsErrorMessagePresent"))
                 {
                     plemionaError = true;
-                    errorMessage = (string)_stepProviderService.GetStep("GetErrorMessage").Execute();
-                    TryToReturnToVillageView();
+                    errorMessage = _stepExecutionService.Execute<string>("GetErrorMessage");
                 }
                 else
                 {
                     errorMessage = e.Message;
                     _featureLoggingService.LogException(e, MethodBase.GetCurrentMethod().Name);
-                    TryToReturnToVillageView();
                 }
+
+                TryToReturnToVillageView();
 
                 throw new FeatureException(plemionaError, errorMessage);
             }
@@ -661,18 +658,18 @@ namespace Plemiona.Core.Features
                 string errorMessage = string.Empty;
                 bool plemionaError = false;
 
-                if ((bool)_stepProviderService.GetStep("IsErrorMessagePresent").Execute())
+                if (_stepExecutionService.Execute<bool>("IsErrorMessagePresent"))
                 {
                     plemionaError = true;
-                    errorMessage = (string)_stepProviderService.GetStep("GetErrorMessage").Execute();
-                    TryToReturnToVillageView();
+                    errorMessage = _stepExecutionService.Execute<string>("GetErrorMessage");
                 }
                 else
                 {
                     errorMessage = e.Message;
                     _featureLoggingService.LogException(e, MethodBase.GetCurrentMethod().Name);
-                    TryToReturnToVillageView();
                 }
+
+                TryToReturnToVillageView();
 
                 throw new FeatureException(plemionaError, errorMessage);
             }
@@ -682,9 +679,9 @@ namespace Plemiona.Core.Features
         {
             try
             {
-                _stepProviderService.GetStep("ClickSignOutFromWorldButton").Execute();
-                _stepProviderService.GetStep("ClickReturnToMainPageButton").Execute();
-                _stepProviderService.GetStep("ClickSignOutFromAccountButton").Execute();
+                _stepExecutionService.Execute("ClickSignOutFromWorldButton");
+                _stepExecutionService.Execute("ClickReturnToMainPageButton");
+                _stepExecutionService.Execute("ClickSignOutFromAccountButton");
             }
             catch (BotCheckException bce)
             {
@@ -696,18 +693,18 @@ namespace Plemiona.Core.Features
                 string errorMessage = string.Empty;
                 bool plemionaError = false;
 
-                if ((bool)_stepProviderService.GetStep("IsErrorMessagePresent").Execute())
+                if (_stepExecutionService.Execute<bool>("IsErrorMessagePresent"))
                 {
                     plemionaError = true;
-                    errorMessage = (string)_stepProviderService.GetStep("GetErrorMessage").Execute();
-                    TryToReturnToVillageView();
+                    errorMessage = _stepExecutionService.Execute<string>("GetErrorMessage");
                 }
                 else
                 {
                     errorMessage = e.Message;
                     _featureLoggingService.LogException(e, MethodBase.GetCurrentMethod().Name);
-                    TryToReturnToVillageView();
                 }
+
+                TryToReturnToVillageView();
 
                 throw new FeatureException(plemionaError, errorMessage);
             }
@@ -717,7 +714,7 @@ namespace Plemiona.Core.Features
         {
             try
             {
-                _stepProviderService.GetStep("ClickVillageViewButton").Execute();
+                _stepExecutionService.Execute("ClickVillageViewButton");
             }
             catch
             {

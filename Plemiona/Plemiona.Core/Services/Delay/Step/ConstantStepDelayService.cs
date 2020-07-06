@@ -7,6 +7,8 @@ namespace Plemiona.Core.Services.Delay.Step
     {
         private int _millisecondDelay = 1000;
 
+        public event Action<int> OnDelay;
+
         public void Configure(int minimumMilliseconds, int maximumMilliseconds)
         {
             if (minimumMilliseconds != maximumMilliseconds)
@@ -20,6 +22,8 @@ namespace Plemiona.Core.Services.Delay.Step
         public void Delay()
         {
             Thread.Sleep(_millisecondDelay);
+
+            OnDelay?.Invoke(_millisecondDelay);
         }
     }
 }
