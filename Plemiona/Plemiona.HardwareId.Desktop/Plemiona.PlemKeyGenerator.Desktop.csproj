@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{5A14397C-5374-4485-960D-6FDE166EBFA2}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>Plemiona.HardwareId.Desktop</RootNamespace>
-    <AssemblyName>PlemionaKeyGenerator</AssemblyName>
+    <RootNamespace>Plemiona.PlemKeyGenerator.Desktop</RootNamespace>
+    <AssemblyName>PlemKeyGenerator</AssemblyName>
     <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>

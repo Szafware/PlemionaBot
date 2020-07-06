@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace Plemiona.HardwareId.Desktop
+namespace Plemiona.PlemKeyGenerator.Desktop
 {
     public static class Program
     {

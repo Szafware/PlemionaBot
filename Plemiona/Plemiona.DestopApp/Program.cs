@@ -83,7 +83,7 @@ namespace Plemiona.DestopApp
 
             _container.Bind<IWindowsPositionService, WindowsPositionService>();
             _container.Bind<IPlemionaSettingsInitializationService, PlemionaSettingsInitializationService>();
-            _container.Bind<IUniqueMachineKeyService, UniqueProcessorKeyService>();
+            _container.Bind<IUniqueMachineKeyService, ProcessorAndMotherboardKeyService>();
             _container.Bind<IRegistrationService, RegistrationService>();
             _container.Bind<IRegistrationKeyProviderService, ConstantRegistrationKeyProviderService>();
         }

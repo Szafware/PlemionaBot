@@ -56,7 +56,7 @@
     <Compile Include="Services\Registration\RegistrationKeyProvider\IRegistrationKeyProviderService.cs" />
     <Compile Include="Services\Registration\RegistrationService.cs" />
     <Compile Include="Services\Registration\UniqueMachineKey\IUniqueMachineKeyService.cs" />
-    <Compile Include="Services\Registration\UniqueMachineKey\UniqueProcessorKeyService.cs" />
+    <Compile Include="Services\Registration\UniqueMachineKey\ProcessorAndMotherboardKeyService.cs" />
     <Compile Include="Services\WindowsPosition\IWindowsPositionService.cs" />
     <Compile Include="Services\WindowsPosition\WindowsPositionService.cs" />
   </ItemGroup>

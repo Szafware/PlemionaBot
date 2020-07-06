@@ -21,7 +21,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Plemiona.DependencyInjectio
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Plemiona.Logic", "Plemiona.Logic\Plemiona.Logic.csproj", "{BAF773C3-245C-4CBA-A850-D15EDFDC098A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Plemiona.HardwareId.Desktop", "Plemiona.HardwareId.Desktop\Plemiona.HardwareId.Desktop.csproj", "{5A14397C-5374-4485-960D-6FDE166EBFA2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Plemiona.PlemKeyGenerator.Desktop", "Plemiona.HardwareId.Desktop\Plemiona.PlemKeyGenerator.Desktop.csproj", "{5A14397C-5374-4485-960D-6FDE166EBFA2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
