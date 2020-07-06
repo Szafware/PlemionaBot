@@ -7,6 +7,7 @@ using Plemiona.Core.Services.FeatureLogging;
 using Plemiona.Core.Services.PlemionaMetadataProvider;
 using Plemiona.Core.Services.WebDriverBase;
 using Plemiona.Core.Services.WebDriverProvider;
+using Plemiona.Core.Steps.Services.StepExecution;
 using Plemiona.Core.Steps.Services.StepProvider;
 using Plemiona.DependencyInjection;
 using Plemiona.DestopApp.Forms;
@@ -56,6 +57,8 @@ namespace Plemiona.DestopApp
             _container.Bind<IPlemionaMetadataProviderService, PlemionaMetadataProviderService>();
 
             _container.Bind<IStepProviderService, StepProviderService>();
+            _container.Bind<IStepExecutionService, StepExecutionService>();
+            _container.Bind<IPlemionaFeaturesDiagnostics, PlemionaDefaultFeaturesDiagnostics>();
 
             bool randomStepDelay = Convert.ToBoolean(ConfigurationManager.AppSettings["RandomStepDelay"]);
             bool constantStepDelay = Convert.ToBoolean(ConfigurationManager.AppSettings["ConstantStepDelay"]);

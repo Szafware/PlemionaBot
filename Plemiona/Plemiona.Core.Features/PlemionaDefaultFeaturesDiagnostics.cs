@@ -30,7 +30,7 @@ namespace Plemiona.Core.Features
             _plemionaDefaultFeatures = new PlemionaDefaultFeatures(stepExecutionService, featureLoggingService);
 
             stepExecutionService.OnDelay += stepDelayMilliseconds => OnStepDelay?.Invoke(stepDelayMilliseconds);
-            //_stepExecutionService.OnStepExecutionStart += (stepName, dateStart) => OnStepStart?.Invoke(stepName, dateStart);
+            stepExecutionService.OnStepExecutionStart += (stepName, dateStart) => OnStepStart?.Invoke(stepName, dateStart);
             stepExecutionService.OnStepExecutionEnd += (stepName, dateEnd, duration, stepSuccess) => OnStepEnd?.Invoke(stepName, dateEnd, duration, stepSuccess);
         }
 

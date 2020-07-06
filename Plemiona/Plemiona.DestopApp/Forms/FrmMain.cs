@@ -20,22 +20,23 @@ namespace Plemiona.DestopApp.Forms
 {
     public partial class FrmMain : Form
     {
-        private readonly IPlemionaFeatures _plemionaFeatures;
+        private readonly IPlemionaFeaturesDiagnostics _plemionaFeaturesDiagnostics;
         private readonly IWebDriverProviderService _webDriverProviderService;
         private readonly IStepDelayService _stepDelayService;
-        private readonly RemoteWebDriver _webDriver;
+        private RemoteWebDriver _webDriver;
 
         private readonly IWindowsPositionService _windowsPositionService;
         private readonly IPlemionaSettingsInitializationService _plemionaSettingsInitializationService;
 
         private readonly PlemionaToolLocalDataService _plemionaToolLocalDataService = new PlemionaToolLocalDataService();
-        private readonly PlemionaToolLocalData _plemionaToolLocalData;
+        private PlemionaFeaturesDiagnosticsService _plemionaFeaturesDiagnosticsService;
+        private PlemionaToolLocalData _plemionaToolLocalData;
 
         private TroopsTemplate _selectedTroopsTemplate;
         private TroopsAction _selectedTroopsAction;
 
         public FrmMain(
-            IPlemionaFeatures plemionaFeatures,
+            IPlemionaFeaturesDiagnostics plemionaFeaturesDiagnostics,
             IWebDriverProviderService webDriverProviderService,
             IStepDelayService stepDelayService,
             IWindowsPositionService windowsPositionService,
@@ -43,19 +44,24 @@ namespace Plemiona.DestopApp.Forms
             IRegistrationService registrationService
             )
         {
+            InitializeComponent();
+
+            _plemionaFeaturesDiagnostics = plemionaFeaturesDiagnostics;
+            _webDriverProviderService = webDriverProviderService;
+            _stepDelayService = stepDelayService;
+            _windowsPositionService = windowsPositionService;
+            _plemionaSettingsInitializationService = plemionaSettingsInitializationService;
+
+            Initialize(registrationService, webDriverProviderService);
+        }
+
+        private void Initialize(IRegistrationService registrationService, IWebDriverProviderService webDriverProviderService)
+        {
             if (!registrationService.IsCurrentMachineRegistrated())
             {
                 MessageBox.Show("Your machine has not been registered.", "Registration Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 Environment.Exit(0);
             }
-
-            InitializeComponent();
-
-            _plemionaFeatures = plemionaFeatures;
-            _webDriverProviderService = webDriverProviderService;
-            _stepDelayService = stepDelayService;
-            _windowsPositionService = windowsPositionService;
-            _plemionaSettingsInitializationService = plemionaSettingsInitializationService;
 
             _plemionaToolLocalData = _plemionaToolLocalDataService.Load();
 
@@ -68,7 +74,14 @@ namespace Plemiona.DestopApp.Forms
             _windowsPositionService.SetBrowserWindow(browserWindow);
 
             GridTroopsTemplates.LostFocus += (s, e) => GridTroopsTemplates.ClearSelection();
-            GridTroopsActions.LostFocus += (s, e) => GridTroopsActions.ClearSelection();
+            GridTroopsOrders.LostFocus += (s, e) => GridTroopsOrders.ClearSelection();
+
+            _plemionaFeaturesDiagnosticsService = new PlemionaFeaturesDiagnosticsService(TbxDiagnostics);
+            _plemionaFeaturesDiagnostics.OnStepDelay += _plemionaFeaturesDiagnosticsService.LogStepDelay;
+            //_plemionaFeaturesDiagnostics.OnStepStart += _plemionaFeaturesDiagnosticsService.LogStepStart;
+            _plemionaFeaturesDiagnostics.OnStepEnd += _plemionaFeaturesDiagnosticsService.LogStepEnd;
+            _plemionaFeaturesDiagnostics.OnFeatureStart += _plemionaFeaturesDiagnosticsService.LogFeatureStart;
+            _plemionaFeaturesDiagnostics.OnFeatureEnd += _plemionaFeaturesDiagnosticsService.LogFeatureEnd;
         }
 
         private async void FrmMain_Shown(object sender, EventArgs e)
@@ -82,10 +95,10 @@ namespace Plemiona.DestopApp.Forms
 
             foreach (var troopsAction in _plemionaToolLocalData.TroopsActions)
             {
-                GridTroopsActions.Rows.Add(GridTroopsActions.RowCount + 1, troopsAction.Name, string.Join("..", troopsAction.VillagesCoordinates.Select(vc => $"{vc.X}|{vc.Y}")), troopsAction.ExecutionDate, troopsAction.Everyday);
+                GridTroopsOrders.Rows.Add(GridTroopsOrders.RowCount + 1, troopsAction.Name, string.Join("..", troopsAction.VillagesCoordinates.Select(vc => $"{vc.X}|{vc.Y}")), troopsAction.ExecutionDate, troopsAction.Everyday);
             }
 
-            GridTroopsActions.ClearSelection();
+            GridTroopsOrders.ClearSelection();
 
             await Task.Run(() =>
             {
@@ -95,7 +108,7 @@ namespace Plemiona.DestopApp.Forms
                 string password = ConfigurationManager.AppSettings["Password"];
                 int worldNumber = Convert.ToInt32(ConfigurationManager.AppSettings["WorldNumber"]);
 
-                _plemionaFeatures.SignIn(username, password, worldNumber);
+                _plemionaFeaturesDiagnostics.SignIn(username, password, worldNumber);
             });
         }
 
@@ -212,7 +225,7 @@ namespace Plemiona.DestopApp.Forms
 
                         _plemionaToolLocalData.TroopsActions.Add(troopsAction);
 
-                        GridTroopsActions.Rows.Add(GridTroopsTemplates.RowCount + 1, troopsAction.Name, string.Join("..", troopsAction.VillagesCoordinates.Select(vc => $"{vc.X}|{vc.Y}")), troopsAction.ExecutionDate, troopsAction.Everyday);
+                        GridTroopsOrders.Rows.Add(GridTroopsTemplates.RowCount + 1, troopsAction.Name, string.Join("..", troopsAction.VillagesCoordinates.Select(vc => $"{vc.X}|{vc.Y}")), troopsAction.ExecutionDate, troopsAction.Everyday);
                     }
                 }
             }
@@ -222,7 +235,7 @@ namespace Plemiona.DestopApp.Forms
         {
             if (e.RowIndex >= 0)
             {
-                string clickedTroopsActionName = GridTroopsActions.Rows[e.RowIndex].Cells[1].Value.ToString();
+                string clickedTroopsActionName = GridTroopsOrders.Rows[e.RowIndex].Cells[1].Value.ToString();
 
                 var clickedTroopAction = _plemionaToolLocalData.TroopsActions.Single(ta => ta.Name == clickedTroopsActionName);
 
@@ -244,7 +257,7 @@ namespace Plemiona.DestopApp.Forms
             {
                 if (e.ColumnIndex > 0)
                 {
-                    var troopsActionName = GridTroopsActions.Rows[e.RowIndex].Cells[1].Value.ToString();
+                    var troopsActionName = GridTroopsOrders.Rows[e.RowIndex].Cells[1].Value.ToString();
 
                     var troopsAction = _plemionaToolLocalData.TroopsActions.Single(ta => ta.Name == troopsActionName);
 
@@ -257,15 +270,15 @@ namespace Plemiona.DestopApp.Forms
                             if (frmTroopsAction.Deletetion)
                             {
                                 _plemionaToolLocalData.TroopsActions.Remove(troopsAction);
-                                GridTroopsActions.Rows.RemoveAt(e.RowIndex);
-                                FixGridNumbers(GridTroopsActions);
+                                GridTroopsOrders.Rows.RemoveAt(e.RowIndex);
+                                FixGridNumbers(GridTroopsOrders);
                             }
                             else
                             {
-                                GridTroopsActions.Rows[e.RowIndex].Cells[1].Value = troopsAction.Name;
-                                GridTroopsActions.Rows[e.RowIndex].Cells[2].Value = string.Join("..", troopsAction.VillagesCoordinates.Select(vc => $"{vc.X}|{vc.Y}"));
-                                GridTroopsActions.Rows[e.RowIndex].Cells[3].Value = troopsAction.ExecutionDate.ToLongDateString();
-                                GridTroopsActions.Rows[e.RowIndex].Cells[4].Value = troopsAction.Everyday;
+                                GridTroopsOrders.Rows[e.RowIndex].Cells[1].Value = troopsAction.Name;
+                                GridTroopsOrders.Rows[e.RowIndex].Cells[2].Value = string.Join("..", troopsAction.VillagesCoordinates.Select(vc => $"{vc.X}|{vc.Y}"));
+                                GridTroopsOrders.Rows[e.RowIndex].Cells[3].Value = troopsAction.ExecutionDate.ToLongDateString();
+                                GridTroopsOrders.Rows[e.RowIndex].Cells[4].Value = troopsAction.Everyday;
                             }
                         }
                     }
@@ -281,13 +294,13 @@ namespace Plemiona.DestopApp.Forms
                 {
                     _plemionaToolLocalData.TroopsActions.Remove(_selectedTroopsAction);
 
-                    var selectedRow = GridTroopsActions.Rows.Cast<DataGridViewRow>().Single(r => r.Cells[1].Value.ToString() == _selectedTroopsAction.Name);
+                    var selectedRow = GridTroopsOrders.Rows.Cast<DataGridViewRow>().Single(r => r.Cells[1].Value.ToString() == _selectedTroopsAction.Name);
 
-                    GridTroopsActions.Rows.RemoveAt(selectedRow.Index);
+                    GridTroopsOrders.Rows.RemoveAt(selectedRow.Index);
 
-                    FixGridNumbers(GridTroopsActions);
+                    FixGridNumbers(GridTroopsOrders);
 
-                    GridTroopsActions.ClearSelection();
+                    GridTroopsOrders.ClearSelection();
 
                     _selectedTroopsAction = null;
                 }
@@ -296,9 +309,9 @@ namespace Plemiona.DestopApp.Forms
 
         private async void GridTroopsActions_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (GridTroopsActions.Columns[e.ColumnIndex] is DataGridViewButtonColumn && e.RowIndex >= 0)
+            if (GridTroopsOrders.Columns[e.ColumnIndex] is DataGridViewButtonColumn && e.RowIndex >= 0)
             {
-                string clickedTroopsActionName = GridTroopsActions.Rows[e.RowIndex].Cells[1].Value.ToString();
+                string clickedTroopsActionName = GridTroopsOrders.Rows[e.RowIndex].Cells[1].Value.ToString();
 
                 var clickedTroopAction = _plemionaToolLocalData.TroopsActions.Single(ta => ta.Name == clickedTroopsActionName);
 
@@ -316,7 +329,7 @@ namespace Plemiona.DestopApp.Forms
 
                             try
                             {
-                                _plemionaFeatures.SendTroops(clickedTroopAction.TroopsTemplate.Troops, coordinates.X, coordinates.Y, TroopsIntentions.Attack, SendingTroopsInfo.Create(i + 1, actionCount));
+                                _plemionaFeaturesDiagnostics.SendTroops(clickedTroopAction.TroopsTemplate.Troops, coordinates.X, coordinates.Y, TroopsIntentions.Attack, SendingTroopsInfo.Create(i + 1, actionCount));
                             }
                             catch (BotCheckException)
                             {
@@ -361,16 +374,18 @@ namespace Plemiona.DestopApp.Forms
         {
             try
             {
-                //_plemionaFeatures.SendTroops(new Core.Models.Troops { Scouts = 1 }, 692, 517, TroopsIntentions.Attack);
-                var player = _plemionaFeatures.GetOwnPlayer();
+                var village = _plemionaFeaturesDiagnostics.GetVillage(692, 518);
+
+                ;
             }
-            catch (FeatureException ex)
+            catch (BotCheckException)
             {
-                MessageBox.Show(ex.Message, "Plemiona Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Bot check detected, action stopped", "Bot check", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
             }
-            catch (Exception ex)
+            catch (FeatureException fe)
             {
-                MessageBox.Show(ex.Message, "Unexpected Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(fe.PlemionaErrorMessage, $"{(fe.PlemionaError ? "Plemiona" : "Unexpected")} Error", MessageBoxButtons.OK, fe.PlemionaError ? MessageBoxIcon.Warning : MessageBoxIcon.Error);
             }
         }
     }
