@@ -112,16 +112,25 @@ namespace Plemiona.DestopApp.Forms
 
             SetReady(false);
 
-            await Task.Run(() =>
+            try
             {
-                _plemionaSettingsInitializationService.Initialize();
+                await Task.Run(() =>
+                {
+                    _plemionaSettingsInitializationService.Initialize();
 
-                string username = ConfigurationManager.AppSettings["Username"];
-                string password = ConfigurationManager.AppSettings["Password"];
-                int worldNumber = Convert.ToInt32(ConfigurationManager.AppSettings["WorldNumber"]);
+                    string username = ConfigurationManager.AppSettings["Username"];
+                    string password = ConfigurationManager.AppSettings["Password"];
+                    int worldNumber = Convert.ToInt32(ConfigurationManager.AppSettings["WorldNumber"]);
 
-                _plemionaFeaturesDiagnostics.SignIn(username, password, worldNumber);
-            });
+                    _plemionaFeaturesDiagnostics.SignIn(username, password, worldNumber);
+                });
+            }
+            catch
+            {
+                MessageBox.Show($"Initialization failed. Happens once in a while, try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                _webDriver.Quit();
+                Environment.Exit(0);
+            }
 
             _ownTroops = await Task.Run(() =>
             {
