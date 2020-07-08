@@ -11,11 +11,13 @@ namespace Plemiona.Core.Interfaces.Features
 
         void SwitchToVillage(string villageName);
 
-        void RecruitTroops(Troops troops);
-
         void RecruitKnight(string knightName);
 
         void ReviveKnight();
+
+        void RecruitTroops(Troops troops);
+
+        Troops GetTroops();
 
         void SendTroops(Troops troops, int coordinateX, int coordinateY, TroopsIntentions troopsIntentions, SendingTroopsInfo sendingTroopsInfo = null);
 

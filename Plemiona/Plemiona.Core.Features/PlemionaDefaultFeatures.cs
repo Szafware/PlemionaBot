@@ -105,6 +105,82 @@ namespace Plemiona.Core.Features
             }
         }
 
+        public void RecruitKnight(string knightName)
+        {
+            try
+            {
+                _stepExecutionService.Execute("ClickBuildingPicture", BuildingTypes.Statue);
+                _stepExecutionService.Execute("ClickKnightRecruitmentButton");
+                _stepExecutionService.Execute("ClearKnightNameTextBox");
+                _stepExecutionService.Execute("FillKnightNameTextBox", knightName);
+                _stepExecutionService.Execute("ClickKnightRecruitmentConfirmationButton");
+                if (_stepExecutionService.Execute<bool>("CanSkipKnightRecruitment"))
+                    _stepExecutionService.Execute("ClickKnightRecruitmentSkipButton");
+                _stepExecutionService.Execute("ClickVillageViewButton");
+            }
+            catch (BotCheckException bce)
+            {
+                _featureLoggingService.LogBotCheck(MethodBase.GetCurrentMethod().Name, bce.CurrentStep);
+                throw;
+            }
+            catch (Exception e)
+            {
+                string errorMessage = string.Empty;
+                bool plemionaError = false;
+
+                if (_stepExecutionService.Execute<bool>("IsErrorMessagePresent"))
+                {
+                    plemionaError = true;
+                    errorMessage = _stepExecutionService.Execute<string>("GetErrorMessage");
+                }
+                else
+                {
+                    errorMessage = e.Message;
+                    _featureLoggingService.LogException(e, MethodBase.GetCurrentMethod().Name);
+                }
+
+                TryToReturnToVillageView();
+
+                throw new FeatureException(plemionaError, errorMessage);
+            }
+        }
+
+        public void ReviveKnight()
+        {
+            try
+            {
+                _stepExecutionService.Execute("ClickBuildingPicture", BuildingTypes.Statue);
+                _stepExecutionService.Execute("ClickKnightRevivalButton");
+                _stepExecutionService.Execute("ClickKnightRevivalConfirmationButton");
+                _stepExecutionService.Execute("ClickVillageViewButton");
+            }
+            catch (BotCheckException bce)
+            {
+                _featureLoggingService.LogBotCheck(MethodBase.GetCurrentMethod().Name, bce.CurrentStep);
+                throw;
+            }
+            catch (Exception e)
+            {
+                string errorMessage = string.Empty;
+                bool plemionaError = false;
+
+                if (_stepExecutionService.Execute<bool>("IsErrorMessagePresent"))
+                {
+                    plemionaError = true;
+                    errorMessage = _stepExecutionService.Execute<string>("GetErrorMessage");
+                }
+                else
+                {
+                    errorMessage = e.Message;
+                    _featureLoggingService.LogException(e, MethodBase.GetCurrentMethod().Name);
+                }
+
+                TryToReturnToVillageView();
+
+                throw new FeatureException(plemionaError, errorMessage);
+            }
+        }
+
         public void RecruitTroops(Troops troops)
         {
             try
@@ -186,54 +262,28 @@ namespace Plemiona.Core.Features
             }
         }
 
-        public void RecruitKnight(string knightName)
+        public Troops GetTroops()
         {
             try
             {
-                _stepExecutionService.Execute("ClickBuildingPicture", BuildingTypes.Statue);
-                _stepExecutionService.Execute("ClickKnightRecruitmentButton");
-                _stepExecutionService.Execute("ClearKnightNameTextBox");
-                _stepExecutionService.Execute("FillKnightNameTextBox", knightName);
-                _stepExecutionService.Execute("ClickKnightRecruitmentConfirmationButton");
-                if (_stepExecutionService.Execute<bool>("CanSkipKnightRecruitment"))
-                    _stepExecutionService.Execute("ClickKnightRecruitmentSkipButton");
-                _stepExecutionService.Execute("ClickVillageViewButton");
-            }
-            catch (BotCheckException bce)
-            {
-                _featureLoggingService.LogBotCheck(MethodBase.GetCurrentMethod().Name, bce.CurrentStep);
-                throw;
-            }
-            catch (Exception e)
-            {
-                string errorMessage = string.Empty;
-                bool plemionaError = false;
-
-                if (_stepExecutionService.Execute<bool>("IsErrorMessagePresent"))
+                var troops = new Troops
                 {
-                    plemionaError = true;
-                    errorMessage = _stepExecutionService.Execute<string>("GetErrorMessage");
-                }
-                else
-                {
-                    errorMessage = e.Message;
-                    _featureLoggingService.LogException(e, MethodBase.GetCurrentMethod().Name);
-                }
+                    Spearmen = _stepExecutionService.Execute<int>("GetOwnSpearmen"),
+                    Swordmen = _stepExecutionService.Execute<int>("GetOwnSwordmen"),
+                    Axemen = _stepExecutionService.Execute<int>("GetOwnAxemen"),
+                    Bowmen = _stepExecutionService.Execute<int>("GetOwnBowmen"),
+                    Scouts = _stepExecutionService.Execute<int>("GetOwnScouts"),
+                    LightCavalary = _stepExecutionService.Execute<int>("GetOwnLightCavalary"),
+                    HorseArchers = _stepExecutionService.Execute<int>("GetOwnHorseArchers"),
+                    HeavyCavalary = _stepExecutionService.Execute<int>("GetOwnHeavyCavalary"),
+                    Rams = _stepExecutionService.Execute<int>("GetOwnRams"),
+                    Catapultes = _stepExecutionService.Execute<int>("GetOwnCatapultes"),
+                    Knights = _stepExecutionService.Execute<int>("GetOwnKnights"),
+                    Noblemen = _stepExecutionService.Execute<int>("GetOwnNoblemen"),
+                    Peasants = _stepExecutionService.Execute<int>("GetOwnPeasants"),
+                };
 
-                TryToReturnToVillageView();
-
-                throw new FeatureException(plemionaError, errorMessage);
-            }
-        }
-
-        public void ReviveKnight()
-        {
-            try
-            {
-                _stepExecutionService.Execute("ClickBuildingPicture", BuildingTypes.Statue);
-                _stepExecutionService.Execute("ClickKnightRevivalButton");
-                _stepExecutionService.Execute("ClickKnightRevivalConfirmationButton");
-                _stepExecutionService.Execute("ClickVillageViewButton");
+                return troops;
             }
             catch (BotCheckException bce)
             {

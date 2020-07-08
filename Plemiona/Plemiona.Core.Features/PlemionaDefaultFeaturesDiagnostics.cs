@@ -88,33 +88,6 @@ namespace Plemiona.Core.Features
             }
         }
 
-        public void RecruitTroops(Troops troops)
-        {
-            var stopwatch = Stopwatch.StartNew();
-            var featureResults = FeatureResults.Success;
-
-            try
-            {
-                OnFeatureStart?.Invoke(MethodBase.GetCurrentMethod().Name, DateTime.Now);
-                _plemionaDefaultFeatures.RecruitTroops(troops);
-            }
-            catch (BotCheckException)
-            {
-                featureResults = FeatureResults.BotCheck;
-                throw;
-            }
-            catch (FeatureException fe)
-            {
-                featureResults = fe.PlemionaError ? FeatureResults.PlemionaError : FeatureResults.UnexpectedError;
-                throw;
-            }
-            finally
-            {
-                OnFeatureEnd?.Invoke(MethodBase.GetCurrentMethod().Name, DateTime.Now, stopwatch.ElapsedMilliseconds, featureResults);
-                stopwatch.Stop();
-            }
-        }
-
         public void RecruitKnight(string knightName)
         {
             var stopwatch = Stopwatch.StartNew();
@@ -151,6 +124,61 @@ namespace Plemiona.Core.Features
             {
                 OnFeatureStart?.Invoke(MethodBase.GetCurrentMethod().Name, DateTime.Now);
                 _plemionaDefaultFeatures.ReviveKnight();
+            }
+            catch (BotCheckException)
+            {
+                featureResults = FeatureResults.BotCheck;
+                throw;
+            }
+            catch (FeatureException fe)
+            {
+                featureResults = fe.PlemionaError ? FeatureResults.PlemionaError : FeatureResults.UnexpectedError;
+                throw;
+            }
+            finally
+            {
+                OnFeatureEnd?.Invoke(MethodBase.GetCurrentMethod().Name, DateTime.Now, stopwatch.ElapsedMilliseconds, featureResults);
+                stopwatch.Stop();
+            }
+        }
+
+        public void RecruitTroops(Troops troops)
+        {
+            var stopwatch = Stopwatch.StartNew();
+            var featureResults = FeatureResults.Success;
+
+            try
+            {
+                OnFeatureStart?.Invoke(MethodBase.GetCurrentMethod().Name, DateTime.Now);
+                _plemionaDefaultFeatures.RecruitTroops(troops);
+            }
+            catch (BotCheckException)
+            {
+                featureResults = FeatureResults.BotCheck;
+                throw;
+            }
+            catch (FeatureException fe)
+            {
+                featureResults = fe.PlemionaError ? FeatureResults.PlemionaError : FeatureResults.UnexpectedError;
+                throw;
+            }
+            finally
+            {
+                OnFeatureEnd?.Invoke(MethodBase.GetCurrentMethod().Name, DateTime.Now, stopwatch.ElapsedMilliseconds, featureResults);
+                stopwatch.Stop();
+            }
+        }
+
+        public Troops GetTroops()
+        {
+            var stopwatch = Stopwatch.StartNew();
+            var featureResults = FeatureResults.Success;
+
+            try
+            {
+                OnFeatureStart?.Invoke(MethodBase.GetCurrentMethod().Name, DateTime.Now);
+                var troops = _plemionaDefaultFeatures.GetTroops();
+                return troops;
             }
             catch (BotCheckException)
             {
