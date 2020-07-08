@@ -7,8 +7,9 @@ namespace Plemiona.Logic.Services.Registration.RegistrationKeyProvider
     {
         private readonly List<string> _registratedKeys = new List<string>
         {
-            "BFEBFBFFBSS-0123456789000906EA", // My key
-            "BFEBFBFFPF0DT3P8000506E3", // Marcel key
+            "BFEBFBFFBSS-0123456789000906EA", // Ja
+            "BFEBFBFFPF0DT3P8000506E3", // Marcel
+            "BFEBFBFF/7M1WYN1/CN1296117A0540/000206A7", // Sawczi
         };
 
         public IEnumerable<string> GetRegistratedKeys()
