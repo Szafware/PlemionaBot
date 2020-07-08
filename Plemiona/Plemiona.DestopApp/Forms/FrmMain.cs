@@ -2,6 +2,7 @@
 using Plemiona.Core.Enums;
 using Plemiona.Core.Exceptions;
 using Plemiona.Core.Interfaces.Features;
+using Plemiona.Core.Models;
 using Plemiona.Core.Models.Features;
 using Plemiona.Core.Services.Delay.Step;
 using Plemiona.Core.Services.WebDriverProvider;
@@ -34,8 +35,11 @@ namespace Plemiona.DestopApp.Forms
         private PlemionaFeaturesDiagnosticsService _plemionaFeaturesDiagnosticsService;
         private PlemionaToolLocalData _plemionaToolLocalData;
 
+        private bool _featureIsBeingExecuted;
+
         private TroopsTemplate _selectedTroopsTemplate;
         private TroopsOrder _selectedTroopsOrder;
+        private Troops _ownTroops;
 
         public FrmMain(
             IPlemionaFeaturesDiagnostics plemionaFeaturesDiagnostics,
@@ -117,6 +121,11 @@ namespace Plemiona.DestopApp.Forms
                 int worldNumber = Convert.ToInt32(ConfigurationManager.AppSettings["WorldNumber"]);
 
                 _plemionaFeaturesDiagnostics.SignIn(username, password, worldNumber);
+            });
+
+            _ownTroops = await Task.Run(() =>
+            {
+                return _plemionaFeaturesDiagnostics.GetTroops();
             });
 
             SetReady(true);
@@ -223,11 +232,23 @@ namespace Plemiona.DestopApp.Forms
 
         #region TroopsOrders
 
-        private void BtnAddTroopsOrder_MouseClick(object sender, MouseEventArgs e)
+        private async void BtnAddTroopsOrder_MouseClick(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
             {
-                using (var frmTroopsOrder = new FrmTroopsOrder(_plemionaToolLocalData.TroopsOrders.Select(tt => tt.Name), _plemionaToolLocalData.TroopsTemplates))
+                if (!_featureIsBeingExecuted)
+                {
+                    SetReady(false);
+
+                    _ownTroops = await Task.Run(() =>
+                    {
+                        return _plemionaFeaturesDiagnostics.GetTroops();
+                    });
+
+                    SetReady(true);
+                }
+
+                using (var frmTroopsOrder = new FrmTroopsOrder(_plemionaToolLocalData.TroopsOrders.Select(tt => tt.Name), _plemionaToolLocalData.TroopsTemplates, _ownTroops))
                 {
                     var dialogResult = frmTroopsOrder.ShowDialog();
 
@@ -263,7 +284,7 @@ namespace Plemiona.DestopApp.Forms
             }
         }
 
-        private void GridTroopsOrders_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
+        private async void GridTroopsOrders_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
             {
@@ -273,7 +294,31 @@ namespace Plemiona.DestopApp.Forms
 
                     var troopsOrder = _plemionaToolLocalData.TroopsOrders.Single(ta => ta.Name == troopsOrderName);
 
-                    using (var frmTroopsOrder = new FrmTroopsOrder(_plemionaToolLocalData.TroopsOrders.Select(tt => tt.Name), _plemionaToolLocalData.TroopsTemplates, troopsOrder))
+                    SetReady(false);
+
+                    try
+                    {
+                        _ownTroops = await Task.Run(() =>
+                        {
+                            return _plemionaFeaturesDiagnostics.GetTroops();
+                        });
+                    }
+                    catch (BotCheckException)
+                    {
+                        MessageBox.Show("Bot check detected, order stopped.", "Bot check", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
+                    catch (FeatureException fe)
+                    {
+                        MessageBox.Show(fe.PlemionaErrorMessage, $"{(fe.PlemionaError ? "Plemiona" : "Unexpected")} Error", MessageBoxButtons.OK, fe.PlemionaError ? MessageBoxIcon.Warning : MessageBoxIcon.Error);
+                        return;
+                    }
+                    finally
+                    {
+                        SetReady(true);
+                    }
+
+                    using (var frmTroopsOrder = new FrmTroopsOrder(_plemionaToolLocalData.TroopsOrders.Select(tt => tt.Name), _plemionaToolLocalData.TroopsTemplates, _ownTroops, troopsOrder))
                     {
                         var dialogResult = frmTroopsOrder.ShowDialog();
 
@@ -339,6 +384,8 @@ namespace Plemiona.DestopApp.Forms
                     {
                         int orderCount = clickedTroopOrder.VillagesCoordinates.Count();
 
+                        int fixedOrderCount = orderCount;
+
                         int currentOrderNumber = 0;
 
                         for (int i = 0; i < orderCount; i++)
@@ -349,17 +396,18 @@ namespace Plemiona.DestopApp.Forms
                             {
                                 currentOrderNumber++;
 
-                                _plemionaFeaturesDiagnostics.SendTroops(clickedTroopOrder.TroopsTemplate.Troops, coordinates.X, coordinates.Y, TroopsIntentions.Attack, SendingTroopsInfo.Create(currentOrderNumber, orderCount));
+                                _plemionaFeaturesDiagnostics.SendTroops(clickedTroopOrder.TroopsTemplate.Troops, coordinates.X, coordinates.Y, TroopsIntentions.Attack, SendingTroopsInfo.Create(currentOrderNumber, fixedOrderCount));
                             }
                             catch (BotCheckException)
                             {
                                 MessageBox.Show("Bot check detected, order stopped.", "Bot check", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                                SetReady(true);
                                 return;
                             }
                             catch (FeatureException fe)
                             {
-                                MessageBox.Show($"{coordinates.X}|{coordinates.Y}\n" + fe.PlemionaErrorMessage, $"{(fe.PlemionaError ? "Plemiona" : "Unexpected")} Error", MessageBoxButtons.OK, fe.PlemionaError ? MessageBoxIcon.Warning: MessageBoxIcon.Error);
+                                MessageBox.Show($"{coordinates.X}|{coordinates.Y}\n" + fe.PlemionaErrorMessage, $"{(fe.PlemionaError ? "Plemiona" : "Unexpected")} Error", MessageBoxButtons.OK, fe.PlemionaError ? MessageBoxIcon.Warning : MessageBoxIcon.Error);
+                                fixedOrderCount -= currentOrderNumber;
+                                currentOrderNumber = 0;
                             }
                         }
                     });
@@ -414,8 +462,10 @@ namespace Plemiona.DestopApp.Forms
 
         private void SetReady(bool ready)
         {
-            PctbxStatus.Image = ready ? null : Resources.GifLoading;
-            PctbxStatus.BackgroundImage = ready ? Resources.PictureReady : null;
+            _featureIsBeingExecuted = !ready;
+
+            PctbxStatus.Image = ready ? null : Properties.Resources.GifLoading;
+            PctbxStatus.BackgroundImage = ready ? Properties.Resources.PictureReady : null;
             LblStatus.Text = ready ? "Ready" : "Processing...";
 
             GridTroopsTemplates.Enabled = ready;

@@ -12,6 +12,7 @@ namespace Plemiona.DestopApp.Forms
         private readonly IEnumerable<string> _invalidNames;
 
         private readonly bool _editionMode;
+        private readonly bool _readonlyMode;
 
         public TroopsTemplate TroopsTemplate { get; private set; }
 
@@ -30,23 +31,39 @@ namespace Plemiona.DestopApp.Forms
             {
                 BtnDeletion.Visible = true;
 
-                TbxName.Text = troopsTemplateToEdition.Name;
-
-                TbxSpearmen.Text = troopsTemplateToEdition.Troops.Spearmen.ToString();
-                TbxSwordmen.Text = troopsTemplateToEdition.Troops.Swordmen.ToString();
-                TbxAxemen.Text = troopsTemplateToEdition.Troops.Axemen.ToString();
-                TbxBowmen.Text = troopsTemplateToEdition.Troops.Bowmen.ToString();
-                TbxScouts.Text = troopsTemplateToEdition.Troops.Scouts.ToString();
-                TbxLightCavalary.Text = troopsTemplateToEdition.Troops.LightCavalary.ToString();
-                TbxHorseArchers.Text = troopsTemplateToEdition.Troops.HorseArchers.ToString();
-                TbxHeavyCavalary.Text = troopsTemplateToEdition.Troops.HeavyCavalary.ToString();
-                TbxRams.Text = troopsTemplateToEdition.Troops.Rams.ToString();
-                TbxCatapults.Text = troopsTemplateToEdition.Troops.Catapultes.ToString();
-                TbxKnights.Text = troopsTemplateToEdition.Troops.Knights.ToString();
-                TbxNoblemen.Text = troopsTemplateToEdition.Troops.Noblemen.ToString();
+                FillData(troopsTemplateToEdition);
             }
 
             BtnOk.Text = troopsTemplateToEdition != null ? "Edit" : "Add";
+        }
+
+        public FrmTroopsTemplate(TroopsTemplate readonlyTroopsTemplateToShow)
+        {
+            InitializeComponent();
+
+            _readonlyMode = true;
+
+            FillData(readonlyTroopsTemplateToShow);
+
+            TbxName.ReadOnly = true;
+
+            TbxSpearmen.ReadOnly = true;
+            TbxSwordmen.ReadOnly = true;
+            TbxAxemen.ReadOnly = true;
+            TbxBowmen.ReadOnly = true;
+            TbxScouts.ReadOnly = true;
+            TbxLightCavalary.ReadOnly = true;
+            TbxHorseArchers.ReadOnly = true;
+            TbxHeavyCavalary.ReadOnly = true;
+            TbxRams.ReadOnly = true;
+            TbxCatapults.ReadOnly = true;
+            TbxKnights.ReadOnly = true;
+            TbxNoblemen.ReadOnly = true;
+
+            BtnDeletion.Visible = false;
+            BtnCancel.Visible = false;
+
+            BtnOk.Select();
         }
 
         private void FrmTroopsTemplate_KeyPress(object sender, KeyPressEventArgs e)
@@ -85,6 +102,12 @@ namespace Plemiona.DestopApp.Forms
         {
             if (e.Button == MouseButtons.Left)
             {
+                if (_readonlyMode)
+                {
+                    DialogResult = DialogResult.OK;
+                    return;
+                }
+
                 if (!_editionMode)
                 {
                     TroopsTemplate = new TroopsTemplate();
@@ -145,6 +168,24 @@ namespace Plemiona.DestopApp.Forms
 
                 DialogResult = DialogResult.OK;
             }
+        }
+
+        private void FillData(TroopsTemplate troopsTemplate)
+        {
+            TbxName.Text = troopsTemplate.Name;
+
+            TbxSpearmen.Text = troopsTemplate.Troops.Spearmen.ToString();
+            TbxSwordmen.Text = troopsTemplate.Troops.Swordmen.ToString();
+            TbxAxemen.Text = troopsTemplate.Troops.Axemen.ToString();
+            TbxBowmen.Text = troopsTemplate.Troops.Bowmen.ToString();
+            TbxScouts.Text = troopsTemplate.Troops.Scouts.ToString();
+            TbxLightCavalary.Text = troopsTemplate.Troops.LightCavalary.ToString();
+            TbxHorseArchers.Text = troopsTemplate.Troops.HorseArchers.ToString();
+            TbxHeavyCavalary.Text = troopsTemplate.Troops.HeavyCavalary.ToString();
+            TbxRams.Text = troopsTemplate.Troops.Rams.ToString();
+            TbxCatapults.Text = troopsTemplate.Troops.Catapultes.ToString();
+            TbxKnights.Text = troopsTemplate.Troops.Knights.ToString();
+            TbxNoblemen.Text = troopsTemplate.Troops.Noblemen.ToString();
         }
     }
 }

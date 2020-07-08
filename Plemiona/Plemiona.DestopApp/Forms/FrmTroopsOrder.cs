@@ -1,4 +1,5 @@
-﻿using Plemiona.DestopApp.Models;
+﻿using Plemiona.Core.Models;
+using Plemiona.DestopApp.Models;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -14,24 +15,27 @@ namespace Plemiona.DestopApp.Forms
 
         private readonly bool _editionMode;
 
+        private Troops _ownTroops;
+        private Troops _requiredTroops;
+
         public TroopsOrder TroopsOrder { get; private set; }
 
         public bool Deletetion { get; private set; }
 
-        public FrmTroopsOrder(IEnumerable<string> invalidNames, IEnumerable<TroopsTemplate> troopsTemplates, TroopsOrder troopsOrderToEdition = null)
+        public FrmTroopsOrder(IEnumerable<string> invalidNames, IEnumerable<TroopsTemplate> troopsTemplates, Troops ownTroops, TroopsOrder troopsOrderToEdition = null)
         {
             InitializeComponent();
 
             _invalidNames = invalidNames;
             _troopsTemplates = troopsTemplates;
+            _ownTroops = ownTroops;
             TroopsOrder = troopsOrderToEdition;
 
             _editionMode = troopsOrderToEdition != null;
 
             CbxTroopsTemplate.Items.AddRange(_troopsTemplates.Select(tt => tt.Name).ToArray());
-            CbxTroopsTemplate.SelectedIndex = 0;
 
-            if (troopsOrderToEdition != null)
+            if (_editionMode)
             {
                 BtnDeletion.Visible = true;
 
@@ -44,6 +48,12 @@ namespace Plemiona.DestopApp.Forms
                 DtpckExecutionDate.Value = troopsOrderToEdition.ExecutionDate;
 
                 CkbxEveryday.Checked = troopsOrderToEdition.Everyday;
+
+                UpdateRequiredTroops();
+            }
+            else
+            {
+                CbxTroopsTemplate.SelectedIndex = 0;
             }
 
             BtnOk.Text = troopsOrderToEdition != null ? "Edit" : "Add";
@@ -104,20 +114,11 @@ namespace Plemiona.DestopApp.Forms
                     return;
                 }
 
-                var coordinates = new List<Point>();
+                List<Point> coordinates = null;
 
                 try
                 {
-                    var coordinatesStrings = LbxCoordinates.Items.Cast<string>();
-
-                    foreach (var coordinatesString in coordinatesStrings)
-                    {
-                        var coordinateArray = coordinatesString.Split('|');
-
-                        var coordinate = new Point(Convert.ToInt32(coordinateArray[0]), Convert.ToInt32(coordinateArray[1]));
-
-                        coordinates.Add(coordinate);
-                    }
+                    coordinates = GetCoordinates().ToList();
                 }
                 catch
                 {
@@ -155,10 +156,94 @@ namespace Plemiona.DestopApp.Forms
                 }
 
                 LbxCoordinates.Items.Add($"{coordinates.X}|{coordinates.Y}");
+
+                UpdateRequiredTroops();
             }
             catch
             {
                 MessageBox.Show("Incorrect coordinates.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        private void CbxTroopsTemplate_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            TroopsOrder.TroopsTemplate = _troopsTemplates.Single(tt => tt.Name == CbxTroopsTemplate.Text);
+
+            UpdateRequiredTroops();
+        }
+
+        private void BtnShowTroopsTemplate_MouseClick(object sender, MouseEventArgs e)
+        {
+            var selectedTroopsTemplate = _troopsTemplates.Single(tt => tt.Name == CbxTroopsTemplate.Text);
+
+            using (var frmTroopsTemplate = new FrmTroopsTemplate(selectedTroopsTemplate))
+            {
+                frmTroopsTemplate.ShowDialog();
+            }
+        }
+
+        private void BtnCheckRequiredTroops_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                var requiredTroopsTemplate = new TroopsTemplate
+                {
+                    Name = "Troops required to perform order",
+                    Troops = _requiredTroops
+                };
+
+                using (var frmTroopsTemplate = new FrmTroopsTemplate(requiredTroopsTemplate))
+                {
+                    frmTroopsTemplate.ShowDialog();
+                } 
+            }
+        }
+
+        private IEnumerable<Point> GetCoordinates()
+        {
+            var coordinatesStrings = LbxCoordinates.Items.Cast<string>();
+
+            var coordinates = new List<Point>();
+
+            foreach (var coordinatesString in coordinatesStrings)
+            {
+                var coordinateArray = coordinatesString.Split('|');
+
+                var coordinate = new Point(Convert.ToInt32(coordinateArray[0]), Convert.ToInt32(coordinateArray[1]));
+
+                coordinates.Add(coordinate);
+            }
+
+            return coordinates;
+        }
+
+        private void UpdateRequiredTroops()
+        {
+            var villageTargets = GetCoordinates();
+
+            int villageTargetCount = villageTargets.Count();
+
+            var activeTroops = TroopsOrder.TroopsTemplate.Troops;
+
+            _requiredTroops = new Troops();
+
+            for (int i = 0; i < villageTargetCount; i++)
+            {
+                _requiredTroops += activeTroops;
+            }
+
+            if ((_requiredTroops.Spearmen > _ownTroops.Spearmen) || (_requiredTroops.Swordmen > _ownTroops.Swordmen) || (_requiredTroops.Axemen > _ownTroops.Axemen) || (_requiredTroops.Bowmen > _ownTroops.Bowmen) ||
+                (_requiredTroops.Scouts > _ownTroops.Scouts) || (_requiredTroops.LightCavalary > _ownTroops.LightCavalary) || (_requiredTroops.HorseArchers > _ownTroops.HorseArchers) || (_requiredTroops.HeavyCavalary > _ownTroops.HeavyCavalary) ||
+                (_requiredTroops.Rams > _ownTroops.Rams) || (_requiredTroops.Catapultes > _ownTroops.Catapultes) ||
+                (_requiredTroops.Knights > _ownTroops.Knights) || (_requiredTroops.Noblemen > _ownTroops.Noblemen))
+            {
+                LblRequiredTroopsStatus.ForeColor = Color.Red;
+                LblRequiredTroopsStatus.Text = "Not enough troops";
+            }
+            else
+            {
+                LblRequiredTroopsStatus.ForeColor = Color.LimeGreen;
+                LblRequiredTroopsStatus.Text = "Enough troops";
             }
         }
     }

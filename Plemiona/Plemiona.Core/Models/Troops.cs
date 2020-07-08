@@ -36,5 +36,24 @@ namespace Plemiona.Core.Models
         public bool AreSaddledTroopsPresent => (Scouts > 0) || (LightCavalary > 0) || (HorseArchers > 0) || (HeavyCavalary > 0);
 
         public bool AreWarMachinesTroopsPresent => (Rams > 0) || (Catapultes > 0);
+
+        public static Troops operator +(Troops orginalTroops, Troops addingTroops)
+        {
+            orginalTroops.Spearmen += addingTroops.Spearmen;
+            orginalTroops.Swordmen += addingTroops.Swordmen;
+            orginalTroops.Axemen += addingTroops.Axemen;
+            orginalTroops.Bowmen += addingTroops.Bowmen;
+            orginalTroops.Scouts += addingTroops.Scouts;
+            orginalTroops.LightCavalary += addingTroops.LightCavalary;
+            orginalTroops.HorseArchers += addingTroops.HorseArchers;
+            orginalTroops.HeavyCavalary += addingTroops.HeavyCavalary;
+            orginalTroops.Rams += addingTroops.Rams;
+            orginalTroops.Catapultes += addingTroops.Catapultes;
+            orginalTroops.Knights += addingTroops.Knights;
+            orginalTroops.Noblemen += addingTroops.Noblemen;
+            orginalTroops.Peasants += addingTroops.Peasants;
+
+            return orginalTroops;
+        }
     }
 }
