@@ -29,9 +29,10 @@ namespace Plemiona.DestopApp.Forms
             _invalidNames = invalidNames;
             _troopsTemplates = troopsTemplates;
             _ownTroops = ownTroops;
-            TroopsOrder = troopsOrderToEdition;
 
             _editionMode = troopsOrderToEdition != null;
+
+            TroopsOrder = _editionMode ? troopsOrderToEdition : new TroopsOrder();
 
             CbxTroopsTemplate.Items.AddRange(_troopsTemplates.Select(tt => tt.Name).ToArray());
 
@@ -95,10 +96,10 @@ namespace Plemiona.DestopApp.Forms
         {
             if (e.Button == MouseButtons.Left)
             {
-                if (!_editionMode)
-                {
-                    TroopsOrder = new TroopsOrder();
-                }
+                //if (!_editionMode)
+                //{
+                //    TroopsOrder = new TroopsOrder();
+                //}
 
                 if (string.IsNullOrEmpty(TbxName.Text))
                 {
