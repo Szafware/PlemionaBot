@@ -36,7 +36,7 @@ namespace Plemiona.Core.Features
                 _stepExecutionService.Execute("LoadPlemionaWebsite");
                 if (_stepExecutionService.Execute<bool>("IsPlayerSignedIn"))
                     _stepExecutionService.Execute("ClickSignOutFromAccountButton");
-                _stepExecutionService.Execute("FillUsernameTextBox", "Dziaczakra");
+                _stepExecutionService.Execute("FillUsernameTextBox", username);
                 _stepExecutionService.Execute("FillPasswordTextBox", password);
                 _stepExecutionService.Execute("ClickSignInButton");
                 _stepExecutionService.Execute("ClickWorldButton", worldNumber);

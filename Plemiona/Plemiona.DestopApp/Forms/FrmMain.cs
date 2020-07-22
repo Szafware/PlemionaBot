@@ -1,4 +1,5 @@
 ﻿using OpenQA.Selenium.Remote;
+using Plemiona.Core.Configuration;
 using Plemiona.Core.Enums;
 using Plemiona.Core.Exceptions;
 using Plemiona.Core.Interfaces.Features;
@@ -27,6 +28,7 @@ namespace Plemiona.DestopApp.Forms
         private readonly IWebDriverProviderService _webDriverProviderService;
         private readonly IStepDelayService _stepDelayService;
         private RemoteWebDriver _webDriver;
+        private PlemionaSettings _plemionaSettings;
 
         private readonly IWindowsPositionService _windowsPositionService;
         private readonly IPlemionaSettingsInitializationService _plemionaSettingsInitializationService;
@@ -47,11 +49,13 @@ namespace Plemiona.DestopApp.Forms
             IStepDelayService stepDelayService,
             IWindowsPositionService windowsPositionService,
             IPlemionaSettingsInitializationService plemionaSettingsInitializationService,
-            IRegistrationService registrationService
+            IRegistrationService registrationService,
+            PlemionaSettings plemionaSettings
             )
         {
             InitializeComponent();
 
+            _plemionaSettings = plemionaSettings;
             _plemionaFeaturesDiagnostics = plemionaFeaturesDiagnostics;
             _webDriverProviderService = webDriverProviderService;
             _stepDelayService = stepDelayService;
@@ -118,11 +122,7 @@ namespace Plemiona.DestopApp.Forms
                 {
                     _plemionaSettingsInitializationService.Initialize();
 
-                    string username = ConfigurationManager.AppSettings["Username"];
-                    string password = ConfigurationManager.AppSettings["Password"];
-                    int worldNumber = Convert.ToInt32(ConfigurationManager.AppSettings["WorldNumber"]);
-
-                    _plemionaFeaturesDiagnostics.SignIn(username, password, worldNumber);
+                    _plemionaFeaturesDiagnostics.SignIn(_plemionaSettings.Username, _plemionaSettings.Password, _plemionaSettings.WorldNumber);
                 });
             }
             catch
