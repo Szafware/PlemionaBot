@@ -450,25 +450,6 @@ namespace Plemiona.DestopApp.Forms
             _webDriver.Quit();
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                var village = _plemionaFeaturesDiagnostics.GetVillage(692, 518);
-
-                ;
-            }
-            catch (BotCheckException)
-            {
-                MessageBox.Show("Bot check detected, feature stopped", "Bot check", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-            catch (FeatureException fe)
-            {
-                MessageBox.Show(fe.PlemionaErrorMessage, $"{(fe.PlemionaError ? "Plemiona" : "Unexpected")} Error", MessageBoxButtons.OK, fe.PlemionaError ? MessageBoxIcon.Warning : MessageBoxIcon.Error);
-            }
-        }
-
         private void SetReady(bool ready)
         {
             _featureIsBeingExecuted = !ready;

@@ -42,7 +42,8 @@ namespace Plemiona.Core.Features
                 _stepExecutionService.Execute("ClickWorldButton", worldNumber);
                 if (_stepExecutionService.Execute<bool>("IsDailySignInGiftWindowPresent"))
                     _stepExecutionService.Execute("ClickDailySignInGiftReceiveButton");
-                _stepExecutionService.Execute("ClickHideChatButton");
+                if (_stepExecutionService.Execute<bool>("IsChatOpened"))
+                    _stepExecutionService.Execute("ClickHideChatButton");
             }
             catch (BotCheckException bce)
             {
@@ -64,8 +65,6 @@ namespace Plemiona.Core.Features
                     errorMessage = e.Message;
                     _featureLoggingService.LogException(e, MethodBase.GetCurrentMethod().Name);
                 }
-
-                TryToReturnToVillageView();
 
                 throw new FeatureException(plemionaError, errorMessage);
             }

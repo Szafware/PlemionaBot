@@ -1,4 +1,5 @@
 ﻿using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Opera;
 using OpenQA.Selenium.Remote;
 using Plemiona.Core.Configuration;
 
@@ -21,15 +22,35 @@ namespace Plemiona.Core.Services.WebDriverProvider
                 return _remoteWebDriver;
             }
 
+            _remoteWebDriver = CreateChromeWebDriver();
+
+            return _remoteWebDriver;
+        }
+
+        private RemoteWebDriver CreateChromeWebDriver()
+        {
             var chromeDriverService = ChromeDriverService.CreateDefaultService();
 
             bool hideCommandPromptWindow = !_plemionaSettings.ShowConsole;
 
             chromeDriverService.HideCommandPromptWindow = hideCommandPromptWindow;
 
-            _remoteWebDriver = new ChromeDriver(chromeDriverService);
+            var chromeDriver = new ChromeDriver(chromeDriverService);
 
-            return _remoteWebDriver;
+            return chromeDriver;
+        }
+        
+        private RemoteWebDriver CreateOperaWebDriver()
+        {
+            var operaDriverService = OperaDriverService.CreateDefaultService();
+
+            bool hideCommandPromptWindow = !_plemionaSettings.ShowConsole;
+
+            operaDriverService.HideCommandPromptWindow = hideCommandPromptWindow;
+
+            var operaDriver = new OperaDriver(operaDriverService, new OperaOptions());
+
+            return operaDriver;
         }
     }
 }
