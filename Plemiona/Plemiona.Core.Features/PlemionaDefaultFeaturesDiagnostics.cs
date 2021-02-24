@@ -34,7 +34,7 @@ namespace Plemiona.Core.Features
             stepExecutionService.OnStepExecutionEnd += (stepName, dateEnd, duration, stepSuccess) => OnStepEnd?.Invoke(stepName, dateEnd, duration, stepSuccess);
         }
 
-        public void SignIn(string username, string password, int worldNumber)
+        public void SignIn(string plemionaUrl, string username, string password, int worldNumber)
         {
             var stopwatch = Stopwatch.StartNew();
             var featureResults = FeatureResults.Success;
@@ -42,7 +42,7 @@ namespace Plemiona.Core.Features
             try
             {
                 OnFeatureStart?.Invoke(MethodBase.GetCurrentMethod().Name, DateTime.Now);
-                _plemionaDefaultFeatures.SignIn(username, password, worldNumber);
+                _plemionaDefaultFeatures.SignIn(plemionaUrl, username, password, worldNumber);
             }
             catch (BotCheckException)
             {

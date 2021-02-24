@@ -24,7 +24,7 @@ namespace Plemiona.Core.Steps.Steps.Definitions.OutsideGameplay
         {
         }
 
-        public override object Execute(object parameter)
+        public override object Execute(object plemionaUrl)
         {
             _remoteWebDriver = _webDriverProviderService.CreateWebDriver();
             _navigation = _remoteWebDriver.Navigate();
@@ -32,7 +32,9 @@ namespace Plemiona.Core.Steps.Steps.Definitions.OutsideGameplay
             _plemionaMetadataProviderService.Initialize();
             _webDriverBaseMethodsService.Initialize();
 
-            _navigation.GoToUrl(_plemionaUrl);
+            string plemionaUrlString = plemionaUrl.ToString();
+
+            _navigation.GoToUrl(plemionaUrlString);
 
             return null;
         }

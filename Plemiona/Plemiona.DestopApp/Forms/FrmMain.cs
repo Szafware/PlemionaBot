@@ -122,7 +122,7 @@ namespace Plemiona.DestopApp.Forms
                 {
                     _plemionaSettingsInitializationService.Initialize();
 
-                    _plemionaFeaturesDiagnostics.SignIn(_plemionaSettings.Username, _plemionaSettings.Password, _plemionaSettings.WorldNumber);
+                    _plemionaFeaturesDiagnostics.SignIn(_plemionaSettings.Url, _plemionaSettings.Username, _plemionaSettings.Password, _plemionaSettings.WorldNumber);
                 });
             }
             catch

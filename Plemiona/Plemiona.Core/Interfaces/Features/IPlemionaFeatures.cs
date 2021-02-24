@@ -7,7 +7,7 @@ namespace Plemiona.Core.Interfaces.Features
 {
     public interface IPlemionaFeatures
     {
-        void SignIn(string username, string password, int worldNumber);
+        void SignIn(string plemionaUrl, string username, string password, int worldNumber);
 
         void SwitchToVillage(string villageName);
 

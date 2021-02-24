@@ -13,8 +13,6 @@ namespace Plemiona.Core.Steps.Steps.Base
         protected readonly IWebDriverProviderService _webDriverProviderService;
         protected readonly IPlemionaMetadataProviderService _plemionaMetadataProviderService;
 
-        protected readonly string _plemionaUrl = "https://www.plemiona.pl/";
-
         protected static RemoteWebDriver _remoteWebDriver;
         protected static INavigation _navigation;
 

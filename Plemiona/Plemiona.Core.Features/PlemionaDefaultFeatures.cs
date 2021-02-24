@@ -29,11 +29,11 @@ namespace Plemiona.Core.Features
             _featureLoggingService = featureLoggingService;
         }
 
-        public void SignIn(string username, string password, int worldNumber)
+        public void SignIn(string url, string username, string password, int worldNumber)
         {
             try
             {
-                _stepExecutionService.Execute("LoadPlemionaWebsite");
+                _stepExecutionService.Execute("LoadPlemionaWebsite", url);
                 if (_stepExecutionService.Execute<bool>("IsPlayerSignedIn"))
                     _stepExecutionService.Execute("ClickSignOutFromAccountButton");
                 _stepExecutionService.Execute("FillUsernameTextBox", username);
